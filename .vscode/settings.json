@@ -1,0 +1,11 @@
+{
+    "triggerTaskOnSave.on": true,
+    "triggerTaskOnSave.selectedTask": "buildgb",
+    "triggerTaskOnSave.showNotifications": false,
+    "triggerTaskOnSave.tasks": {
+        "buildgb": [
+            "**/*.c",
+            "**/*.h"
+        ]
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "tasks": [
+        {
+            "label": "buildgb",
+            "command": ".\\build.bat",
+        }
+    ]
+}
