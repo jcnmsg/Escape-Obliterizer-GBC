@@ -1,24 +1,55 @@
 #include <gb/gb.h>
 #include <stdio.h> 
+#include <gb/font.h>
+#include <gb/drawing.h>
 #include "sprites/player.c"
 #include "background/backgroundmap.c"
 #include "background/backgroundtiles.c"
+#include "background/logo.c"
+#include "font/fontmap.c"
 
 void resetPlayerPosition(){
     set_sprite_tile(0, 6);
     move_sprite(0, 84, 80); 
 }
 
-void main(){
-    set_bkg_data(0, 3, BackgroundTiles); // Sets which background tileset to use, starts on zero, counts three
+void initGameLoop(){
+    font_t minimal; // Declare font variable
+    font_init(); // Initialize font librarty
+    minimal = font_load(font_min); // Load built in font_min
+    font_set(minimal); // Set built in font_min
+    set_bkg_data(39, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 7, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_tile(0, 6); // Sets the tileset used by the player sprite
     move_sprite(0, 84, 80); // Moves sprite to desired position
     SHOW_BKG; // Draw background
     SHOW_SPRITES; // Draw sprites
- 
-    while(1){ 
+}
+
+void main(){
+    int score = 0;
+    int state = 0;
+    
+    while(state == 0){ // 0: Main Menu 
+        set_bkg_palette(0, 1, gbpic_pal);
+        set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
+        VBK_REG = 1; // Sets the Video Bank Register. When set to zero, it loads the tile data into the background. When set to one, it loads the palette data into the background. You're supposed to set the palette data before you set the tile data. 
+        set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+        VBK_REG = 0; // Sets the Video Bank Register. When set to zero, it loads the tile data into the background. When set to one, it loads the palette data into the background. You're supposed to set the palette data before you set the tile data. 
+        set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
+
+        SHOW_BKG;
+        enable_interrupts();
+        DISPLAY_ON;
+
+        waitpad(J_START);
+        waitpadup();
+        initGameLoop();
+        state = 1;
+    }
+
+    while(state == 1){ // 1: Game Loop
         switch(joypad()) { // Listens for user input
             case J_LEFT:
                 move_sprite(0, 44, 80); // Moves player sprite accordingly
