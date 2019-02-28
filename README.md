@@ -11,7 +11,7 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Setup development environment and folder structure 
 - [x] Basic background and player sprite implementation
 - [x] Basic player movement based on user input 
-- [ ] Implementation of game states (splash screen, main menu, game loop, game over screen)
+- [x] Implementation of game states (splash screen, main menu, game loop, game over screen)
 - [ ] Score implementation (timers and typefont display)
 - [ ] Audio implementation: music and sound effects
 - [ ] Implementation of multiple hazards (sprite animation and collision detection)
