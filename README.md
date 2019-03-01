@@ -13,10 +13,9 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Basic player movement based on user input 
 - [x] Implementation of basic game states (splash screen, main menu, game loop, game over screen)
 - [x] Score implementation (counter and typefont display)
-- [ ] Add "fade" transitions between states
 - [ ] Add music and sound effects
-- [ ] Add general idle animations on menus
-- [ ] Add splash screen
-- [ ] Add pause screen
+- [ ] Design and add splash screen
+- [ ] Design and add pause screen
 - [ ] Implementation of multiple hazards (sprite animation and collision detection)
+- [ ] Beautify: "fade" transitions between states, general idle animations on menus
 - [ ] Implement support for Game Boy Color's color palettes
