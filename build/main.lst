@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Fri Mar 01 01:33:24 2019
+                              3 ; Version 2.2.1 Fri Mar 01 01:35:14 2019
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc132280
+                              6 	.module lcc10360
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -6234,7 +6234,7 @@
    0B47                    6234 00149$:
                            6235 ; genCmpEq
    0B47 79                 6236 	ld	a,c ; 2
-   0B48 FE 40              6237 	cp	a,#0x40
+   0B48 FE 80              6237 	cp	a,#0x80
                            6238 ; Rule 5
    0B4A CA D4 0B           6239 	jp	z,00111$
    0B4D                    6240 00150$:
@@ -6460,7 +6460,7 @@
    0C29 E8 04              6460 	lda	sp,4(sp)
                            6461 ;	main.c 101
                            6462 ; genIpush
-   0C2B 3E 40              6463 	ld	a,#0x40
+   0C2B 3E 80              6463 	ld	a,#0x80
    0C2D F5                 6464 	push	af
    0C2E 33                 6465 	inc	sp
                            6466 ; genCall

@@ -82,7 +82,7 @@ void main(){
                     move_sprite(0, 84, 120);
                     set_sprite_tile(0, 2); 
                     break;
-                case J_SELECT:
+                case J_START:
                     waitpadup();
                     state = 4;
                 default: 
@@ -98,7 +98,7 @@ void main(){
         while (state == 4) { // 4: Pause
             gotoxy(13, 16);
             printf("%s", "PAUSED");
-            waitpad(J_SELECT);
+            waitpad(J_START);
             waitpadup();
             gotoxy(13, 16);
             printf("%s", "      "); 
