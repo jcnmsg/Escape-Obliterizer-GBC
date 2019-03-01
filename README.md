@@ -15,7 +15,8 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Score implementation (counter and typefont display)
 - [ ] Add "fade" transitions between states
 - [ ] Add music and sound effects
-- [ ] Add animation on Press Start
+- [ ] Add general idle animations on menus
 - [ ] Add splash screen
+- [ ] Add pause screen
 - [ ] Implementation of multiple hazards (sprite animation and collision detection)
 - [ ] Implement support for Game Boy Color's color palettes
