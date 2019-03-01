@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Fri Mar 01 00:26:26 2019
+                              3 ; Version 2.2.1 Fri Mar 01 00:46:22 2019
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc117520
+                              6 	.module lcc140680
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -153,7 +153,7 @@
                             153 	.area _GSINIT
                             154 	.area _GSFINAL
                             155 	.area _GSINIT
-                            156 ;	main.c 87
+                            156 ;	main.c 94
                             157 ; genAssign (pointer)
    0000 11 00 00            158 	ld	de,#_Player + 0
    0003 3E 00               159 	ld	a,#0x00
@@ -824,7 +824,7 @@
                             824 ; genAssign (pointer)
    029D 3E FF               825 	ld	a,#0xFF
    029F 12                  826 	ld	(de),a
-                            827 ;	main.c 87
+                            827 ;	main.c 94
                             828 ; genAssign (pointer)
    02A0 11 70 00            829 	ld	de,#_BackgroundMap + 0
    02A3 3E 27               830 	ld	a,#0x27
@@ -2983,7 +2983,7 @@
                            2983 ; genAssign (pointer)
    0B0D 3E 27              2984 	ld	a,#0x27
    0B0F 12                 2985 	ld	(de),a
-                           2986 ;	main.c 87
+                           2986 ;	main.c 94
                            2987 ; genAssign (pointer)
    0B10 11 D8 01           2988 	ld	de,#_BackgroundTiles + 0
    0B13 3E FF              2989 	ld	a,#0xFF
@@ -3270,18 +3270,18 @@
                            3270 ; genAssign (pointer)
    0C2D 3E FF              3271 	ld	a,#0xFF
    0C2F 12                 3272 	ld	(de),a
-                           3273 ;	main.c 87
+                           3273 ;	main.c 94
                            3274 ; genAssign
                            3275 ; AOP_HL for _score
    0C30 21 08 02           3276 	ld	hl,#_score + 0
    0C33 36 00              3277 	ld	(hl),#0x00
    0C35 23                 3278 	inc	hl
    0C36 36 00              3279 	ld	(hl),#0x00
-                           3280 ;	main.c 87
+                           3280 ;	main.c 94
                            3281 ; genAssign
                            3282 ; AOP_HL for _state
    0C38 21 0A 02           3283 	ld	hl,#_state + 0
-   0C3B 36 00              3284 	ld	(hl),#0x00
+   0C3B 36 01              3284 	ld	(hl),#0x01
    0C3D 23                 3285 	inc	hl
    0C3E 36 00              3286 	ld	(hl),#0x00
                            3287 ;--------------------------------------------------------
@@ -6000,7 +6000,7 @@
    0A54                    6000 _main:
    0A54 C5                 6001 	push	bc
                            6002 	
-                           6003 ;	main.c 40
+                           6003 ;	main.c 41
                            6004 ; genLabel
    0A55                    6005 00101$:
                            6006 ; genCmpEq
@@ -6008,374 +6008,406 @@
    0A55 21 0A 02           6008 	ld	hl,#_state + 0
    0A58 2A                 6009 	ld	a,(hl+)
    0A59 B6                 6010 	or	a,(hl)
-   0A5A C2 5F 0A           6011 	jp	nz,00123$
-   0A5D 18 03              6012 	jr	00124$
-   0A5F                    6013 00123$:
-   0A5F C3 05 0B           6014 	jp	00110$
-   0A62                    6015 00124$:
-                           6016 ;	main.c 43
-                           6017 ; genIpush
-   0A62 21 1F 00           6018 	ld	hl,#_gbpic_pal + 0
-   0A65 E5                 6019 	push	hl
-                           6020 ; genIpush
-   0A66 3E 01              6021 	ld	a,#0x01
-   0A68 F5                 6022 	push	af
-   0A69 33                 6023 	inc	sp
-                           6024 ; genIpush
-   0A6A 3E 00              6025 	ld	a,#0x00
-   0A6C F5                 6026 	push	af
-   0A6D 33                 6027 	inc	sp
-                           6028 ; genCall
-   0A6E CD 00 00           6029 	call	_set_bkg_palette
-   0A71 E8 04              6030 	lda	sp,4(sp)
-                           6031 ;	main.c 44
-                           6032 ; genIpush
-   0A73 21 27 00           6033 	ld	hl,#_gbpic_dat + 0
-   0A76 E5                 6034 	push	hl
-                           6035 ; genIpush
-   0A77 3E 6C              6036 	ld	a,#0x6C
-   0A79 F5                 6037 	push	af
-   0A7A 33                 6038 	inc	sp
-                           6039 ; genIpush
-   0A7B 3E 01              6040 	ld	a,#0x01
-   0A7D F5                 6041 	push	af
-   0A7E 33                 6042 	inc	sp
-                           6043 ; genCall
-   0A7F CD 00 00           6044 	call	_set_bkg_data
-   0A82 E8 04              6045 	lda	sp,4(sp)
-                           6046 ;	main.c 45
-                           6047 ; genAssign
-                           6048 ; AOP_SFR for _VBK_REG
-   0A84 3E 01              6049 	ld	a,#0x01
-   0A86 E0 00              6050 	ldh	(_VBK_REG+0),a
-                           6051 ;	main.c 46
-                           6052 ; genIpush
-   0A88 21 E7 06           6053 	ld	hl,#_gbpic_att + 0
-   0A8B E5                 6054 	push	hl
+                           6011 ; Rule 5
+   0A5A CA 55 0A           6012 	jp	z,00101$
+   0A5D                    6013 00131$:
+                           6014 ;	main.c 45
+                           6015 ; genLabel
+   0A5D                    6016 00104$:
+                           6017 ; genCmpEq
+                           6018 ; AOP_HL for _state
+   0A5D 21 0A 02           6019 	ld	hl,#_state + 0
+   0A60 7E                 6020 	ld	a,(hl) ; 2
+   0A61 FE 01              6021 	cp	a,#0x01
+   0A63 C2 6E 0A           6022 	jp	nz,00132$
+   0A66 23                 6023 	inc	hl
+   0A67 7E                 6024 	ld	a,(hl) ; 2
+                           6025 ; Rule 3
+   0A68 B7                 6026 	or	a,a
+   0A69 C2 6E 0A           6027 	jp	nz,00132$
+   0A6C 18 03              6028 	jr	00133$
+   0A6E                    6029 00132$:
+   0A6E C3 14 0B           6030 	jp	00113$
+   0A71                    6031 00133$:
+                           6032 ;	main.c 47
+                           6033 ; genIpush
+   0A71 21 1F 00           6034 	ld	hl,#_gbpic_pal + 0
+   0A74 E5                 6035 	push	hl
+                           6036 ; genIpush
+   0A75 3E 01              6037 	ld	a,#0x01
+   0A77 F5                 6038 	push	af
+   0A78 33                 6039 	inc	sp
+                           6040 ; genIpush
+   0A79 3E 00              6041 	ld	a,#0x00
+   0A7B F5                 6042 	push	af
+   0A7C 33                 6043 	inc	sp
+                           6044 ; genCall
+   0A7D CD 00 00           6045 	call	_set_bkg_palette
+   0A80 E8 04              6046 	lda	sp,4(sp)
+                           6047 ;	main.c 48
+                           6048 ; genIpush
+   0A82 21 27 00           6049 	ld	hl,#_gbpic_dat + 0
+   0A85 E5                 6050 	push	hl
+                           6051 ; genIpush
+   0A86 3E 6C              6052 	ld	a,#0x6C
+   0A88 F5                 6053 	push	af
+   0A89 33                 6054 	inc	sp
                            6055 ; genIpush
-   0A8C 3E 12              6056 	ld	a,#0x12
-   0A8E F5                 6057 	push	af
-   0A8F 33                 6058 	inc	sp
-                           6059 ; genIpush
-   0A90 3E 14              6060 	ld	a,#0x14
-   0A92 F5                 6061 	push	af
-   0A93 33                 6062 	inc	sp
-                           6063 ; genIpush
-   0A94 3E 00              6064 	ld	a,#0x00
-   0A96 F5                 6065 	push	af
-   0A97 33                 6066 	inc	sp
-                           6067 ; genIpush
-   0A98 3E 00              6068 	ld	a,#0x00
-   0A9A F5                 6069 	push	af
-   0A9B 33                 6070 	inc	sp
-                           6071 ; genCall
-   0A9C CD 00 00           6072 	call	_set_bkg_tiles
-   0A9F E8 06              6073 	lda	sp,6(sp)
-                           6074 ;	main.c 47
+   0A8A 3E 01              6056 	ld	a,#0x01
+   0A8C F5                 6057 	push	af
+   0A8D 33                 6058 	inc	sp
+                           6059 ; genCall
+   0A8E CD 00 00           6060 	call	_set_bkg_data
+   0A91 E8 04              6061 	lda	sp,4(sp)
+                           6062 ;	main.c 49
+                           6063 ; genAssign
+                           6064 ; AOP_SFR for _VBK_REG
+   0A93 3E 01              6065 	ld	a,#0x01
+   0A95 E0 00              6066 	ldh	(_VBK_REG+0),a
+                           6067 ;	main.c 50
+                           6068 ; genIpush
+   0A97 21 E7 06           6069 	ld	hl,#_gbpic_att + 0
+   0A9A E5                 6070 	push	hl
+                           6071 ; genIpush
+   0A9B 3E 12              6072 	ld	a,#0x12
+   0A9D F5                 6073 	push	af
+   0A9E 33                 6074 	inc	sp
                            6075 ; genIpush
-   0AA1 21 4F 08           6076 	ld	hl,#_gbpic_map + 0
-   0AA4 E5                 6077 	push	hl
-                           6078 ; genIpush
-   0AA5 3E 12              6079 	ld	a,#0x12
-   0AA7 F5                 6080 	push	af
-   0AA8 33                 6081 	inc	sp
-                           6082 ; genIpush
-   0AA9 3E 14              6083 	ld	a,#0x14
-   0AAB F5                 6084 	push	af
-   0AAC 33                 6085 	inc	sp
-                           6086 ; genIpush
-   0AAD 3E 00              6087 	ld	a,#0x00
-   0AAF F5                 6088 	push	af
-   0AB0 33                 6089 	inc	sp
-                           6090 ; genIpush
-   0AB1 3E 00              6091 	ld	a,#0x00
-   0AB3 F5                 6092 	push	af
-   0AB4 33                 6093 	inc	sp
-                           6094 ; genCall
-   0AB5 CD 00 00           6095 	call	_set_bkg_tiles
-   0AB8 E8 06              6096 	lda	sp,6(sp)
-                           6097 ;	main.c 48
-                           6098 ; genOr
-                           6099 ; AOP_SFR for _LCDC_REG
-                           6100 ; Type res[4] = l[4]&r[1]
-                           6101 ; Size res[1] = l[1]&r[1]
-   0ABA F0 00              6102 	ldh	a,(_LCDC_REG+0) ; x
-   0ABC F6 01              6103 	or	a,#0x01
-   0ABE E0 00              6104 	ldh	(_LCDC_REG+0),a
-                           6105 ;	main.c 49
-                           6106 ; genOr
-                           6107 ; AOP_SFR for _LCDC_REG
-                           6108 ; Type res[4] = l[4]&r[1]
-                           6109 ; Size res[1] = l[1]&r[1]
-   0AC0 F0 00              6110 	ldh	a,(_LCDC_REG+0) ; x
-   0AC2 F6 80              6111 	or	a,#0x80
-   0AC4 E0 00              6112 	ldh	(_LCDC_REG+0),a
-                           6113 ;	main.c 50
-                           6114 ; genIpush
-   0AC6 3E 80              6115 	ld	a,#0x80
-   0AC8 F5                 6116 	push	af
-   0AC9 33                 6117 	inc	sp
-                           6118 ; genCall
-   0ACA CD 00 00           6119 	call	_waitpad
-   0ACD E8 01              6120 	lda	sp,1(sp)
-                           6121 ;	main.c 51
-                           6122 ; genCall
-   0ACF CD 00 00           6123 	call	_waitpadup
-                           6124 ;	main.c 53
-                           6125 ; genCall
-   0AD2 CD 00 00           6126 	call	_font_init
-                           6127 ;	main.c 54
-                           6128 ; genIpush
-   0AD5 3E 00              6129 	ld	a,#0x00
-   0AD7 F5                 6130 	push	af
-   0AD8 33                 6131 	inc	sp
-                           6132 ; genIpush
-   0AD9 3E 03              6133 	ld	a,#0x03
-   0ADB F5                 6134 	push	af
-   0ADC 33                 6135 	inc	sp
-                           6136 ; genIpush
-   0ADD 3E 02              6137 	ld	a,#0x02
-   0ADF F5                 6138 	push	af
-   0AE0 33                 6139 	inc	sp
-                           6140 ; genCall
-   0AE1 CD 00 00           6141 	call	_color
-   0AE4 E8 03              6142 	lda	sp,3(sp)
-                           6143 ;	main.c 55
+   0A9F 3E 14              6076 	ld	a,#0x14
+   0AA1 F5                 6077 	push	af
+   0AA2 33                 6078 	inc	sp
+                           6079 ; genIpush
+   0AA3 3E 00              6080 	ld	a,#0x00
+   0AA5 F5                 6081 	push	af
+   0AA6 33                 6082 	inc	sp
+                           6083 ; genIpush
+   0AA7 3E 00              6084 	ld	a,#0x00
+   0AA9 F5                 6085 	push	af
+   0AAA 33                 6086 	inc	sp
+                           6087 ; genCall
+   0AAB CD 00 00           6088 	call	_set_bkg_tiles
+   0AAE E8 06              6089 	lda	sp,6(sp)
+                           6090 ;	main.c 51
+                           6091 ; genIpush
+   0AB0 21 4F 08           6092 	ld	hl,#_gbpic_map + 0
+   0AB3 E5                 6093 	push	hl
+                           6094 ; genIpush
+   0AB4 3E 12              6095 	ld	a,#0x12
+   0AB6 F5                 6096 	push	af
+   0AB7 33                 6097 	inc	sp
+                           6098 ; genIpush
+   0AB8 3E 14              6099 	ld	a,#0x14
+   0ABA F5                 6100 	push	af
+   0ABB 33                 6101 	inc	sp
+                           6102 ; genIpush
+   0ABC 3E 00              6103 	ld	a,#0x00
+   0ABE F5                 6104 	push	af
+   0ABF 33                 6105 	inc	sp
+                           6106 ; genIpush
+   0AC0 3E 00              6107 	ld	a,#0x00
+   0AC2 F5                 6108 	push	af
+   0AC3 33                 6109 	inc	sp
+                           6110 ; genCall
+   0AC4 CD 00 00           6111 	call	_set_bkg_tiles
+   0AC7 E8 06              6112 	lda	sp,6(sp)
+                           6113 ;	main.c 52
+                           6114 ; genOr
+                           6115 ; AOP_SFR for _LCDC_REG
+                           6116 ; Type res[4] = l[4]&r[1]
+                           6117 ; Size res[1] = l[1]&r[1]
+   0AC9 F0 00              6118 	ldh	a,(_LCDC_REG+0) ; x
+   0ACB F6 01              6119 	or	a,#0x01
+   0ACD E0 00              6120 	ldh	(_LCDC_REG+0),a
+                           6121 ;	main.c 53
+                           6122 ; genOr
+                           6123 ; AOP_SFR for _LCDC_REG
+                           6124 ; Type res[4] = l[4]&r[1]
+                           6125 ; Size res[1] = l[1]&r[1]
+   0ACF F0 00              6126 	ldh	a,(_LCDC_REG+0) ; x
+   0AD1 F6 80              6127 	or	a,#0x80
+   0AD3 E0 00              6128 	ldh	(_LCDC_REG+0),a
+                           6129 ;	main.c 54
+                           6130 ; genIpush
+   0AD5 3E 80              6131 	ld	a,#0x80
+   0AD7 F5                 6132 	push	af
+   0AD8 33                 6133 	inc	sp
+                           6134 ; genCall
+   0AD9 CD 00 00           6135 	call	_waitpad
+   0ADC E8 01              6136 	lda	sp,1(sp)
+                           6137 ;	main.c 55
+                           6138 ; genCall
+   0ADE CD 00 00           6139 	call	_waitpadup
+                           6140 ;	main.c 56
+                           6141 ; genCall
+   0AE1 CD 00 00           6142 	call	_font_init
+                           6143 ;	main.c 57
                            6144 ; genIpush
-   0AE6 21 00 00           6145 	ld	hl,#_font_min + 0
-   0AE9 E5                 6146 	push	hl
-                           6147 ; genCall
-   0AEA CD 00 00           6148 	call	_font_load
-   0AED 42                 6149 	ld	b,d
-   0AEE 4B                 6150 	ld	c,e
-   0AEF E8 02              6151 	lda	sp,2(sp)
-                           6152 ;	main.c 56
-                           6153 ; genIpush
-   0AF1 C5                 6154 	push	bc
-                           6155 ; genCall
-   0AF2 CD 00 00           6156 	call	_font_set
-   0AF5 E8 02              6157 	lda	sp,2(sp)
-                           6158 ;	main.c 57
-                           6159 ; genCall
-   0AF7 CD B7 09           6160 	call	_initGameLoop
-                           6161 ;	main.c 58
-                           6162 ; genAssign
-                           6163 ; AOP_HL for _state
-   0AFA 21 0A 02           6164 	ld	hl,#_state + 0
-   0AFD 36 01              6165 	ld	(hl),#0x01
-   0AFF 23                 6166 	inc	hl
-   0B00 36 00              6167 	ld	(hl),#0x00
-                           6168 ; genGoto
-   0B02 C3 55 0A           6169 	jp	00101$
-                           6170 ;	main.c 61
-                           6171 ; genLabel
-   0B05                    6172 00110$:
-                           6173 ; genCmpEq
-                           6174 ; AOP_HL for _state
-   0B05 21 0A 02           6175 	ld	hl,#_state + 0
-   0B08 7E                 6176 	ld	a,(hl) ; 2
-   0B09 FE 01              6177 	cp	a,#0x01
-   0B0B C2 16 0B           6178 	jp	nz,00125$
-   0B0E 23                 6179 	inc	hl
-   0B0F 7E                 6180 	ld	a,(hl) ; 2
-                           6181 ; Rule 3
-   0B10 B7                 6182 	or	a,a
-   0B11 C2 16 0B           6183 	jp	nz,00125$
-   0B14 18 03              6184 	jr	00126$
-   0B16                    6185 00125$:
-   0B16 C3 CE 0B           6186 	jp	00113$
-   0B19                    6187 00126$:
-                           6188 ;	main.c 62
-                           6189 ; genCall
-   0B19 CD 2B 0A           6190 	call	_countScore
-                           6191 ;	main.c 63
-                           6192 ; genCall
-   0B1C CD 00 00           6193 	call	_joypad
-   0B1F 4B                 6194 	ld	c,e
-                           6195 ; genCmpEq
-   0B20 79                 6196 	ld	a,c ; 2
-   0B21 FE 01              6197 	cp	a,#0x01
-                           6198 ; Rule 5
-   0B23 CA 5C 0B           6199 	jp	z,00105$
-   0B26                    6200 00127$:
-                           6201 ; genCmpEq
-   0B26 79                 6202 	ld	a,c ; 2
-   0B27 FE 02              6203 	cp	a,#0x02
-                           6204 ; Rule 5
-   0B29 CA 3B 0B           6205 	jp	z,00104$
-   0B2C                    6206 00128$:
-                           6207 ; genCmpEq
-   0B2C 79                 6208 	ld	a,c ; 2
-   0B2D FE 04              6209 	cp	a,#0x04
-                           6210 ; Rule 5
-   0B2F CA 7D 0B           6211 	jp	z,00106$
-   0B32                    6212 00129$:
-                           6213 ; genCmpEq
-   0B32 79                 6214 	ld	a,c ; 2
-   0B33 FE 08              6215 	cp	a,#0x08
-                           6216 ; Rule 5
-   0B35 CA 9E 0B           6217 	jp	z,00107$
-   0B38                    6218 00130$:
-                           6219 ; genGoto
-   0B38 C3 BF 0B           6220 	jp	00108$
-                           6221 ;	main.c 65
-                           6222 ; genLabel
-   0B3B                    6223 00104$:
-                           6224 ; genIpush
-   0B3B 3E 50              6225 	ld	a,#0x50
-   0B3D F5                 6226 	push	af
-   0B3E 33                 6227 	inc	sp
-                           6228 ; genIpush
-   0B3F 3E 2C              6229 	ld	a,#0x2C
-   0B41 F5                 6230 	push	af
-   0B42 33                 6231 	inc	sp
-                           6232 ; genIpush
-   0B43 3E 00              6233 	ld	a,#0x00
-   0B45 F5                 6234 	push	af
-   0B46 33                 6235 	inc	sp
-                           6236 ; genCall
-   0B47 CD 00 00           6237 	call	_move_sprite
-   0B4A E8 03              6238 	lda	sp,3(sp)
-                           6239 ;	main.c 66
+   0AE4 3E 00              6145 	ld	a,#0x00
+   0AE6 F5                 6146 	push	af
+   0AE7 33                 6147 	inc	sp
+                           6148 ; genIpush
+   0AE8 3E 03              6149 	ld	a,#0x03
+   0AEA F5                 6150 	push	af
+   0AEB 33                 6151 	inc	sp
+                           6152 ; genIpush
+   0AEC 3E 02              6153 	ld	a,#0x02
+   0AEE F5                 6154 	push	af
+   0AEF 33                 6155 	inc	sp
+                           6156 ; genCall
+   0AF0 CD 00 00           6157 	call	_color
+   0AF3 E8 03              6158 	lda	sp,3(sp)
+                           6159 ;	main.c 58
+                           6160 ; genIpush
+   0AF5 21 00 00           6161 	ld	hl,#_font_min + 0
+   0AF8 E5                 6162 	push	hl
+                           6163 ; genCall
+   0AF9 CD 00 00           6164 	call	_font_load
+   0AFC 42                 6165 	ld	b,d
+   0AFD 4B                 6166 	ld	c,e
+   0AFE E8 02              6167 	lda	sp,2(sp)
+                           6168 ;	main.c 59
+                           6169 ; genIpush
+   0B00 C5                 6170 	push	bc
+                           6171 ; genCall
+   0B01 CD 00 00           6172 	call	_font_set
+   0B04 E8 02              6173 	lda	sp,2(sp)
+                           6174 ;	main.c 60
+                           6175 ; genCall
+   0B06 CD B7 09           6176 	call	_initGameLoop
+                           6177 ;	main.c 61
+                           6178 ; genAssign
+                           6179 ; AOP_HL for _state
+   0B09 21 0A 02           6180 	ld	hl,#_state + 0
+   0B0C 36 02              6181 	ld	(hl),#0x02
+   0B0E 23                 6182 	inc	hl
+   0B0F 36 00              6183 	ld	(hl),#0x00
+                           6184 ; genGoto
+   0B11 C3 5D 0A           6185 	jp	00104$
+                           6186 ;	main.c 64
+                           6187 ; genLabel
+   0B14                    6188 00113$:
+                           6189 ; genCmpEq
+                           6190 ; AOP_HL for _state
+   0B14 21 0A 02           6191 	ld	hl,#_state + 0
+   0B17 7E                 6192 	ld	a,(hl) ; 2
+   0B18 FE 02              6193 	cp	a,#0x02
+   0B1A C2 25 0B           6194 	jp	nz,00134$
+   0B1D 23                 6195 	inc	hl
+   0B1E 7E                 6196 	ld	a,(hl) ; 2
+                           6197 ; Rule 3
+   0B1F B7                 6198 	or	a,a
+   0B20 C2 25 0B           6199 	jp	nz,00134$
+   0B23 18 03              6200 	jr	00135$
+   0B25                    6201 00134$:
+   0B25 C3 DD 0B           6202 	jp	00116$
+   0B28                    6203 00135$:
+                           6204 ;	main.c 65
+                           6205 ; genCall
+   0B28 CD 2B 0A           6206 	call	_countScore
+                           6207 ;	main.c 66
+                           6208 ; genCall
+   0B2B CD 00 00           6209 	call	_joypad
+   0B2E 4B                 6210 	ld	c,e
+                           6211 ; genCmpEq
+   0B2F 79                 6212 	ld	a,c ; 2
+   0B30 FE 01              6213 	cp	a,#0x01
+                           6214 ; Rule 5
+   0B32 CA 6B 0B           6215 	jp	z,00108$
+   0B35                    6216 00136$:
+                           6217 ; genCmpEq
+   0B35 79                 6218 	ld	a,c ; 2
+   0B36 FE 02              6219 	cp	a,#0x02
+                           6220 ; Rule 5
+   0B38 CA 4A 0B           6221 	jp	z,00107$
+   0B3B                    6222 00137$:
+                           6223 ; genCmpEq
+   0B3B 79                 6224 	ld	a,c ; 2
+   0B3C FE 04              6225 	cp	a,#0x04
+                           6226 ; Rule 5
+   0B3E CA 8C 0B           6227 	jp	z,00109$
+   0B41                    6228 00138$:
+                           6229 ; genCmpEq
+   0B41 79                 6230 	ld	a,c ; 2
+   0B42 FE 08              6231 	cp	a,#0x08
+                           6232 ; Rule 5
+   0B44 CA AD 0B           6233 	jp	z,00110$
+   0B47                    6234 00139$:
+                           6235 ; genGoto
+   0B47 C3 CE 0B           6236 	jp	00111$
+                           6237 ;	main.c 68
+                           6238 ; genLabel
+   0B4A                    6239 00107$:
                            6240 ; genIpush
-   0B4C 3E 03              6241 	ld	a,#0x03
-   0B4E F5                 6242 	push	af
-   0B4F 33                 6243 	inc	sp
+   0B4A 3E 50              6241 	ld	a,#0x50
+   0B4C F5                 6242 	push	af
+   0B4D 33                 6243 	inc	sp
                            6244 ; genIpush
-   0B50 3E 00              6245 	ld	a,#0x00
-   0B52 F5                 6246 	push	af
-   0B53 33                 6247 	inc	sp
-                           6248 ; genCall
-   0B54 CD 00 00           6249 	call	_set_sprite_tile
-   0B57 E8 02              6250 	lda	sp,2(sp)
-                           6251 ;	main.c 67
-                           6252 ; genGoto
-   0B59 C3 C2 0B           6253 	jp	00109$
-                           6254 ;	main.c 69
-                           6255 ; genLabel
-   0B5C                    6256 00105$:
-                           6257 ; genIpush
-   0B5C 3E 50              6258 	ld	a,#0x50
-   0B5E F5                 6259 	push	af
-   0B5F 33                 6260 	inc	sp
-                           6261 ; genIpush
-   0B60 3E 7C              6262 	ld	a,#0x7C
-   0B62 F5                 6263 	push	af
-   0B63 33                 6264 	inc	sp
-                           6265 ; genIpush
-   0B64 3E 00              6266 	ld	a,#0x00
-   0B66 F5                 6267 	push	af
-   0B67 33                 6268 	inc	sp
-                           6269 ; genCall
-   0B68 CD 00 00           6270 	call	_move_sprite
-   0B6B E8 03              6271 	lda	sp,3(sp)
-                           6272 ;	main.c 70
+   0B4E 3E 2C              6245 	ld	a,#0x2C
+   0B50 F5                 6246 	push	af
+   0B51 33                 6247 	inc	sp
+                           6248 ; genIpush
+   0B52 3E 00              6249 	ld	a,#0x00
+   0B54 F5                 6250 	push	af
+   0B55 33                 6251 	inc	sp
+                           6252 ; genCall
+   0B56 CD 00 00           6253 	call	_move_sprite
+   0B59 E8 03              6254 	lda	sp,3(sp)
+                           6255 ;	main.c 69
+                           6256 ; genIpush
+   0B5B 3E 03              6257 	ld	a,#0x03
+   0B5D F5                 6258 	push	af
+   0B5E 33                 6259 	inc	sp
+                           6260 ; genIpush
+   0B5F 3E 00              6261 	ld	a,#0x00
+   0B61 F5                 6262 	push	af
+   0B62 33                 6263 	inc	sp
+                           6264 ; genCall
+   0B63 CD 00 00           6265 	call	_set_sprite_tile
+   0B66 E8 02              6266 	lda	sp,2(sp)
+                           6267 ;	main.c 70
+                           6268 ; genGoto
+   0B68 C3 D1 0B           6269 	jp	00112$
+                           6270 ;	main.c 72
+                           6271 ; genLabel
+   0B6B                    6272 00108$:
                            6273 ; genIpush
-   0B6D 3E 04              6274 	ld	a,#0x04
-   0B6F F5                 6275 	push	af
-   0B70 33                 6276 	inc	sp
+   0B6B 3E 50              6274 	ld	a,#0x50
+   0B6D F5                 6275 	push	af
+   0B6E 33                 6276 	inc	sp
                            6277 ; genIpush
-   0B71 3E 00              6278 	ld	a,#0x00
-   0B73 F5                 6279 	push	af
-   0B74 33                 6280 	inc	sp
-                           6281 ; genCall
-   0B75 CD 00 00           6282 	call	_set_sprite_tile
-   0B78 E8 02              6283 	lda	sp,2(sp)
-                           6284 ;	main.c 71
-                           6285 ; genGoto
-   0B7A C3 C2 0B           6286 	jp	00109$
-                           6287 ;	main.c 73
-                           6288 ; genLabel
-   0B7D                    6289 00106$:
-                           6290 ; genIpush
-   0B7D 3E 28              6291 	ld	a,#0x28
-   0B7F F5                 6292 	push	af
-   0B80 33                 6293 	inc	sp
-                           6294 ; genIpush
-   0B81 3E 54              6295 	ld	a,#0x54
-   0B83 F5                 6296 	push	af
-   0B84 33                 6297 	inc	sp
-                           6298 ; genIpush
-   0B85 3E 00              6299 	ld	a,#0x00
-   0B87 F5                 6300 	push	af
-   0B88 33                 6301 	inc	sp
-                           6302 ; genCall
-   0B89 CD 00 00           6303 	call	_move_sprite
-   0B8C E8 03              6304 	lda	sp,3(sp)
-                           6305 ;	main.c 74
+   0B6F 3E 7C              6278 	ld	a,#0x7C
+   0B71 F5                 6279 	push	af
+   0B72 33                 6280 	inc	sp
+                           6281 ; genIpush
+   0B73 3E 00              6282 	ld	a,#0x00
+   0B75 F5                 6283 	push	af
+   0B76 33                 6284 	inc	sp
+                           6285 ; genCall
+   0B77 CD 00 00           6286 	call	_move_sprite
+   0B7A E8 03              6287 	lda	sp,3(sp)
+                           6288 ;	main.c 73
+                           6289 ; genIpush
+   0B7C 3E 04              6290 	ld	a,#0x04
+   0B7E F5                 6291 	push	af
+   0B7F 33                 6292 	inc	sp
+                           6293 ; genIpush
+   0B80 3E 00              6294 	ld	a,#0x00
+   0B82 F5                 6295 	push	af
+   0B83 33                 6296 	inc	sp
+                           6297 ; genCall
+   0B84 CD 00 00           6298 	call	_set_sprite_tile
+   0B87 E8 02              6299 	lda	sp,2(sp)
+                           6300 ;	main.c 74
+                           6301 ; genGoto
+   0B89 C3 D1 0B           6302 	jp	00112$
+                           6303 ;	main.c 76
+                           6304 ; genLabel
+   0B8C                    6305 00109$:
                            6306 ; genIpush
-   0B8E 3E 04              6307 	ld	a,#0x04
-   0B90 F5                 6308 	push	af
-   0B91 33                 6309 	inc	sp
+   0B8C 3E 28              6307 	ld	a,#0x28
+   0B8E F5                 6308 	push	af
+   0B8F 33                 6309 	inc	sp
                            6310 ; genIpush
-   0B92 3E 00              6311 	ld	a,#0x00
-   0B94 F5                 6312 	push	af
-   0B95 33                 6313 	inc	sp
-                           6314 ; genCall
-   0B96 CD 00 00           6315 	call	_set_sprite_tile
-   0B99 E8 02              6316 	lda	sp,2(sp)
-                           6317 ;	main.c 75
-                           6318 ; genGoto
-   0B9B C3 C2 0B           6319 	jp	00109$
-                           6320 ;	main.c 77
-                           6321 ; genLabel
-   0B9E                    6322 00107$:
-                           6323 ; genIpush
-   0B9E 3E 78              6324 	ld	a,#0x78
-   0BA0 F5                 6325 	push	af
-   0BA1 33                 6326 	inc	sp
-                           6327 ; genIpush
-   0BA2 3E 54              6328 	ld	a,#0x54
-   0BA4 F5                 6329 	push	af
-   0BA5 33                 6330 	inc	sp
-                           6331 ; genIpush
-   0BA6 3E 00              6332 	ld	a,#0x00
-   0BA8 F5                 6333 	push	af
-   0BA9 33                 6334 	inc	sp
-                           6335 ; genCall
-   0BAA CD 00 00           6336 	call	_move_sprite
-   0BAD E8 03              6337 	lda	sp,3(sp)
-                           6338 ;	main.c 78
+   0B90 3E 54              6311 	ld	a,#0x54
+   0B92 F5                 6312 	push	af
+   0B93 33                 6313 	inc	sp
+                           6314 ; genIpush
+   0B94 3E 00              6315 	ld	a,#0x00
+   0B96 F5                 6316 	push	af
+   0B97 33                 6317 	inc	sp
+                           6318 ; genCall
+   0B98 CD 00 00           6319 	call	_move_sprite
+   0B9B E8 03              6320 	lda	sp,3(sp)
+                           6321 ;	main.c 77
+                           6322 ; genIpush
+   0B9D 3E 04              6323 	ld	a,#0x04
+   0B9F F5                 6324 	push	af
+   0BA0 33                 6325 	inc	sp
+                           6326 ; genIpush
+   0BA1 3E 00              6327 	ld	a,#0x00
+   0BA3 F5                 6328 	push	af
+   0BA4 33                 6329 	inc	sp
+                           6330 ; genCall
+   0BA5 CD 00 00           6331 	call	_set_sprite_tile
+   0BA8 E8 02              6332 	lda	sp,2(sp)
+                           6333 ;	main.c 78
+                           6334 ; genGoto
+   0BAA C3 D1 0B           6335 	jp	00112$
+                           6336 ;	main.c 80
+                           6337 ; genLabel
+   0BAD                    6338 00110$:
                            6339 ; genIpush
-   0BAF 3E 02              6340 	ld	a,#0x02
-   0BB1 F5                 6341 	push	af
-   0BB2 33                 6342 	inc	sp
+   0BAD 3E 78              6340 	ld	a,#0x78
+   0BAF F5                 6341 	push	af
+   0BB0 33                 6342 	inc	sp
                            6343 ; genIpush
-   0BB3 3E 00              6344 	ld	a,#0x00
-   0BB5 F5                 6345 	push	af
-   0BB6 33                 6346 	inc	sp
-                           6347 ; genCall
-   0BB7 CD 00 00           6348 	call	_set_sprite_tile
-   0BBA E8 02              6349 	lda	sp,2(sp)
-                           6350 ;	main.c 79
-                           6351 ; genGoto
-   0BBC C3 C2 0B           6352 	jp	00109$
-                           6353 ;	main.c 81
-                           6354 ; genLabel
-   0BBF                    6355 00108$:
-                           6356 ; genCall
-   0BBF CD 00 00           6357 	call	_resetPlayerPosition
-                           6358 ;	main.c 82
-                           6359 ; genLabel
-   0BC2                    6360 00109$:
-                           6361 ;	main.c 83
-                           6362 ; genIpush
-   0BC2 3E 02              6363 	ld	a,#0x02
-   0BC4 F5                 6364 	push	af
-   0BC5 33                 6365 	inc	sp
-                           6366 ; genCall
-   0BC6 CD 17 0A           6367 	call	_setDelay
-   0BC9 E8 01              6368 	lda	sp,1(sp)
-                           6369 ; genGoto
-   0BCB C3 05 0B           6370 	jp	00110$
-                           6371 ; genLabel
-   0BCE                    6372 00113$:
-                           6373 ; genEndFunction
-                           6374 	
-   0BCE C1                 6375 	pop	bc
-   0BCF C9                 6376 	ret
-   0BD0                    6377 ___main_end:
-                           6378 	.area _CODE
+   0BB1 3E 54              6344 	ld	a,#0x54
+   0BB3 F5                 6345 	push	af
+   0BB4 33                 6346 	inc	sp
+                           6347 ; genIpush
+   0BB5 3E 00              6348 	ld	a,#0x00
+   0BB7 F5                 6349 	push	af
+   0BB8 33                 6350 	inc	sp
+                           6351 ; genCall
+   0BB9 CD 00 00           6352 	call	_move_sprite
+   0BBC E8 03              6353 	lda	sp,3(sp)
+                           6354 ;	main.c 81
+                           6355 ; genIpush
+   0BBE 3E 02              6356 	ld	a,#0x02
+   0BC0 F5                 6357 	push	af
+   0BC1 33                 6358 	inc	sp
+                           6359 ; genIpush
+   0BC2 3E 00              6360 	ld	a,#0x00
+   0BC4 F5                 6361 	push	af
+   0BC5 33                 6362 	inc	sp
+                           6363 ; genCall
+   0BC6 CD 00 00           6364 	call	_set_sprite_tile
+   0BC9 E8 02              6365 	lda	sp,2(sp)
+                           6366 ;	main.c 82
+                           6367 ; genGoto
+   0BCB C3 D1 0B           6368 	jp	00112$
+                           6369 ;	main.c 84
+                           6370 ; genLabel
+   0BCE                    6371 00111$:
+                           6372 ; genCall
+   0BCE CD 00 00           6373 	call	_resetPlayerPosition
+                           6374 ;	main.c 85
+                           6375 ; genLabel
+   0BD1                    6376 00112$:
+                           6377 ;	main.c 86
+                           6378 ; genIpush
+   0BD1 3E 02              6379 	ld	a,#0x02
+   0BD3 F5                 6380 	push	af
+   0BD4 33                 6381 	inc	sp
+                           6382 ; genCall
+   0BD5 CD 17 0A           6383 	call	_setDelay
+   0BD8 E8 01              6384 	lda	sp,1(sp)
+                           6385 ; genGoto
+   0BDA C3 14 0B           6386 	jp	00113$
+                           6387 ;	main.c 89
+                           6388 ; genLabel
+   0BDD                    6389 00116$:
+                           6390 ; genCmpEq
+                           6391 ; AOP_HL for _state
+   0BDD 21 0A 02           6392 	ld	hl,#_state + 0
+   0BE0 7E                 6393 	ld	a,(hl) ; 2
+   0BE1 FE 03              6394 	cp	a,#0x03
+   0BE3 C2 EC 0B           6395 	jp	nz,00140$
+   0BE6 23                 6396 	inc	hl
+   0BE7 7E                 6397 	ld	a,(hl) ; 2
+                           6398 ; Rule 3
+   0BE8 B7                 6399 	or	a,a
+                           6400 ; Rule 5
+   0BE9 CA DD 0B           6401 	jp	z,00116$
+   0BEC                    6402 00140$:
+                           6403 ; genLabel
+   0BEC                    6404 00119$:
+                           6405 ; genEndFunction
+                           6406 	
+   0BEC C1                 6407 	pop	bc
+   0BED C9                 6408 	ret
+   0BEE                    6409 ___main_end:
+                           6410 	.area _CODE
 ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
 
 Symbol Table
@@ -6442,7 +6474,7 @@ Symbol Table
   0 ___countScore_start                0A2B R
   0 ___initGameLoop_end                0A17 R
   0 ___initGameLoop_start              09B7 R
-  0 ___main_end                        0BD0 R
+  0 ___main_end                        0BEE R
   0 ___main_start                      0A54 R
   0 ___resetPlayerPosition_end         001F R
   0 ___resetPlayerPosition_start       0000 R
@@ -6491,7 +6523,7 @@ Symbol Table
 
 Area Table
 
-   0 _CODE                              size  BD0   flags 0
+   0 _CODE                              size  BEE   flags 0
    1 _DATA                              size  20C   flags 0
    2 _OVERLAY                           size    0   flags 0
    3 _ISEG                              size    0   flags 0
