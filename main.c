@@ -18,14 +18,14 @@ int state = 1;
 
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i;
-    for (i = 1; i < 9; i++ ){
+    for (i = 1; i < 10; i++ ){
         move_sprite(laser->repetitions[i], x, y + (16 * i));
     }
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
     UINT8 i;
-    for(i = 1; i < 9; i++){
+    for(i = 1; i < 10; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 12);
     }
@@ -86,7 +86,7 @@ void main(){
 
         while(state == 2){ // 2: Game Loop
             countScore();
-            triggerVLaser(30);
+            triggerVLaser(44);
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
                     move_sprite(0, 44, 80); // Moves player sprite accordingly

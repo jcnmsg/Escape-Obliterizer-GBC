@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Sat Mar 02 02:53:46 2019
+                              3 ; Version 2.2.1 Sat Mar 02 02:59:52 2019
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc122960
+                              6 	.module lcc102480
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -5350,7 +5350,7 @@
                            5350 ; AOP_STK for _drawTheVLaser_i_1_1
    000F F8 02              5351 	lda	hl,2(sp)
    0011 7E                 5352 	ld	a,(hl)
-   0012 FE 09              5353 	cp	#0x09
+   0012 FE 0A              5353 	cp	#0x0A
    0014 D2 4C 00           5354 	jp	nc,00105$
                            5355 ;	main.c 22
                            5356 ; genLeftShift
@@ -7891,7 +7891,7 @@
    09EB                    7891 00101$:
                            7892 ; genCmpLt
    09EB 79                 7893 	ld	a,c
-   09EC FE 09              7894 	cp	#0x09
+   09EC FE 0A              7894 	cp	#0x0A
    09EE D2 0C 0A           7895 	jp	nc,00104$
                            7896 ;	main.c 29
                            7897 ; genPlus
@@ -8401,7 +8401,7 @@
    0BA9 CD AC 0A           8401 	call	_countScore
                            8402 ;	main.c 89
                            8403 ; genIpush
-   0BAC 3E 1E              8404 	ld	a,#0x1E
+   0BAC 3E 2C              8404 	ld	a,#0x2C
    0BAE F5                 8405 	push	af
    0BAF 33                 8406 	inc	sp
                            8407 ; genCall
