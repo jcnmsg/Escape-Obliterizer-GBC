@@ -1,6 +1,6 @@
 /*
 
- PLAYER.H
+ LASER.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 5
+  Tiles                : 0 to 7
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define PlayerBank 0
+#define LaserBank 0
 /* Start of tile array. */
-extern unsigned char Player[];
+extern unsigned char VerticalLaser[];
 
-/* End of PLAYER.H */
+/* End of LASER.H */
