@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Sat Mar 02 02:59:52 2019
+                              3 ; Version 2.2.1 Sat Mar 02 03:02:47 2019
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc102480
+                              6 	.module lcc105800
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -136,13 +136,13 @@
    0328                     136 _BackgroundTiles::
    0328                     137 	.ds 48
    0358                     138 _hLaser::
-   0358                     139 	.ds 14
-   0366                     140 _vLaser::
-   0366                     141 	.ds 14
-   0374                     142 _score::
-   0374                     143 	.ds 2
-   0376                     144 _state::
-   0376                     145 	.ds 2
+   0358                     139 	.ds 10
+   0362                     140 _vLaser::
+   0362                     141 	.ds 10
+   036C                     142 _score::
+   036C                     143 	.ds 2
+   036E                     144 _state::
+   036E                     145 	.ds 2
                             146 ;--------------------------------------------------------
                             147 ; overlayable items in internal ram 
                             148 ;--------------------------------------------------------
@@ -5300,14 +5300,14 @@
                            5300 ;	main.c 132
                            5301 ; genAssign
                            5302 ; AOP_HL for _score
-   1410 21 74 03           5303 	ld	hl,#_score + 0
+   1410 21 6C 03           5303 	ld	hl,#_score + 0
    1413 36 00              5304 	ld	(hl),#0x00
    1415 23                 5305 	inc	hl
    1416 36 00              5306 	ld	(hl),#0x00
                            5307 ;	main.c 132
                            5308 ; genAssign
                            5309 ; AOP_HL for _state
-   1418 21 76 03           5310 	ld	hl,#_state + 0
+   1418 21 6E 03           5310 	ld	hl,#_state + 0
    141B 36 01              5311 	ld	(hl),#0x01
    141D 23                 5312 	inc	hl
    141E 36 00              5313 	ld	(hl),#0x00
@@ -7896,7 +7896,7 @@
                            7896 ;	main.c 29
                            7897 ; genPlus
                            7898 ;	genPlusIncr failed
-   09F1 3E 66              7899 	ld	a,#<_vLaser
+   09F1 3E 62              7899 	ld	a,#<_vLaser
    09F3 81                 7900 	add	a,c
    09F4 5F                 7901 	ld	e,a
    09F5 3E 03              7902 	ld	a,#>_vLaser
@@ -7937,7 +7937,7 @@
    0A13 F5                 7937 	push	af
    0A14 33                 7938 	inc	sp
                            7939 ; genIpush
-   0A15 21 66 03           7940 	ld	hl,#_vLaser + 0
+   0A15 21 62 03           7940 	ld	hl,#_vLaser + 0
    0A18 E5                 7941 	push	hl
                            7942 ; genCall
    0A19 CD 00 00           7943 	call	_drawTheVLaser
@@ -8154,7 +8154,7 @@
                            8154 ;	main.c 58
                            8155 ; genAssign
                            8156 ; AOP_HL for _score
-   0ABA 21 74 03           8157 	ld	hl,#_score + 0
+   0ABA 21 6C 03           8157 	ld	hl,#_score + 0
    0ABD 4E                 8158 	ld	c,(hl)
    0ABE 23                 8159 	inc	hl
    0ABF 46                 8160 	ld	b,(hl)
@@ -8200,7 +8200,7 @@
    0AD6                    8200 00101$:
                            8201 ; genCmpEq
                            8202 ; AOP_HL for _state
-   0AD6 21 76 03           8203 	ld	hl,#_state + 0
+   0AD6 21 6E 03           8203 	ld	hl,#_state + 0
    0AD9 2A                 8204 	ld	a,(hl+)
    0ADA B6                 8205 	or	a,(hl)
                            8206 ; Rule 5
@@ -8211,7 +8211,7 @@
    0ADE                    8211 00104$:
                            8212 ; genCmpEq
                            8213 ; AOP_HL for _state
-   0ADE 21 76 03           8214 	ld	hl,#_state + 0
+   0ADE 21 6E 03           8214 	ld	hl,#_state + 0
    0AE1 7E                 8215 	ld	a,(hl) ; 2
    0AE2 FE 01              8216 	cp	a,#0x01
    0AE4 C2 EF 0A           8217 	jp	nz,00142$
@@ -8372,7 +8372,7 @@
                            8372 ;	main.c 84
                            8373 ; genAssign
                            8374 ; AOP_HL for _state
-   0B8A 21 76 03           8375 	ld	hl,#_state + 0
+   0B8A 21 6E 03           8375 	ld	hl,#_state + 0
    0B8D 36 02              8376 	ld	(hl),#0x02
    0B8F 23                 8377 	inc	hl
    0B90 36 00              8378 	ld	(hl),#0x00
@@ -8383,7 +8383,7 @@
    0B95                    8383 00114$:
                            8384 ; genCmpEq
                            8385 ; AOP_HL for _state
-   0B95 21 76 03           8386 	ld	hl,#_state + 0
+   0B95 21 6E 03           8386 	ld	hl,#_state + 0
    0B98 7E                 8387 	ld	a,(hl) ; 2
    0B99 FE 02              8388 	cp	a,#0x02
    0B9B C2 A6 0B           8389 	jp	nz,00144$
@@ -8583,7 +8583,7 @@
                            8583 ;	main.c 109
                            8584 ; genAssign
                            8585 ; AOP_HL for _state
-   0C61 21 76 03           8586 	ld	hl,#_state + 0
+   0C61 21 6E 03           8586 	ld	hl,#_state + 0
    0C64 36 04              8587 	ld	(hl),#0x04
    0C66 23                 8588 	inc	hl
    0C67 36 00              8589 	ld	(hl),#0x00
@@ -8610,7 +8610,7 @@
    0C78                    8610 00117$:
                            8611 ; genCmpEq
                            8612 ; AOP_HL for _state
-   0C78 21 76 03           8613 	ld	hl,#_state + 0
+   0C78 21 6E 03           8613 	ld	hl,#_state + 0
    0C7B 7E                 8614 	ld	a,(hl) ; 2
    0C7C FE 03              8615 	cp	a,#0x03
    0C7E C2 87 0C           8616 	jp	nz,00151$
@@ -8626,7 +8626,7 @@
    0C87                    8626 00120$:
                            8627 ; genCmpEq
                            8628 ; AOP_HL for _state
-   0C87 21 76 03           8629 	ld	hl,#_state + 0
+   0C87 21 6E 03           8629 	ld	hl,#_state + 0
    0C8A 7E                 8630 	ld	a,(hl) ; 2
    0C8B FE 04              8631 	cp	a,#0x04
    0C8D C2 98 0C           8632 	jp	nz,00152$
@@ -8697,7 +8697,7 @@
                            8697 ;	main.c 127
                            8698 ; genAssign
                            8699 ; AOP_HL for _state
-   0CDB 21 76 03           8700 	ld	hl,#_state + 0
+   0CDB 21 6E 03           8700 	ld	hl,#_state + 0
    0CDE 36 02              8701 	ld	(hl),#0x02
    0CE0 23                 8702 	inc	hl
    0CE1 36 00              8703 	ld	(hl),#0x00
@@ -8832,17 +8832,17 @@ Symbol Table
     _move_sprite                       **** GX
     _printf                            **** GX
   0 _resetPlayerPosition               0A20 GR
-  1 _score                             0374 GR
+  1 _score                             036C GR
   0 _setDelay                          0A98 GR
     _set_bkg_data                      **** GX
     _set_bkg_palette                   **** GX
     _set_bkg_tiles                     **** GX
     _set_sprite_data                   **** GX
     _set_sprite_tile                   **** GX
-  1 _state                             0376 GR
+  1 _state                             036E GR
     _sys_time                          **** GX
   0 _triggerVLaser                     09E8 GR
-  1 _vLaser                            0366 GR
+  1 _vLaser                            0362 GR
     _wait_vbl_done                     **** GX
     _waitpad                           **** GX
     _waitpadup                         **** GX
@@ -8852,7 +8852,7 @@ Symbol Table
 Area Table
 
    0 _CODE                              size  CFC   flags 0
-   1 _DATA                              size  378   flags 0
+   1 _DATA                              size  370   flags 0
    2 _OVERLAY                           size    0   flags 0
    3 _ISEG                              size    0   flags 0
    4 _BSEG                              size    0   flags 0

@@ -13,12 +13,12 @@
 01:4CF8 s__GSFINAL
 00:C000 .OAM
 00:C0A0 s__DATA
-00:C418 s__BSS
-00:C49F s__HEAP
-00:C49F s__BSEG
-00:C49F s__ISEG
-00:C49F s__XSEG
-00:C49F s__OVERLAY
+00:C410 s__BSS
+00:C497 s__HEAP
+00:C497 s__BSEG
+00:C497 s__ISEG
+00:C497 s__XSEG
+00:C497 s__OVERLAY
 00:E000 .STACK
 00:FF80 .refresh_OAM
 ; Area: _CODE
@@ -199,33 +199,33 @@
 00:C260 _BackgroundMap
 00:C3C8 _BackgroundTiles
 00:C3F8 _hLaser
-00:C406 _vLaser
-00:C414 _score
-00:C416 _state
+00:C402 _vLaser
+00:C40C _score
+00:C40E _state
 ; Area: _BSS
-00:C418 __cpu
-00:C419 .mode
-00:C41A __io_out
-00:C41B __io_in
-00:C41C __io_status
-00:C41D .vbl_done
-00:C41E __current_bank
-00:C41F _sys_time
-00:C41F .sys_time
-00:C421 .int_0x40
-00:C431 .int_0x48
-00:C441 .int_0x50
-00:C451 .int_0x58
-00:C461 .int_0x60
-00:C471 font_current
-00:C474 font_first_free_tile
-00:C475 font_table
-00:C487 .curx
-00:C488 .cury
-00:C489 .fg_colour
-00:C48A .bg_colour
+00:C410 __cpu
+00:C411 .mode
+00:C412 __io_out
+00:C413 __io_in
+00:C414 __io_status
+00:C415 .vbl_done
+00:C416 __current_bank
+00:C417 _sys_time
+00:C417 .sys_time
+00:C419 .int_0x40
+00:C429 .int_0x48
+00:C439 .int_0x50
+00:C449 .int_0x58
+00:C459 .int_0x60
+00:C469 font_current
+00:C46C font_first_free_tile
+00:C46D font_table
+00:C47F .curx
+00:C480 .cury
+00:C481 .fg_colour
+00:C482 .bg_colour
 ; Area: _HEAP
-00:C49F _malloc_heap_start
+00:C497 _malloc_heap_start
 ; Area: _OVERLAY
 ; Area: _ISEG
 ; Area: _BSEG

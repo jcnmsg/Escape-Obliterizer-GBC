@@ -20,7 +20,7 @@ AREA .  .ABS.
 		l__BSS	0087
 		l__HEADER	01EB
 		s__CODE	0200
-		l__DATA	0378
+		l__DATA	0370
 		l__HOME	04AF
 		l__GSINIT	1420
 		l__CODE	1528
@@ -33,12 +33,12 @@ AREA .  .ABS.
 		s__GSFINAL	4CF8
 		.OAM	C000
 		s__DATA	C0A0
-		s__BSS	C418
-		s__HEAP	C49F
-		s__BSEG	C49F
-		s__ISEG	C49F
-		s__XSEG	C49F
-		s__OVERLAY	C49F
+		s__BSS	C410
+		s__HEAP	C497
+		s__BSEG	C497
+		s__ISEG	C497
+		s__XSEG	C497
+		s__OVERLAY	C497
 		.STACK	E000
 		.refresh_OAM	FF80
 		l__SFR	10000
@@ -254,7 +254,7 @@ AREA _GSFINAL
 AREA _DATA
 	RADIX HEX
 	BASE C0A0
-	SIZE 0378
+	SIZE 0370
 	ATTRIB REL CON
 	GLOBALS
 		_Player	C0A0
@@ -262,61 +262,61 @@ AREA _DATA
 		_BackgroundMap	C260
 		_BackgroundTiles	C3C8
 		_hLaser	C3F8
-		_vLaser	C406
-		_score	C414
-		_state	C416
+		_vLaser	C402
+		_score	C40C
+		_state	C40E
 AREA _BSS
 	RADIX HEX
-	BASE C418
+	BASE C410
 	SIZE 0087
 	ATTRIB REL CON
 	GLOBALS
-		__cpu	C418
-		.mode	C419
-		__io_out	C41A
-		__io_in	C41B
-		__io_status	C41C
-		.vbl_done	C41D
-		__current_bank	C41E
-		_sys_time	C41F
-		.sys_time	C41F
-		.int_0x40	C421
-		.int_0x48	C431
-		.int_0x50	C441
-		.int_0x58	C451
-		.int_0x60	C461
-		font_current	C471
-		font_first_free_tile	C474
-		font_table	C475
-		.curx	C487
-		.cury	C488
-		.fg_colour	C489
-		.bg_colour	C48A
+		__cpu	C410
+		.mode	C411
+		__io_out	C412
+		__io_in	C413
+		__io_status	C414
+		.vbl_done	C415
+		__current_bank	C416
+		_sys_time	C417
+		.sys_time	C417
+		.int_0x40	C419
+		.int_0x48	C429
+		.int_0x50	C439
+		.int_0x58	C449
+		.int_0x60	C459
+		font_current	C469
+		font_first_free_tile	C46C
+		font_table	C46D
+		.curx	C47F
+		.cury	C480
+		.fg_colour	C481
+		.bg_colour	C482
 AREA _HEAP
 	RADIX HEX
-	BASE C49F
+	BASE C497
 	SIZE 0000
 	ATTRIB REL CON
 	GLOBALS
-		_malloc_heap_start	C49F
+		_malloc_heap_start	C497
 AREA _OVERLAY
 	RADIX HEX
-	BASE C49F
+	BASE C497
 	SIZE 0000
 	ATTRIB REL CON
 AREA _ISEG
 	RADIX HEX
-	BASE C49F
+	BASE C497
 	SIZE 0000
 	ATTRIB REL CON
 AREA _BSEG
 	RADIX HEX
-	BASE C49F
+	BASE C497
 	SIZE 0000
 	ATTRIB REL CON
 AREA _XSEG
 	RADIX HEX
-	BASE C49F
+	BASE C497
 	SIZE 0000
 	ATTRIB REL CON
 AREA _SFR
@@ -384,7 +384,7 @@ MODULES
 	FILE c:\gbdk\lib/small/asxxxx/gb/crt0.o
 		NAME Runtime
 	FILE build/main.o
-		NAME lcc102480
+		NAME lcc105800
 LIBRARIES
 	LIBRARY c:\gbdk\lib/small/asxxxx/gb/gb.lib
 		MODULE sfr.o
