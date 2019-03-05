@@ -1,8 +1,11 @@
 #include <gb/gb.h>
-#include <stdio.h> 
 #include <gb/font.h>
 #include <gb/drawing.h>
 #include <gb/console.h>
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <rand.h>
+#include <time.h>
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
 #include "background/backgroundmap.c"
@@ -12,15 +15,24 @@
 
 struct Laser hLaser;
 struct Laser vLaser;
-
 int score = 0;
 int state = 1;
+int vLaserReady = 1; // 0: false | 1: true
+int hLaserReady = 0; // 0: false | 1: true
+int bReady = 0;      // 0: false | 1: true
+
+unsigned int generate_random_num(int upper) { 
+    unsigned int num;
+    num = (rand() % (upper + 1) );
+    return num; 
+}
 
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i;
     for (i = 1; i < 10; i++ ){
         move_sprite(laser->repetitions[i], x, y + (16 * i));
     }
+    vLaserReady = 1;
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
@@ -30,6 +42,51 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
         set_sprite_tile(i, 12);
     }
     drawTheVLaser(&vLaser, x, 0);
+}
+
+void callVLaser(){
+    unsigned int pos = generate_random_num(3);
+    if (pos == 0) {
+        vLaserReady = 0;
+        triggerVLaser(44);
+        gotoxy(18,16);
+        printf("%d", pos);
+    }
+    else if (pos == 1) {
+        vLaserReady = 0;
+        triggerVLaser(84);
+        gotoxy(18,16);
+        printf("%d", pos);
+    }
+    else if (pos == 2) {
+        vLaserReady = 0;
+        triggerVLaser(124);
+        gotoxy(18,16);
+        printf("%d", pos);
+    }
+    else if (pos == 3) {
+        vLaserReady = 1;
+        gotoxy(18,16);
+        printf("%d", pos);
+    }
+}
+
+void startHazards() {
+    unsigned int hazard;
+    if ( (clock() / CLOCKS_PER_SEC) % 2 == 0) { // change for timer 
+        hazard = generate_random_num(2);
+        if (hazard == 0 && vLaserReady == 1) {
+            callVLaser();
+        }
+        else if (hazard == 1 && hLaserReady == 1) {
+            //callHLaser();
+            printf("L");
+        }
+        else if (hazard == 2 && bReady == 1) {
+           //callBomb();
+           printf("B");
+        }
+    }
 }
 
 void resetPlayerPosition(){
@@ -46,8 +103,8 @@ void initGameLoop(){
     SHOW_SPRITES; // Draw sprites
 }
 
-void setDelay(UINT8 loops) {
-    UINT8 i;
+void setDelay(int loops) {
+    int i;
     for (i = 0; i < loops; i++){
         wait_vbl_done();
     }
@@ -60,7 +117,6 @@ void countScore() {
 
 void main(){
     while(1) {
-
         while(state == 0){ // 0: Splash Screen
 
         }
@@ -86,7 +142,12 @@ void main(){
 
         while(state == 2){ // 2: Game Loop
             countScore();
-            triggerVLaser(44);
+            startHazards();
+            // Debug clock
+            gotoxy(1, 1);
+            printf("C:");
+            printf("%d", clock() / CLOCKS_PER_SEC);
+
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
                     move_sprite(0, 44, 80); // Moves player sprite accordingly
@@ -126,6 +187,6 @@ void main(){
             printf("%s", "      "); 
             state = 2; 
         }
-
+        
     }
 }

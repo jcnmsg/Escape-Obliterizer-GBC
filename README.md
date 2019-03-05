@@ -13,7 +13,7 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Basic player movement based on user input 
 - [x] Implementation of basic game states (splash screen, main menu, game loop, game over screen)
 - [x] Score implementation (counter and typefont display)
-- [ ] Set sprite priority flags for player vs hazards
+- [ ] ~~Set sprite priority flags for player vs hazards~~
 - [ ] Invert color palettes to use 4 colors
 - [ ] Add music and sound effects
 - [ ] Design and add splash screen

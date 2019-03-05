@@ -9,6 +9,7 @@
         ]
     },
     "files.associations": {
-        "console.h": "c"
+        "console.h": "c",
+        "stdlib.h": "c"
     }
 }
