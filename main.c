@@ -32,16 +32,26 @@ void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     for (i = 1; i < 10; i++ ){
         move_sprite(laser->repetitions[i], x, y + (16 * i));
     }
-    vLaserReady = 1;
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
-    UINT8 i;
+    UINT8 i, z;
     for(i = 1; i < 10; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 12);
     }
     drawTheVLaser(&vLaser, x, 0);
+    
+    delay(1000);
+    for (z = 2; z < 20; z+=2) {
+        for(i = 1; i < 10; i++){
+            vLaser.repetitions[i] = i;
+            set_sprite_tile(i, 10+z);
+        }
+        drawTheVLaser(&vLaser, x, 0);
+        delay(30);
+    }
+    vLaserReady = 1;
 }
 
 void callVLaser(){
@@ -99,7 +109,7 @@ void initGameLoop(){
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
     set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
-    set_sprite_data(12, 18, VerticalLaser); // Sets the vertical laser sprites 
+    set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
 }
 
@@ -143,6 +153,7 @@ void main(){
         while(state == 2){ // 2: Game Loop
             countScore();
             startHazards();
+            
             // Debug clock
             gotoxy(1, 1);
             printf("C:");
