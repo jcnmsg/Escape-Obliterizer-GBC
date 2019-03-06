@@ -13,13 +13,21 @@
 #include "background/logo.c"
 #include "Laser.c"
 
+ // 0: false | 1: true
+
 struct Laser hLaser;
+int hLaserReady = 1;
+int hLaserPos, hCurrentClock;
+
 struct Laser vLaser;
+int vLaserReady = 1; 
+int vLaserPos, vCurrentClock;
+
+int bReady = 1;
+int bPos, bCurrentClock;
+
 int score = 0;
 int state = 1;
-int vLaserReady = 1; // 0: false | 1: true
-int hLaserReady = 0; // 0: false | 1: true
-int bReady = 0;      // 0: false | 1: true
 
 unsigned int generate_random_num(int upper) { 
     unsigned int num;
@@ -35,23 +43,29 @@ void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
-    UINT8 i, z;
+    UINT8 i;
+    vLaserPos = x;
+    vCurrentClock = (clock() / CLOCKS_PER_SEC);
     for(i = 1; i < 10; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 12);
     }
     drawTheVLaser(&vLaser, x, 0);
-    
-    delay(1000);
-    for (z = 2; z < 20; z+=2) {
-        for(i = 1; i < 10; i++){
-            vLaser.repetitions[i] = i;
-            set_sprite_tile(i, 10+z);
+}
+
+void isVLaserReadyToBlow() {
+    UINT8 i, z;
+    if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock == 1 && vLaserReady == 0 ) {
+        for (z = 2; z < 20; z+=2) {
+            for(i = 1; i < 10; i++){
+                vLaser.repetitions[i] = i;
+                set_sprite_tile(i, 10+z);
+            }
+            drawTheVLaser(&vLaser, vLaserPos, 0);
+            delay(30);
         }
-        drawTheVLaser(&vLaser, x, 0);
-        delay(30);
+        vLaserReady = 1;
     }
-    vLaserReady = 1;
 }
 
 void callVLaser(){
@@ -137,6 +151,7 @@ void main(){
             set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
             VBK_REG = 1; // Sets the Video Bank Register. When set to zero, it loads the tile data into the background. When set to one...
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+            VBK_REG = 0;
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
             SHOW_BKG; // Draw background
             DISPLAY_ON; // Turn on display
@@ -182,6 +197,7 @@ void main(){
                 default: 
                     resetPlayerPosition(); // If no key, resets player to the center
             }
+            isVLaserReadyToBlow();
             setDelay(2);
         }
 
