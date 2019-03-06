@@ -151,7 +151,7 @@ void countScore() {
 void main(){
     while(1) {
         while(state == 0){ // 0: Splash Screen
-
+ 
         }
 
         while(state == 1){ // 1: Main Menu 
