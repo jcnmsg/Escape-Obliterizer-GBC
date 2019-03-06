@@ -46,7 +46,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
     UINT8 i;
     vLaserPos = x;
     vCurrentClock = (clock() / CLOCKS_PER_SEC);
-    for(i = 1; i < 10; i++){
+    for(i = 0; i < 9; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 12);
     }
@@ -57,7 +57,7 @@ void isVLaserReadyToBlow() {
     UINT8 i, z;
     if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock == 1 && vLaserReady == 0 ) {
         for (z = 2; z < 20; z+=2) {
-            for(i = 1; i < 10; i++){
+            for(i = 0; i < 9; i++){
                 vLaser.repetitions[i] = i;
                 set_sprite_tile(i, 10+z);
             }
@@ -114,8 +114,8 @@ void startHazards() {
 }
 
 void resetPlayerPosition(){
-    set_sprite_tile(0, 11);
-    move_sprite(0, 84, 80); 
+    set_sprite_tile(39, 11);
+    move_sprite(39, 84, 80); 
 }
 
 void initGameLoop(){
@@ -176,20 +176,20 @@ void main(){
 
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
-                    move_sprite(0, 44, 80); // Moves player sprite accordingly
-                    set_sprite_tile(0, 3); // Sets the desired sprite tile to animate the eyes
+                    move_sprite(39, 44, 80); // Moves player sprite accordingly
+                    set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
                     break;
                 case J_RIGHT:
-                    move_sprite(0, 124, 80); 
-                    set_sprite_tile(0, 9);
+                    move_sprite(39, 124, 80); 
+                    set_sprite_tile(39, 9);
                     break;
                 case J_UP:
-                    move_sprite(0, 84, 40); 
-                    set_sprite_tile(0, 9);
+                    move_sprite(39, 84, 40); 
+                    set_sprite_tile(39, 9);
                     break;
                 case J_DOWN:
-                    move_sprite(0, 84, 120);
-                    set_sprite_tile(0, 5); 
+                    move_sprite(39, 84, 120);
+                    set_sprite_tile(39, 5); 
                     break;
                 case J_START:
                     waitpadup();

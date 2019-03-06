@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Wed Mar 06 22:42:20 2019
+                              3 ; Version 2.2.1 Wed Mar 06 22:51:33 2019
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc139160
+                              6 	.module lcc129400
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -8041,12 +8041,12 @@
    0A3E E8 04              8041 	lda	sp,4(sp)
                            8042 ;	main.c 49
                            8043 ; genAssign
-   0A40 0E 01              8044 	ld	c,#0x01
+   0A40 0E 00              8044 	ld	c,#0x00
                            8045 ; genLabel
    0A42                    8046 00101$:
                            8047 ; genCmpLt
    0A42 79                 8048 	ld	a,c
-   0A43 FE 0A              8049 	cp	#0x0A
+   0A43 FE 09              8049 	cp	#0x09
    0A45 D2 63 0A           8050 	jp	nc,00104$
                            8051 ;	main.c 50
                            8052 ; genPlus
@@ -8192,7 +8192,7 @@
                            8192 ; genAssign
                            8193 ; AOP_STK for _isVLaserReadyToBlow_i_1_1
    0AC9 23                 8194 	inc	hl
-   0ACA 36 01              8195 	ld	(hl),#0x01
+   0ACA 36 00              8195 	ld	(hl),#0x00
                            8196 ; genPlus
                            8197 ; AOP_STK for _isVLaserReadyToBlow_z_1_1
                            8198 ; AOP_STK for _isVLaserReadyToBlow_sloc0_1_0
@@ -8210,7 +8210,7 @@
                            8210 ; AOP_STK for _isVLaserReadyToBlow_i_1_1
    0AD3 F8 03              8211 	lda	hl,3(sp)
    0AD5 7E                 8212 	ld	a,(hl)
-   0AD6 FE 0A              8213 	cp	#0x0A
+   0AD6 FE 09              8213 	cp	#0x09
    0AD8 3E 00              8214 	ld	a,#0x00
    0ADA 17                 8215 	rla
    0ADB 4F                 8216 	ld	c,a
@@ -8736,7 +8736,7 @@
    0CE7 F5                 8736 	push	af
    0CE8 33                 8737 	inc	sp
                            8738 ; genIpush
-   0CE9 3E 00              8739 	ld	a,#0x00
+   0CE9 3E 27              8739 	ld	a,#0x27
    0CEB F5                 8740 	push	af
    0CEC 33                 8741 	inc	sp
                            8742 ; genCall
@@ -8752,7 +8752,7 @@
    0CF8 F5                 8752 	push	af
    0CF9 33                 8753 	inc	sp
                            8754 ; genIpush
-   0CFA 3E 00              8755 	ld	a,#0x00
+   0CFA 3E 27              8755 	ld	a,#0x27
    0CFC F5                 8756 	push	af
    0CFD 33                 8757 	inc	sp
                            8758 ; genCall
@@ -9279,7 +9279,7 @@
    0EDF F5                 9279 	push	af
    0EE0 33                 9280 	inc	sp
                            9281 ; genIpush
-   0EE1 3E 00              9282 	ld	a,#0x00
+   0EE1 3E 27              9282 	ld	a,#0x27
    0EE3 F5                 9283 	push	af
    0EE4 33                 9284 	inc	sp
                            9285 ; genCall
@@ -9291,7 +9291,7 @@
    0EEC F5                 9291 	push	af
    0EED 33                 9292 	inc	sp
                            9293 ; genIpush
-   0EEE 3E 00              9294 	ld	a,#0x00
+   0EEE 3E 27              9294 	ld	a,#0x27
    0EF0 F5                 9295 	push	af
    0EF1 33                 9296 	inc	sp
                            9297 ; genCall
@@ -9312,7 +9312,7 @@
    0F00 F5                 9312 	push	af
    0F01 33                 9313 	inc	sp
                            9314 ; genIpush
-   0F02 3E 00              9315 	ld	a,#0x00
+   0F02 3E 27              9315 	ld	a,#0x27
    0F04 F5                 9316 	push	af
    0F05 33                 9317 	inc	sp
                            9318 ; genCall
@@ -9324,7 +9324,7 @@
    0F0D F5                 9324 	push	af
    0F0E 33                 9325 	inc	sp
                            9326 ; genIpush
-   0F0F 3E 00              9327 	ld	a,#0x00
+   0F0F 3E 27              9327 	ld	a,#0x27
    0F11 F5                 9328 	push	af
    0F12 33                 9329 	inc	sp
                            9330 ; genCall
@@ -9345,7 +9345,7 @@
    0F21 F5                 9345 	push	af
    0F22 33                 9346 	inc	sp
                            9347 ; genIpush
-   0F23 3E 00              9348 	ld	a,#0x00
+   0F23 3E 27              9348 	ld	a,#0x27
    0F25 F5                 9349 	push	af
    0F26 33                 9350 	inc	sp
                            9351 ; genCall
@@ -9357,7 +9357,7 @@
    0F2E F5                 9357 	push	af
    0F2F 33                 9358 	inc	sp
                            9359 ; genIpush
-   0F30 3E 00              9360 	ld	a,#0x00
+   0F30 3E 27              9360 	ld	a,#0x27
    0F32 F5                 9361 	push	af
    0F33 33                 9362 	inc	sp
                            9363 ; genCall
@@ -9378,7 +9378,7 @@
    0F42 F5                 9378 	push	af
    0F43 33                 9379 	inc	sp
                            9380 ; genIpush
-   0F44 3E 00              9381 	ld	a,#0x00
+   0F44 3E 27              9381 	ld	a,#0x27
    0F46 F5                 9382 	push	af
    0F47 33                 9383 	inc	sp
                            9384 ; genCall
@@ -9390,7 +9390,7 @@
    0F4F F5                 9390 	push	af
    0F50 33                 9391 	inc	sp
                            9392 ; genIpush
-   0F51 3E 00              9393 	ld	a,#0x00
+   0F51 3E 27              9393 	ld	a,#0x27
    0F53 F5                 9394 	push	af
    0F54 33                 9395 	inc	sp
                            9396 ; genCall
