@@ -55,7 +55,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
 
 void isVLaserReadyToBlow() {
     UINT8 i, z;
-    if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock == 1 && vLaserReady == 0 ) {
+    if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 ) {
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
                 vLaser.repetitions[i] = i;
