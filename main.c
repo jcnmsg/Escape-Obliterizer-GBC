@@ -8,9 +8,11 @@
 #include <time.h>
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
-#include "background/backgroundmap.c"
-#include "background/backgroundtiles.c"
-#include "background/logo.c"
+#include "background/game/backgroundmap.c"
+#include "background/game/backgroundtiles.c"
+#include "background/logo/logo.c"
+#include "background/gameover/gameover.c"
+#include "background/gameover/gameovermap.c"
 #include "Laser.c"
 
  // 0: false | 1: true
@@ -25,6 +27,8 @@ int vLaserPos, vCurrentClock;
 
 int bReady = 1;
 int bPos, bCurrentClock;
+
+int playerX, playerY;
 
 int score = 0;
 int state = 1;
@@ -63,6 +67,9 @@ void isVLaserReadyToBlow() {
             }
             drawTheVLaser(&vLaser, vLaserPos, 0);
             delay(30);
+        }
+        if (playerX == vLaserPos) {
+            state = 3;
         }
         vLaserReady = 1;
     }
@@ -116,10 +123,12 @@ void startHazards() {
 void resetPlayerPosition(){
     set_sprite_tile(39, 11);
     move_sprite(39, 84, 80); 
+    playerX = 84;
+    playerY = 80;
 }
 
 void initGameLoop(){
-    set_bkg_data(39, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
+    set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
     set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
@@ -177,18 +186,26 @@ void main(){
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
                     move_sprite(39, 44, 80); // Moves player sprite accordingly
+                    playerX = 44;
+                    playerY = 80;
                     set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
                     break;
                 case J_RIGHT:
                     move_sprite(39, 124, 80); 
+                    playerX = 124;
+                    playerY = 80;
                     set_sprite_tile(39, 9);
                     break;
                 case J_UP:
                     move_sprite(39, 84, 40); 
+                    playerX = 84;
+                    playerY = 40;
                     set_sprite_tile(39, 9);
                     break;
                 case J_DOWN:
                     move_sprite(39, 84, 120);
+                    playerX = 84;
+                    playerY = 120;
                     set_sprite_tile(39, 5); 
                     break;
                 case J_START:
@@ -202,7 +219,19 @@ void main(){
         }
 
         while (state == 3) { // 3: Game Over
-
+            HIDE_SPRITES;
+            set_bkg_data(0, 1, GameOverTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
+            set_bkg_tiles(0, 0, 20, 18, GameOverMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
+            gotoxy(1,1);
+            printf("FINAL SCORE: ");
+            printf("%d", score);
+            gotoxy(1, 14);
+            printf("WHEN YOU DIE, YOU");
+            gotoxy(1, 16);
+            printf("DIE. THAT'S IT.");
+            waitpad(J_START);
+            waitpadup();
+            state = 1;
         }
 
         while (state == 4) { // 4: Pause
