@@ -39,6 +39,13 @@ unsigned int generate_random_num(int upper) {
     return num; 
 }
 
+void setDelay(int loops) {
+    int i;
+    for (i = 0; i < loops; i++){
+        wait_vbl_done();
+    }
+}
+
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i;
     for (i = 1; i < 10; i++ ){
@@ -66,7 +73,7 @@ void isVLaserReadyToBlow() {
                 set_sprite_tile(i, 10+z);
             }
             drawTheVLaser(&vLaser, vLaserPos, 0);
-            delay(30);
+            setDelay(2);
         }
         if (playerX == vLaserPos) {
             state = 3;
@@ -134,13 +141,6 @@ void initGameLoop(){
     set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
-}
-
-void setDelay(int loops) {
-    int i;
-    for (i = 0; i < loops; i++){
-        wait_vbl_done();
-    }
 }
 
 void countScore() {
