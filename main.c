@@ -142,24 +142,24 @@ void callVLaser(){
         vLaserReady = 0;
         triggerVLaser(44);
         gotoxy(18,16);
-        printf("%d", pos);
+        //printf("%d", pos);
     }
     else if (pos == 1) {
         vLaserReady = 0;
         triggerVLaser(84);
         gotoxy(18,16);
-        printf("%d", pos);
+        //printf("%d", pos);
     }
     else if (pos == 2) {
         vLaserReady = 0;
         triggerVLaser(124);
         gotoxy(18,16);
-        printf("%d", pos);
+        //printf("%d", pos);
     }
     else if (pos == 3) {
         vLaserReady = 1;
         gotoxy(18,16);
-        printf("%d", pos);
+        //printf("%d", pos);
     }
 }
 
@@ -172,11 +172,11 @@ void startHazards() {
         }
         else if (hazard == 1 && hLaserReady == 1) {
             //callHLaser();
-            printf("L");
+            printf("");
         }
         else if (hazard == 2 && bReady == 1) {
            //callBomb();
-           printf("B");
+           printf("");
         }
     }
 }
@@ -237,9 +237,9 @@ void main(){
             startHazards();
             
             // Debug clock
-            gotoxy(1, 1);
-            printf("C:");
-            printf("%d", clock() / CLOCKS_PER_SEC);
+            // gotoxy(1, 1);
+            // printf("C:");
+            // printf("%d", clock() / CLOCKS_PER_SEC);
 
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
@@ -291,6 +291,7 @@ void main(){
             waitpad(J_START);
             waitpadup();
             fadeout();
+            score = 0;
             state = 1;
         }
 
@@ -301,7 +302,6 @@ void main(){
             waitpadup();
             gotoxy(13, 16);
             printf("%s", "      "); 
-            score = 0;
             state = 2; 
         }
         
