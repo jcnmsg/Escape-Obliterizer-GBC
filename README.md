@@ -25,5 +25,5 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [ ] Design and add splash screen
 - [x] Design and add pause screen
 - [ ] Design and add a proper game over screen with a "random quote system" like the original
-- [ ] Beautify: "fade" transitions between states, general idle animations on menus
+- [x] Beautify: "fade" transitions between states
 - [ ] Implement support for Game Boy Color's color palettes
