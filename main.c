@@ -15,7 +15,14 @@
 #include "background/gameover/gameovermap.c"
 #include "Laser.c"
 
- // 0: false | 1: true
+/* 
+    Aid:
+    0: false | 1: true
+    0xE4 : 11100100 - Regular palette
+    0xF9 : 11111001 - Darker
+    0xFE : 11111110 - Even Darker
+    0xFF : 11111111 - Even Darker
+*/
 
 struct Laser hLaser;
 int hLaserReady = 1;
@@ -43,6 +50,52 @@ void setDelay(int loops) {
     int i;
     for (i = 0; i < loops; i++){
         wait_vbl_done();
+    }
+}
+
+void fadeout() {
+    UINT8 i;
+    for (i=0; i<4; i++) {
+        if (i == 0) {
+            BGP_REG = 0xE4; // Background palette
+            OBP0_REG = 0xE4; // Sprite palette
+        }
+        if (i == 1) {
+            BGP_REG = 0x90;
+            OBP0_REG = 0x90;
+        }
+        if (i == 2) {
+            BGP_REG = 0x80;
+            OBP0_REG = 0x80;
+        }
+        if (i == 3) {
+            BGP_REG = 0x00;
+            OBP0_REG = 0x00;
+        }
+        setDelay(3);
+    }
+}
+
+void fadein() {
+    UINT8 i;
+    for (i=0; i<4; i++) {
+        if (i == 0) {
+            OBP0_REG = 0x00; // Sprite palette
+            BGP_REG = 0x00; // Background palette
+        }
+        if (i == 1) {
+            OBP0_REG = 0x80;
+            BGP_REG = 0x80;
+        }
+        if (i == 2) {
+            OBP0_REG = 0x90;
+            BGP_REG = 0x90;
+        }
+        if (i == 3) {
+            OBP0_REG = 0xE4;
+            BGP_REG = 0xE4;
+        }
+        setDelay(3);
     }
 }
 
@@ -76,6 +129,7 @@ void isVLaserReadyToBlow() {
             setDelay(2);
         }
         if (playerX == vLaserPos) {
+            fadeout();
             state = 3;
         }
         vLaserReady = 1;
@@ -141,6 +195,8 @@ void initGameLoop(){
     set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
+    resetPlayerPosition();
+    fadein();
 }
 
 void countScore() {
@@ -164,8 +220,10 @@ void main(){
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
             SHOW_BKG; // Draw background
             DISPLAY_ON; // Turn on display
+            fadein();
             waitpad(J_START); // Wait for Start Key
             waitpadup(); // Wait for release
+            fadeout();
             font_init(); // Initialize font library after state change to avoid overwriting bg tiles
             color(DKGREY, BLACK, SOLID); // Customize colors of font 
             ibm = font_load(font_ibm); // Load built in font_ibm
@@ -229,8 +287,10 @@ void main(){
             printf("WHEN YOU DIE, YOU");
             gotoxy(1, 16);
             printf("DIE. THAT'S IT.");
+            fadein();
             waitpad(J_START);
             waitpadup();
+            fadeout();
             state = 1;
         }
 
@@ -241,6 +301,7 @@ void main(){
             waitpadup();
             gotoxy(13, 16);
             printf("%s", "      "); 
+            score = 0;
             state = 2; 
         }
         
