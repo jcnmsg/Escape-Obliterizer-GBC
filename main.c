@@ -16,8 +16,7 @@
 #include "Laser.c"
 
 /* 
-    Aid:
-    0: false | 1: true
+    Cheat sheet:
     0xE4 : 11100100 - Regular palette
     0xF9 : 11111001 - Darker
     0xFE : 11111110 - Even Darker
@@ -40,10 +39,24 @@ int playerX, playerY;
 int score = 0;
 int state = 1;
 
-unsigned int generate_random_num(int upper) { 
+unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
     unsigned int num;
     num = (rand() % (upper + 1) );
     return num; 
+}
+
+void playSoundFX(UINT8 fx) {
+    if (fx == 0) { // Laser blowing sound 
+        NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
+        NR51_REG = 0x11; // Select channel to use: 0x11 - 1, 0x22 - 2, 0x33 - 3, 0x88 - 4, 0xFF - All
+        NR50_REG = 0x77; // Volume, min: 0x00, max: 0x77
+        
+        NR10_REG = 0x1C; // Channel 1, Register 0 => Binary: 00001100
+        NR11_REG = 0xC6; // Channel 1, Register 1 => Binary: 11000110 
+        NR12_REG = 0x73; // Channel 1, Register 2 => Binary: 01110011
+        NR13_REG = 0x00; // Channel 1, Register 3 => Binary: 00000000
+        NR14_REG = 0xC3; // Channel 1, Register 4 => Binary: 11000011
+    }
 }
 
 void setDelay(int loops) {
@@ -120,6 +133,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
 void isVLaserReadyToBlow() {
     UINT8 i, z;
     if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 ) {
+        playSoundFX(0);
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
                 vLaser.repetitions[i] = i;
@@ -214,9 +228,7 @@ void main(){
             font_t ibm; // Declare font variable
             set_bkg_palette(0, 1, gbpic_pal);
             set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
-            VBK_REG = 1; // Sets the Video Bank Register. When set to zero, it loads the tile data into the background. When set to one...
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
-            VBK_REG = 0;
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
             SHOW_BKG; // Draw background
             DISPLAY_ON; // Turn on display
@@ -235,11 +247,11 @@ void main(){
         while(state == 2){ // 2: Game Loop
             countScore();
             startHazards();
-            
+
             // Debug clock
-            // gotoxy(1, 1);
-            // printf("C:");
-            // printf("%d", clock() / CLOCKS_PER_SEC);
+            gotoxy(1, 1);
+            printf("C:");
+            printf("%d", clock() / CLOCKS_PER_SEC);
 
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
@@ -282,7 +294,7 @@ void main(){
             set_bkg_tiles(0, 0, 20, 18, GameOverMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
             gotoxy(1,1);
             printf("FINAL SCORE: ");
-            printf("%d", score);
+            printf("%d", --score);
             gotoxy(1, 14);
             printf("WHEN YOU DIE, YOU");
             gotoxy(1, 16);
