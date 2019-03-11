@@ -29,6 +29,6 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [ ] Implement support for Game Boy Color's color palettes
 
 ## Invaluable Resources
-- [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
-- [Nintendo GameBoy Cribsheet](http://otakunozoku.com/nintendo-gameboy-cribsheet/)
-- [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt)
+- Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
+- GBDK Documentation: [GBDK Libraries Documentation](http://gbdk.sourceforge.net/doc/html/book01.html)
+- Sound FX: [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt) 
