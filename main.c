@@ -14,6 +14,7 @@
 #include "background/gameover/gameover.c"
 #include "background/gameover/gameovermap.c"
 #include "Laser.c"
+//#include "BombLaser.c"
 
 /* 
     Cheat sheet:
@@ -155,25 +156,17 @@ void callVLaser(){
     if (pos == 0) {
         vLaserReady = 0;
         triggerVLaser(44);
-        gotoxy(18,16);
-        //printf("%d", pos);
     }
     else if (pos == 1) {
         vLaserReady = 0;
         triggerVLaser(84);
-        gotoxy(18,16);
-        //printf("%d", pos);
     }
     else if (pos == 2) {
         vLaserReady = 0;
         triggerVLaser(124);
-        gotoxy(18,16);
-        //printf("%d", pos);
     }
     else if (pos == 3) {
         vLaserReady = 1;
-        gotoxy(18,16);
-        //printf("%d", pos);
     }
 }
 
