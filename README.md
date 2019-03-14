@@ -26,12 +26,13 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Design and add pause screen
 - [ ] Add Main-Menu Interactivity
 - [ ] Add credits screen
-- [ ] Save session highscores on RAM
+- [ ] Save highscores to non-volatile RAM
 - [ ] Design and add a proper game over screen with a "random quote system" like the original
 - [x] Beautify: "fade" transitions between states
 - [ ] Implement support for Game Boy Color's color palettes
 
 ## Invaluable Resources
-- Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
+- Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Offical Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)
 - GBDK Documentation: [GBDK Libraries Documentation](http://gbdk.sourceforge.net/doc/html/book01.html)
 - Sound FX: [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt) / [Game Boy Sound Operation](https://gist.github.com/drhelius/3652407) 
+- [GB Save Ram](http://www.devrs.com/gb/files/sram.txt)
