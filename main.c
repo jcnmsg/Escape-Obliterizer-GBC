@@ -14,7 +14,6 @@
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
 #include "background/gameover/gameover.c"
-#include "background/splash/ninelogo.c"
 #include "Laser.c"
 
 /* 
@@ -38,8 +37,8 @@ int bPos, bCurrentClock;
 
 int playerX, playerY;
 
-int score = 0;
-int state = 0;
+int score = 0; 
+int state = 1;
 int selected = 1; 
 
 unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
@@ -193,12 +192,13 @@ void initGameLoop(){
 void initGameMenu() {
     HIDE_SPRITES;
     set_bkg_palette(0, 1, gbpic_pal);
-    set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
-    VBK_REG = 1;
-    set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
-    VBK_REG = 0;
-    set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
-    SHOW_BKG; // Draw background
+	set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
+	VBK_REG = 1;
+	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+	VBK_REG = 0;
+	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
+	move_bkg (0, 0);
+	SHOW_BKG;
     fadein();
 }
 
@@ -286,24 +286,11 @@ void countScore() {
 void main(){
     while(1) {
         while(state == 0) { // 0: Splash Screen
-            set_bkg_palette(0, 1, nine_logo_pal);
-            set_bkg_data(0x01, nine_logo_tiles, nine_logo_dat);
-            VBK_REG = 1;
-            set_bkg_tiles(0, 0, nine_logo_cols, nine_logo_rows, nine_logo_att);
-            VBK_REG = 0;
-            set_bkg_tiles(0, 0, nine_logo_cols, nine_logo_rows, nine_logo_map);
-            move_bkg (0, 0);
-            DISPLAY_ON; // Turn on display
-            SHOW_BKG;
-            fadein();
-            waitpad(J_A);
-            waitpadup();
-            fadeout();
-            initGameMenu();
-            state = 1;
+            
         }
 
         while(state == 1){ // 1: Main Menu 
+            initGameMenu();
             waitpad(J_START); // Wait for Start Key
             waitpadup(); // Wait for release
             fadeout();
@@ -372,7 +359,6 @@ void main(){
                         state = 2;
                     }
                     else if (selected == 0){
-                        initGameMenu();
                         state = 1;
                     }
                     break;
