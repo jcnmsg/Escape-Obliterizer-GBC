@@ -12,9 +12,8 @@
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
 #include "background/gameover/gameover.c"
-#include "background/gameover/gameovermap.c"
+#include "background/splash/ninelogo.c"
 #include "Laser.c"
-//#include "BombLaser.c"
 
 /* 
     Cheat sheet:
@@ -38,7 +37,7 @@ int bPos, bCurrentClock;
 int playerX, playerY;
 
 int score = 0;
-int state = 1;
+int state = 0;
 
 unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
     unsigned int num;
@@ -213,15 +212,30 @@ void countScore() {
 
 void main(){
     while(1) {
-        while(state == 0){ // 0: Splash Screen
- 
+        while(state == 0) { // 0: Splash Screen
+            set_bkg_palette(0, 1, nine_logo_pal);
+            set_bkg_data(0x01, nine_logo_tiles, nine_logo_dat);
+            VBK_REG = 1;
+            set_bkg_tiles(0, 0, nine_logo_cols, nine_logo_rows, nine_logo_att);
+            VBK_REG = 0;
+            set_bkg_tiles(0, 0, nine_logo_cols, nine_logo_rows, nine_logo_map);
+            move_bkg (0, 0);
+            DISPLAY_ON;
+            SHOW_BKG;
+            fadein();
+            waitpad(J_A);
+            waitpadup();
+            fadeout();
+            state = 1;
         }
 
         while(state == 1){ // 1: Main Menu 
             font_t ibm; // Declare font variable
             set_bkg_palette(0, 1, gbpic_pal);
             set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
+            VBK_REG = 1;
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+            VBK_REG = 0;
             set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
             SHOW_BKG; // Draw background
             DISPLAY_ON; // Turn on display
@@ -242,9 +256,9 @@ void main(){
             startHazards();
 
             // Debug clock
-            gotoxy(1, 1);
+            /* gotoxy(1, 1);
             printf("C:");
-            printf("%d", clock() / CLOCKS_PER_SEC);
+            printf("%d", clock() / CLOCKS_PER_SEC); */
 
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
@@ -283,15 +297,12 @@ void main(){
 
         while (state == 3) { // 3: Game Over
             HIDE_SPRITES;
-            set_bkg_data(0, 1, GameOverTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
-            set_bkg_tiles(0, 0, 20, 18, GameOverMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
-            gotoxy(1,1);
-            printf("FINAL SCORE: ");
-            printf("%d", --score);
-            gotoxy(1, 14);
-            printf("WHEN YOU DIE, YOU");
-            gotoxy(1, 16);
-            printf("DIE. THAT'S IT.");
+            set_bkg_palette(0, 1, gameoverbg_pal);
+            set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
+            set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
+            set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
+            move_bkg (0, 0);
+            SHOW_BKG;
             fadein();
             waitpad(J_START);
             waitpadup();
@@ -309,6 +320,5 @@ void main(){
             printf("%s", "      "); 
             state = 2; 
         }
-        
     }
 }
