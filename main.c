@@ -8,6 +8,8 @@
 #include <time.h>
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
+#include "sprites/words/Yes.c"
+#include "sprites/words/No.c"
 #include "background/game/backgroundmap.c"
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
@@ -38,6 +40,7 @@ int playerX, playerY;
 
 int score = 0;
 int state = 0;
+int selected = 1; 
 
 unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
     unsigned int num;
@@ -112,6 +115,93 @@ void fadein() {
     }
 }
 
+void drawYes() {
+    UINT8 i, z;
+    selected = 1;
+    for (z = 0; z < 5; z++ ){
+        set_sprite_tile(z + 6, z + z + 12);
+        move_sprite(z + 6, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 6; i++ ){
+        set_sprite_tile(i, i + i);
+        move_sprite(i, 44 + i*8, 120);
+    }
+}
+
+void drawNo() {
+    UINT8 i, z;
+    selected = 0;
+    for (z = 0; z < 6; z++ ){
+        set_sprite_tile(z, z + z);
+        move_sprite(z, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 5; i++ ){
+        set_sprite_tile(i + 6, i + i + 12);
+        move_sprite(i + 6, 97 + i*8, 120);
+    }
+}
+
+void eraseOptions() {
+    UINT8 i, z;
+    for (z = 0; z < 6; z++ ){
+        move_sprite(z, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 5; i++ ){
+        move_sprite(i + 6, 166 + i + 8, 144);
+    }
+}
+
+void initGameOver(){
+    HIDE_SPRITES;
+    set_bkg_palette(0, 1, gameoverbg_pal);
+    set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
+    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
+    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
+    move_bkg (0, 0);
+    SHOW_BKG;
+    set_sprite_data(0, 12, Yes); // Sets the yes sprite, starts on zero, counts twelve tiles
+    set_sprite_data(12, 10, No); // Sets the no sprite, starts on 12, counts ten tiles
+    drawYes();
+    set_sprite_tile(39, 50); // empty player sprite
+    SHOW_SPRITES;
+    fadein();
+}
+
+void resetPlayerPosition(){
+    set_sprite_tile(39, 11);
+    move_sprite(39, 84, 80); 
+    playerX = 84;
+    playerY = 80;
+}
+
+void initGameLoop(){
+    font_t ibm; // Declare font variable
+    font_init(); // Initialize font library after state change to avoid overwriting bg tiles
+    color(DKGREY, BLACK, SOLID); // Customize colors of font 
+    ibm = font_load(font_ibm); // Load built in font_ibm
+    font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
+    set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
+    set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
+    SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
+    set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
+    set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
+    SHOW_SPRITES; // Draw sprites
+    resetPlayerPosition();
+    fadein();
+}
+
+void initGameMenu() {
+    HIDE_SPRITES;
+    set_bkg_palette(0, 1, gbpic_pal);
+    set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
+    VBK_REG = 1;
+    set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+    VBK_REG = 0;
+    set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
+    SHOW_BKG; // Draw background
+    fadein();
+}
+
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i;
     for (i = 1; i < 10; i++ ){
@@ -144,6 +234,7 @@ void isVLaserReadyToBlow() {
         }
         if (playerX == vLaserPos) {
             fadeout();
+            initGameOver();
             state = 3;
         }
         vLaserReady = 1;
@@ -187,24 +278,6 @@ void startHazards() {
     }
 }
 
-void resetPlayerPosition(){
-    set_sprite_tile(39, 11);
-    move_sprite(39, 84, 80); 
-    playerX = 84;
-    playerY = 80;
-}
-
-void initGameLoop(){
-    set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
-    set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
-    SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
-    set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
-    set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
-    SHOW_SPRITES; // Draw sprites
-    resetPlayerPosition();
-    fadein();
-}
-
 void countScore() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
     printf("%u", score++); // Print score at desired position
@@ -220,33 +293,20 @@ void main(){
             VBK_REG = 0;
             set_bkg_tiles(0, 0, nine_logo_cols, nine_logo_rows, nine_logo_map);
             move_bkg (0, 0);
-            DISPLAY_ON;
+            DISPLAY_ON; // Turn on display
             SHOW_BKG;
             fadein();
             waitpad(J_A);
             waitpadup();
             fadeout();
+            initGameMenu();
             state = 1;
         }
 
         while(state == 1){ // 1: Main Menu 
-            font_t ibm; // Declare font variable
-            set_bkg_palette(0, 1, gbpic_pal);
-            set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
-            VBK_REG = 1;
-            set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
-            VBK_REG = 0;
-            set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
-            SHOW_BKG; // Draw background
-            DISPLAY_ON; // Turn on display
-            fadein();
             waitpad(J_START); // Wait for Start Key
             waitpadup(); // Wait for release
             fadeout();
-            font_init(); // Initialize font library after state change to avoid overwriting bg tiles
-            color(DKGREY, BLACK, SOLID); // Customize colors of font 
-            ibm = font_load(font_ibm); // Load built in font_ibm
-            font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
             initGameLoop(); // Loads sprites and backgrounds to VRAM
             state = 2;
         }
@@ -296,19 +356,27 @@ void main(){
         }
 
         while (state == 3) { // 3: Game Over
-            HIDE_SPRITES;
-            set_bkg_palette(0, 1, gameoverbg_pal);
-            set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
-            set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
-            set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
-            move_bkg (0, 0);
-            SHOW_BKG;
-            fadein();
-            waitpad(J_START);
-            waitpadup();
-            fadeout();
-            score = 0;
-            state = 1;
+            switch(joypad()) { // Listens for user input
+                case J_LEFT:
+                    drawYes();
+                    break;
+                case J_RIGHT:
+                    drawNo();
+                    break;
+                case J_A:
+                    fadeout();
+                    eraseOptions();
+                    score = 0;
+                    if (selected == 1) {
+                        initGameLoop();
+                        state = 2;
+                    }
+                    else if (selected == 0){
+                        initGameMenu();
+                        state = 1;
+                    }
+                    break;
+            }
         }
 
         while (state == 4) { // 4: Pause
