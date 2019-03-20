@@ -1,3 +1,4 @@
+// GBDK
 #include <gb/gb.h>
 #include <gb/font.h>
 #include <gb/drawing.h>
@@ -6,14 +7,24 @@
 #include <stdlib.h> 
 #include <rand.h>
 #include <time.h>
+
+// SPRITES
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
+
+// WORDS
 #include "sprites/words/Yes.c"
 #include "sprites/words/No.c"
+#include "sprites/words/Play.c"
+#include "sprites/words/Credits.c"
+
+// BACKGROUNDS
 #include "background/game/backgroundmap.c"
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
 #include "background/gameover/gameover.c"
+
+// STRUCTS
 #include "Laser.c"
 
 /* 
@@ -150,6 +161,44 @@ void eraseOptions() {
     }
 }
 
+void drawPlay() {
+    UINT8 i, z;
+    selected = 1;
+    for (z = 0; z < 8; z++ ){
+        set_sprite_tile(z + 12, z + z + 12);
+        move_sprite(z + 12, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 5; i++ ){
+        set_sprite_tile(i, i + i);
+        move_sprite(i, 72 + i*8, 112);
+    }
+}
+
+void drawCredits() {
+    UINT8 i, z;
+    selected = 2;
+    for (z = 0; z < 5; z++ ){
+        set_sprite_tile(z, z + z);
+        move_sprite(z, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 8; i++ ){
+        set_sprite_tile(i + 12, i + i + 12);
+        move_sprite(i + 12, 57 + i*8, 127);
+    }
+}
+
+void eraseMenuOptions() {
+    UINT8 i, z;
+    for (z = 0; z < 5; z++ ){
+        set_sprite_tile(z, z + z);
+        move_sprite(z, 166 + z + 8, 144);
+    }
+    for (i = 0; i < 8; i++ ){
+        set_sprite_tile(i + 12, i + i + 12);
+        move_sprite(i + 12, 166 + i + 8, 144);
+    }
+}
+
 void initGameOver(){
     HIDE_SPRITES;
     set_bkg_palette(0, 1, gameoverbg_pal);
@@ -181,7 +230,6 @@ void initGameLoop(){
     font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
     set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
-    SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
     set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
@@ -199,6 +247,11 @@ void initGameMenu() {
 	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
 	move_bkg (0, 0);
 	SHOW_BKG;
+    SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
+    set_sprite_data(0, 12, Play);
+    set_sprite_data(12, 16, Credits);
+    drawPlay();
+    SHOW_SPRITES;
     fadein();
 }
 
@@ -284,29 +337,39 @@ void countScore() {
 }
 
 void main(){
+    DISPLAY_ON;
+    initGameMenu();
     while(1) {
-        while(state == 0) { // 0: Splash Screen
+        while(state == 0) { // 0: Credits
             
         }
 
-        while(state == 1){ // 1: Main Menu 
-            initGameMenu();
-            waitpad(J_START); // Wait for Start Key
-            waitpadup(); // Wait for release
-            fadeout();
-            initGameLoop(); // Loads sprites and backgrounds to VRAM
-            state = 2;
+        while(state == 1){ // 1: Main Menu  
+            switch(joypad()) { // Listens for user input
+                case J_UP:
+                    drawPlay();
+                    break;
+                case J_DOWN:
+                    drawCredits();
+                    break;
+                case J_A:
+                    fadeout();
+                    eraseMenuOptions();
+                    if (selected == 1) {
+                        initGameLoop(); // Loads sprites and backgrounds to VRAM
+                        state = 2;
+                    }
+                    else if (selected == 2){
+                        state = 0;
+                        selected = 1;
+                    }
+                    break;
+            }
         }
 
         while(state == 2){ // 2: Game Loop
             countScore();
             startHazards();
-
-            // Debug clock
-            /* gotoxy(1, 1);
-            printf("C:");
-            printf("%d", clock() / CLOCKS_PER_SEC); */
-
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
                     move_sprite(39, 44, 80); // Moves player sprite accordingly
@@ -359,6 +422,7 @@ void main(){
                         state = 2;
                     }
                     else if (selected == 0){
+                        initGameMenu();
                         state = 1;
                     }
                     break;

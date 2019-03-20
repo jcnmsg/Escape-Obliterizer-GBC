@@ -16,18 +16,18 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Implementation of basic game states (splash screen, main menu, game loop, game over screen)
 - [x] Score implementation (counter and typefont display)
 - [x] ~~Set sprite priority flags for player vs hazards~~ Change player sprite order to 39th on the OAM to allow hazards to overlap it
-- [x] Implementation of the vertical lasers with animations and collisions
-- [ ] Implementation of the horizontal lasers with animations and collisions
-- [ ] Implementation of the bombs with animations and collisions
+- [x] Implementation of the vertical lasers with animations, collisions and sound
+- [ ] Implementation of the horizontal lasers with animations, collisions and sound
+- [ ] Implementation of the bombs with animations, collisions and sound
 - [ ] Implementation of the 'Stun' with animations
+- [ ] Player death animation
 - [ ] Add background music/beat like the original
-- [ ] Add sound effects for the hazards
 - [ ] Design and add splash screen
 - [x] Design and add pause screen
 - [ ] Add Main-Menu Interactivity
 - [ ] Add credits screen
 - [ ] Save highscores to non-volatile RAM
-- [ ] Design and add a proper game over screen with a "random quote system" like the original
+- [ ] Design and add interactive game over screen with a "random quote system" like the original
 - [x] Beautify: "fade" transitions between states
 - [ ] Implement support for Game Boy Color's color palettes
 
