@@ -118,7 +118,7 @@ void fadein() {
             BGP_REG = 0x90;
         }
         if (i == 3) {
-            OBP0_REG = 0xE4;
+            OBP0_REG = 0xE4; 
             BGP_REG = 0xE4;
         }
         setDelay(3);
@@ -238,6 +238,7 @@ void initGameLoop(){
 }
 
 void initGameMenu() {
+    fadeout();
     HIDE_SPRITES;
     set_bkg_palette(0, 1, gbpic_pal);
 	set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
@@ -252,7 +253,7 @@ void initGameMenu() {
     set_sprite_data(12, 16, Credits);
     drawPlay();
     SHOW_SPRITES;
-    fadein();
+    fadein(); 
 }
 
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -414,10 +415,10 @@ void main(){
                     drawNo();
                     break;
                 case J_A:
-                    fadeout();
                     eraseOptions();
                     score = 0;
                     if (selected == 1) {
+                        fadeout();
                         initGameLoop();
                         state = 2;
                     }
