@@ -33,8 +33,10 @@
     0xF9 : 11111001 - Darker
     0xFE : 11111110 - Even Darker
     0xFF : 11111111 - Even Darker
+    Code: Up-Up-Down-Down-Left-Right-Left-Right-B-A
 */
 
+// Play state variables
 struct Laser hLaser;
 int hLaserReady = 1;
 int hLaserPos, hCurrentClock;
@@ -48,14 +50,30 @@ int bPos, bCurrentClock;
 
 int playerX, playerY;
 
+// Global game variables
 int score = 0; 
 int state = 1;
+
+// Menu variables
 int selected = 1; 
+int keyCount = 0;
+unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
 
 unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
     unsigned int num;
     num = (rand() % (upper + 1) );
     return num; 
+}
+
+void processCheatCode(char key) {
+    if (keyCount < 10) {
+        if (key == cheatCode[keyCount]) {
+            keyCount++;
+        }
+        else {
+            keyCount = 0;
+        }
+    }
 }
 
 void playSoundFX(UINT8 fx) {
@@ -349,20 +367,44 @@ void main(){
             switch(joypad()) { // Listens for user input
                 case J_UP:
                     drawPlay();
+                    waitpadup();
+                    processCheatCode(J_UP);
                     break;
                 case J_DOWN:
                     drawCredits();
+                    waitpadup();
+                    processCheatCode(J_DOWN);
+                    break;
+                case J_LEFT: 
+                    waitpadup();
+                    processCheatCode(J_LEFT);
+                    break;
+                case J_RIGHT: 
+                    waitpadup();
+                    processCheatCode(J_RIGHT);
+                    break;
+                case J_B: 
+                    waitpadup();
+                    processCheatCode(J_B);
                     break;
                 case J_A:
-                    fadeout();
-                    eraseMenuOptions();
-                    if (selected == 1) {
-                        initGameLoop(); // Loads sprites and backgrounds to VRAM
-                        state = 2;
+                    waitpadup();
+                    processCheatCode(J_A);
+                    if (keyCount < 10) {
+                        fadeout();
+                        eraseMenuOptions();
+                        if (selected == 1) {
+                            initGameLoop(); // Loads sprites and backgrounds to VRAM
+                            state = 2;
+                        }
+                        else if (selected == 2){
+                            state = 0;
+                            selected = 1;
+                        }
                     }
-                    else if (selected == 2){
-                        state = 0;
-                        selected = 1;
+                    else {
+                        gotoxy(1, 16);
+                        printf("%s", "cheat code unlocked");
                     }
                     break;
             }
