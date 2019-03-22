@@ -29,6 +29,7 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [ ] Save highscores to non-volatile RAM
 - [ ] Design and add interactive game over screen with a "random quote system" like the original
 - [x] Beautify: "fade" transitions between states
+- [x] Cheat code on menu (UUDDLRLRBA)
 - [ ] Implement support for Game Boy Color's color palettes
 
 ## Invaluable Resources
