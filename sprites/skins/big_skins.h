@@ -1,6 +1,6 @@
 /*
 
- PLAYER.H
+ BIG_SKINS.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 14
+  Tiles                : 0 to 26
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define PlayerBank 0
+#define BigSkinsBank 0
 /* Start of tile array. */
-extern unsigned char Player[];
+extern unsigned char BigSkins[];
 
-/* End of PLAYER.H */
+/* End of BIG_SKINS.H */

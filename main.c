@@ -9,6 +9,7 @@
 #include <time.h>
 
 // SPRITES
+#include "sprites/skins/big_skins.c"
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
 
@@ -23,6 +24,7 @@
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
 #include "background/gameover/gameover.c"
+#include "background/skins/skins.c"
 
 // STRUCTS
 #include "Laser.c"
@@ -57,7 +59,10 @@ int state = 1;
 // Menu variables
 int selected = 1; 
 int keyCount = 0;
-unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
+const unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
+const unsigned char *skinNames[6] = {"GAME BOY DEL", "CLASSIC DEL", "DELLOWEEN", "ZIPPER DEL", "ARGH", "WRONG GAME, STEVE"};
+// Hidden skins menu variables
+int selectedSkin = 0;
 
 unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
     unsigned int num;
@@ -65,7 +70,7 @@ unsigned int generate_random_num(int upper) { // Generates random with upper as 
     return num; 
 }
 
-void processCheatCode(char key) {
+void processCheatCode(unsigned char key) {
     if (keyCount < 10) {
         if (key == cheatCode[keyCount]) {
             keyCount++;
@@ -248,8 +253,8 @@ void initGameLoop(){
     font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
     set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
-    set_sprite_data(0, 12, Player); // Sets the player sprite, starts on zero, counts seven
-    set_sprite_data(12, 16, VerticalLaser); // Sets the vertical laser sprites 
+    set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
+    set_sprite_data(30, 16, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
@@ -274,6 +279,63 @@ void initGameMenu() {
     fadein(); 
 }
 
+void drawBigSprite() { // draw big skin with flipx
+    int i;
+    for (i = 0; i <= 4; i++) {
+        set_sprite_tile(i, 22+i+i+(selectedSkin*8));
+        set_sprite_tile(i+4, 22+i+i+(selectedSkin*8));
+        set_sprite_prop(i+4, S_FLIPX);
+    }
+    for (i = 0; i <= 8; i++) {
+        if (i < 2) {
+            move_sprite(i, 76+(8*i), 76);    
+        }
+        if ( i == 2 || i == 3 ) {
+            move_sprite(i, 76+(8*(i-2)), 92);
+        }
+        if ( i == 4 ) {
+            move_sprite(i, 76+(8*(i-2)), 76); 
+        }
+        if ( i == 5 ) {
+            move_sprite(i, 76+(8*(i-4)), 76);
+        }
+        if ( i == 6 ) {
+            move_sprite(i, 76+(8*(i-4)), 92);
+        }
+        if ( i == 7 ) {
+            move_sprite(i, 76+(8*(i-6)), 92);
+        }
+    }
+}
+
+void drawSelectedSkin() {
+    int i;
+    for (i = 0; i <= 6; i++) {
+        if (selectedSkin == i) {
+            set_sprite_tile(39, 11+i+i);
+            move_sprite(39, 44+(16*i), 136); 
+            drawBigSprite();
+        }
+    }
+}
+
+void initSkinsState() {
+    HIDE_SPRITES;
+    set_bkg_palette(0, 1, skins_pal);
+	set_bkg_data(0x01, skins_tiles, skins_dat);
+	VBK_REG = 1;
+	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_att);
+	VBK_REG = 0;
+	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_map);
+	move_bkg (0, 0);
+	SHOW_BKG;
+    set_sprite_data(0, 22, Player);
+    set_sprite_data(22, 52, BigSkins);
+    drawSelectedSkin();
+    SHOW_SPRITES;
+    fadein();
+}
+
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i;
     for (i = 1; i < 10; i++ ){
@@ -287,7 +349,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
     vCurrentClock = (clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 9; i++){
         vLaser.repetitions[i] = i;
-        set_sprite_tile(i, 12);
+        set_sprite_tile(i, 30);
     }
     drawTheVLaser(&vLaser, x, 0);
 }
@@ -299,12 +361,16 @@ void isVLaserReadyToBlow() {
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
                 vLaser.repetitions[i] = i;
-                set_sprite_tile(i, 10+z);
+                set_sprite_tile(i, 28+z);
             }
             drawTheVLaser(&vLaser, vLaserPos, 0);
             setDelay(2);
         }
         if (playerX == vLaserPos) {
+            for (i = 0; i <= 5; i++) {
+                set_sprite_tile(39, 23+i);
+                setDelay(3);
+            }
             fadeout();
             initGameOver();
             state = 3;
@@ -403,11 +469,14 @@ void main(){
                         }
                     }
                     else {
-                        gotoxy(1, 16);
-                        printf("%s", "cheat code unlocked");
+                        fadeout();
+                        eraseMenuOptions();
+                        initSkinsState();
+                        state = 5;
                     }
                     break;
             }
+            setDelay(1);
         }
 
         while(state == 2){ // 2: Game Loop
@@ -470,6 +539,7 @@ void main(){
                     }
                     break;
             }
+            setDelay(1);
         }
 
         while (state == 4) { // 4: Pause
@@ -480,6 +550,32 @@ void main(){
             gotoxy(13, 16);
             printf("%s", "      "); 
             state = 2; 
+        }
+
+        while (state == 5) {
+            switch(joypad()) { // Listens for user input
+                case J_LEFT: 
+                    waitpadup();
+                    if (selectedSkin > 0) {
+                        selectedSkin--;
+                        drawSelectedSkin();
+                    }
+                    break;
+                case J_RIGHT: 
+                    waitpadup();
+                    if (selectedSkin <= 5) {
+                        selectedSkin++;
+                        drawSelectedSkin();
+                    }
+                    break;
+                case J_B: 
+                    waitpadup();
+                    break;
+                case J_A:
+                    waitpadup();
+                    break;
+            }
+            setDelay(1);
         }
     }
 }
