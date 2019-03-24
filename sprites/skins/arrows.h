@@ -1,6 +1,6 @@
 /*
 
- VERTICALLASER.H
+ ARROWS.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 8
+  Tiles                : 0 to 1
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define LaserBank 0
+#define TileLabelBank 0
 /* Start of tile array. */
-extern unsigned char Laser[];
+extern unsigned char TileLabel[];
 
-/* End of VERTICALLASER.H */
+/* End of ARROWS.H */

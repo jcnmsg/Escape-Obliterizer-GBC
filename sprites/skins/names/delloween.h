@@ -1,6 +1,6 @@
 /*
 
- VERTICALLASER.H
+ DELLOWEEN.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 8
+  Tiles                : 14 to 21
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define LaserBank 0
+#define DelloweenSkinNameBank 0
 /* Start of tile array. */
-extern unsigned char Laser[];
+extern unsigned char DelloweenSkinName[];
 
-/* End of VERTICALLASER.H */
+/* End of DELLOWEEN.H */

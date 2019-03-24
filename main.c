@@ -8,11 +8,18 @@
 #include <rand.h>
 #include <time.h>
 
-// SPRITES
+// SPRITES 
 #include "sprites/skins/big_skins.c"
+#include "sprites/skins/names/argh.c"
+#include "sprites/skins/names/classic.c"
+#include "sprites/skins/names/delloween.c"
+#include "sprites/skins/names/gameboy.c"
+#include "sprites/skins/names/steve.c"
+#include "sprites/skins/names/zipper.c"
+#include "sprites/skins/arrows.c"
 #include "sprites/player.c"
 #include "sprites/verticallaser.c"
-
+ 
 // WORDS
 #include "sprites/words/Yes.c"
 #include "sprites/words/No.c"
@@ -40,32 +47,35 @@
 
 // Play state variables
 struct Laser hLaser;
-int hLaserReady = 1;
-int hLaserPos, hCurrentClock;
-
+UINT8 hLaserReady = 1;
+UINT8 hLaserPos, hCurrentClock;
+ 
 struct Laser vLaser;
-int vLaserReady = 1; 
-int vLaserPos, vCurrentClock;
+UINT8 vLaserReady = 1; 
+UINT8 vLaserPos, vCurrentClock;
 
-int bReady = 1;
-int bPos, bCurrentClock;
+UINT8 bReady = 1;
+UINT8 bPos, bCurrentClock;
 
-int playerX, playerY;
+UINT8 playerX, playerY;
 
 // Global game variables
 int score = 0; 
-int state = 1;
+UINT8 state = 1;
 
 // Menu variables
-int selected = 1; 
-int keyCount = 0;
+UINT8 selected = 1; 
+UINT8 keyCount = 0;
 const unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
-const unsigned char *skinNames[6] = {"GAME BOY DEL", "CLASSIC DEL", "DELLOWEEN", "ZIPPER DEL", "ARGH", "WRONG GAME, STEVE"};
-// Hidden skins menu variables
-int selectedSkin = 0;
 
-unsigned int generate_random_num(int upper) { // Generates random with upper as maximum
-    unsigned int num;
+// Hidden skins menu variables
+UINT8 selectedSkin = 0;
+const unsigned char *skinNames[6] = {GameBoySkinName, ClassicSkinName, DelloweenSkinName, ZipperSkinName, SteveSkinName, ArghSkinName};
+const unsigned int *skinSize[6] = {14, 10, 16, 10, 8, 8};
+const unsigned int *skinSpacing[6] = {63, 69, 60, 71, 72, 73};
+
+unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
+    unsigned UINT8 num;
     num = (rand() % (upper + 1) );
     return num; 
 }
@@ -95,8 +105,8 @@ void playSoundFX(UINT8 fx) {
     }
 }
 
-void setDelay(int loops) {
-    int i;
+void setDelay(UINT8 loops) {
+    UINT8 i;
     for (i = 0; i < loops; i++){
         wait_vbl_done();
     }
@@ -222,6 +232,16 @@ void eraseMenuOptions() {
     }
 }
 
+void remSkinsState(){
+    UINT8 w, z;
+    for (z = 0; z <= 39 ; z++) {
+        move_sprite(z, 180, 180);    
+    }
+    for (w = 0; w <= 39; w++) {
+        set_sprite_prop(w, 0x00);
+    }
+}
+
 void initGameOver(){
     HIDE_SPRITES;
     set_bkg_palette(0, 1, gameoverbg_pal);
@@ -233,13 +253,18 @@ void initGameOver(){
     set_sprite_data(0, 12, Yes); // Sets the yes sprite, starts on zero, counts twelve tiles
     set_sprite_data(12, 10, No); // Sets the no sprite, starts on 12, counts ten tiles
     drawYes();
-    set_sprite_tile(39, 50); // empty player sprite
+    set_sprite_tile(39, 156); // empty player sprite
     SHOW_SPRITES;
     fadein();
 }
 
 void resetPlayerPosition(){
-    set_sprite_tile(39, 11);
+    UINT8 w;
+    for (w = 0; w <= 5; w++) {
+        if (w == selectedSkin) {
+            set_sprite_tile(39, 11+w+w);
+        }
+    }
     move_sprite(39, 84, 80); 
     playerX = 84;
     playerY = 80;
@@ -254,7 +279,7 @@ void initGameLoop(){
     set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
-    set_sprite_data(30, 16, VerticalLaser); // Sets the vertical laser sprites 
+    set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites 
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
@@ -262,9 +287,10 @@ void initGameLoop(){
 
 void initGameMenu() {
     fadeout();
+    remSkinsState();
     HIDE_SPRITES;
     set_bkg_palette(0, 1, gbpic_pal);
-	set_bkg_data(0x01, gbpic_tiles, gbpic_dat);
+	set_bkg_data(0x01, gbpic_tiles, gbpic_dat); 
 	VBK_REG = 1;
 	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
 	VBK_REG = 0;
@@ -280,42 +306,84 @@ void initGameMenu() {
 }
 
 void drawBigSprite() { // draw big skin with flipx
-    int i;
-    for (i = 0; i <= 4; i++) {
-        set_sprite_tile(i, 22+i+i+(selectedSkin*8));
-        set_sprite_tile(i+4, 22+i+i+(selectedSkin*8));
-        set_sprite_prop(i+4, S_FLIPX);
+    UINT8 i;
+    if (selectedSkin < 5) {
+        for (i = 0; i < 4; i++) {
+            set_sprite_tile(i, i+i+(selectedSkin*8));
+            set_sprite_tile(i+4, i+i+(selectedSkin*8));
+            set_sprite_prop(i+4, S_FLIPX);
+        }
+        for (i = 0; i <= 8; i++) {
+            if (i < 2) {
+                move_sprite(i, 76+(8*i), 76);    
+            }
+            if ( i == 2 || i == 3 ) {
+                move_sprite(i, 76+(8*(i-2)), 92);
+            }
+            if ( i == 4 ) {
+                move_sprite(i, 76+(8*(i-2)), 76); 
+            }
+            if ( i == 5 ) {
+                move_sprite(i, 76+(8*(i-4)), 76);
+            }
+            if ( i == 6 ) {
+                move_sprite(i, 76+(8*(i-4)), 92);
+            }
+            if ( i == 7 ) {
+                move_sprite(i, 76+(8*(i-6)), 92);
+            }
+        }
     }
-    for (i = 0; i <= 8; i++) {
-        if (i < 2) {
-            move_sprite(i, 76+(8*i), 76);    
-        }
-        if ( i == 2 || i == 3 ) {
-            move_sprite(i, 76+(8*(i-2)), 92);
-        }
-        if ( i == 4 ) {
-            move_sprite(i, 76+(8*(i-2)), 76); 
-        }
-        if ( i == 5 ) {
-            move_sprite(i, 76+(8*(i-4)), 76);
-        }
-        if ( i == 6 ) {
-            move_sprite(i, 76+(8*(i-4)), 92);
-        }
-        if ( i == 7 ) {
-            move_sprite(i, 76+(8*(i-6)), 92);
+    if (selectedSkin >= 5) {
+        for (i = 0; i <= 5; i++) { 
+            if (i < 3) {
+                set_sprite_tile(i, i+i+(selectedSkin*8));
+                move_sprite(i, 76+(8*i), 76);    
+            }
+            if (i >= 3 && i < 5) {
+                set_sprite_tile(i, i+i+(selectedSkin*8));
+                move_sprite(i, 76+(8*(i-3)), 92);
+            }
+            if (i == 5) {
+                set_sprite_tile(i, i+i+(selectedSkin*8)-3);
+                move_sprite(i, 76+(8*(i-3)), 92);
+            }
         }
     }
 }
 
+void drawSkinName() {
+    UINT8 i, z;
+    set_sprite_data(52, skinSize[selectedSkin], skinNames[selectedSkin]);
+    for (z = 0; z < ((UINT8) skinSize[selectedSkin]) ; z++) {
+        set_sprite_tile(8+z, 52+z+z); 
+        move_sprite(8+z, ((UINT8) skinSpacing[selectedSkin])+(z*8), 110);
+    }
+    for (i = ((UINT8) skinSize[selectedSkin] - (UINT8) skinSize[selectedSkin] / 2); i < 18; i++ ) {
+        move_sprite(8+i, 180, 180);
+    }
+}
+
 void drawSelectedSkin() {
-    int i;
+    UINT8 i;
     for (i = 0; i <= 6; i++) {
         if (selectedSkin == i) {
-            set_sprite_tile(39, 11+i+i);
-            move_sprite(39, 44+(16*i), 136); 
             drawBigSprite();
+            drawSkinName();
         }
+    }
+    // Lightup the arrows
+    if (selectedSkin <= 0) {
+        move_sprite(38, 190, 190);
+    }
+    if (selectedSkin > 0) {
+        move_sprite(38, 65, 84);
+    }
+    if (selectedSkin < 5) {
+        move_sprite(39, 103, 84);
+    }
+    if (selectedSkin >= 5) {
+        move_sprite(39, 190, 190);
     }
 }
 
@@ -329,18 +397,20 @@ void initSkinsState() {
 	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_map);
 	move_bkg (0, 0);
 	SHOW_BKG;
-    set_sprite_data(0, 22, Player);
-    set_sprite_data(22, 52, BigSkins);
-    drawSelectedSkin();
+    set_sprite_data(0, 54, BigSkins);
+    set_sprite_data(80, 4, Arrows);
+    set_sprite_tile(38, 80);
+    set_sprite_tile(39, 82);
+    drawSelectedSkin();  
     SHOW_SPRITES;
-    fadein();
+    fadein(); 
 }
-
+ 
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
-    UINT8 i;
-    for (i = 1; i < 10; i++ ){
+    UINT8 i; 
+    for (i = 1; i < 10; i++ ){ 
         move_sprite(laser->repetitions[i], x, y + (16 * i));
-    }
+    } 
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
@@ -380,7 +450,7 @@ void isVLaserReadyToBlow() {
 }
 
 void callVLaser(){
-    unsigned int pos = generate_random_num(3);
+    unsigned UINT8 pos = generate_random_num(3);
     if (pos == 0) {
         vLaserReady = 0;
         triggerVLaser(44);
@@ -399,7 +469,7 @@ void callVLaser(){
 }
 
 void startHazards() {
-    unsigned int hazard;
+    unsigned UINT8 hazard;
     if ( (clock() / CLOCKS_PER_SEC) % 2 == 0) { // change for timer 
         hazard = generate_random_num(2);
         if (hazard == 0 && vLaserReady == 1) {
@@ -487,25 +557,33 @@ void main(){
                     move_sprite(39, 44, 80); // Moves player sprite accordingly
                     playerX = 44;
                     playerY = 80;
-                    set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
+                    if (selectedSkin == 0) {
+                        set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
+                    }
                     break;
                 case J_RIGHT:
                     move_sprite(39, 124, 80); 
                     playerX = 124;
                     playerY = 80;
-                    set_sprite_tile(39, 9);
+                    if (selectedSkin == 0) {
+                        set_sprite_tile(39, 9);
+                    }
                     break;
                 case J_UP:
                     move_sprite(39, 84, 40); 
                     playerX = 84;
                     playerY = 40;
-                    set_sprite_tile(39, 9);
+                    if (selectedSkin == 0) {
+                        set_sprite_tile(39, 9);
+                    }
                     break;
                 case J_DOWN:
                     move_sprite(39, 84, 120);
                     playerX = 84;
                     playerY = 120;
-                    set_sprite_tile(39, 5); 
+                    if (selectedSkin == 0) {
+                        set_sprite_tile(39, 5); 
+                    }
                     break;
                 case J_START:
                     waitpadup();
@@ -563,16 +641,23 @@ void main(){
                     break;
                 case J_RIGHT: 
                     waitpadup();
-                    if (selectedSkin <= 5) {
+                    if (selectedSkin < 5) {
                         selectedSkin++;
                         drawSelectedSkin();
                     }
                     break;
                 case J_B: 
                     waitpadup();
+                    selectedSkin = 0;
+                    keyCount = 0;
+                    initGameMenu();
+                    state = 1;
                     break;
                 case J_A:
                     waitpadup();
+                    keyCount = 0;
+                    initGameMenu();
+                    state = 1;
                     break;
             }
             setDelay(1);

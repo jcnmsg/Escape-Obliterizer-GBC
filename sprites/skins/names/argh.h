@@ -1,6 +1,6 @@
 /*
 
- VERTICALLASER.H
+ ARGH.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 8
+  Tiles                : 31 to 34
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define LaserBank 0
+#define ArghSkinNameBank 0
 /* Start of tile array. */
-extern unsigned char Laser[];
+extern unsigned char ArghSkinName[];
 
-/* End of VERTICALLASER.H */
+/* End of ARGH.H */
