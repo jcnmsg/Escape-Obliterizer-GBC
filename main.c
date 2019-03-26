@@ -23,8 +23,7 @@
 // WORDS
 #include "sprites/words/Yes.c"
 #include "sprites/words/No.c"
-#include "sprites/words/Play.c"
-#include "sprites/words/Credits.c"
+#include "sprites/words/MenuOptions.c"
 
 // BACKGROUNDS
 #include "background/game/backgroundmap.c"
@@ -195,46 +194,32 @@ void eraseOptions() {
 }
 
 void drawPlay() {
-    UINT8 i, z;
-    selected = 1;
-    for (z = 0; z < 8; z++ ){
-        set_sprite_tile(z + 12, z + z + 12);
-        move_sprite(z + 12, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 5; i++ ){
+    UINT8 i;
+    for (i = 0; i < 12; i++ ){
         set_sprite_tile(i, i + i);
-        move_sprite(i, 72 + i*8, 112);
+        move_sprite(i, 136 + i*8, 108);
     }
 }
 
 void drawCredits() {
-    UINT8 i, z;
-    selected = 2;
-    for (z = 0; z < 5; z++ ){
-        set_sprite_tile(z, z + z);
-        move_sprite(z, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 8; i++ ){
-        set_sprite_tile(i + 12, i + i + 12);
-        move_sprite(i + 12, 57 + i*8, 127);
+    UINT8 i;
+    for (i = 0; i < 12; i++ ){
+        set_sprite_tile(i, i + i + 8);
+        move_sprite(i, 122 + i*8, 124);
     }
 }
 
 void eraseMenuOptions() {
-    UINT8 i, z;
-    for (z = 0; z < 5; z++ ){
-        set_sprite_tile(z, z + z);
-        move_sprite(z, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 8; i++ ){
-        set_sprite_tile(i + 12, i + i + 12);
-        move_sprite(i + 12, 166 + i + 8, 144);
+    UINT8 i;
+    for (i = 0; i < 12; i++ ){
+        set_sprite_tile(i, i + i);
+        move_sprite(i, 166 + i + 8, 144);
     }
 }
 
 void remSkinsState(){
     UINT8 w, z;
-    for (z = 0; z <= 39 ; z++) {
+    for (z = 0; z <= 39 ; z++) { 
         move_sprite(z, 180, 180);    
     }
     for (w = 0; w <= 39; w++) {
@@ -298,8 +283,7 @@ void initGameMenu() {
 	move_bkg (0, 0);
 	SHOW_BKG;
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
-    set_sprite_data(0, 12, Play);
-    set_sprite_data(12, 16, Credits);
+    set_sprite_data(0, 20, MenuOptions);
     drawPlay();
     SHOW_SPRITES;
     fadein(); 

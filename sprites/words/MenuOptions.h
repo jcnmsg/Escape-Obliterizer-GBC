@@ -1,6 +1,6 @@
 /*
 
- PLAY.H
+ MENUOPTIONS.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 4
+  Tiles                : 0 to 9
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define PlayBank 0
+#define MenuOptionsBank 0
 /* Start of tile array. */
-extern unsigned char Play[];
+extern unsigned char MenuOptions[];
 
-/* End of PLAY.H */
+/* End of MENUOPTIONS.H */
