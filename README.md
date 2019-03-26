@@ -18,17 +18,16 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [ ] Implementation of the horizontal lasers with animations, collisions and sound
 - [ ] Implementation of the bombs with animations, collisions and sound
 - [ ] Implementation of the 'Stun' with animations
-- [ ] Player death animation
+- [x] Player death animation
 - [ ] Add background music/beat like the original
-- [ ] Design and add splash screen
+- [ ] ~~Design and add splash screen~~
 - [x] Design and add pause screen
-- [ ] Add Main-Menu Interactivity
-- [ ] Add credits screen
-- [ ] Save highscores to non-volatile RAM
+- [x] Add Main-Menu Interactivity
+- [x] Add credits screen
+- [ ] Save the highest score to non-volatile RAM
 - [ ] Design and add interactive game over screen with a "random quote system" like the original
 - [x] Beautify: "fade" transitions between states
 - [x] Cheat code on menu (UUDDLRLRBA)
-- [ ] Implement support for Game Boy Color's color palettes
 
 ## Invaluable Resources
 - Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Offical Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)
