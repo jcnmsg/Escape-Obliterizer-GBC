@@ -30,6 +30,7 @@
 #include "background/game/backgroundtiles.c"
 #include "background/logo/logo.c"
 #include "background/gameover/gameover.c"
+#include "background/credits/credits.c"
 #include "background/skins/skins.c"
 
 // STRUCTS
@@ -195,6 +196,7 @@ void eraseOptions() {
 
 void drawPlay() {
     UINT8 i;
+    selected = 1;
     set_sprite_tile(5, 199);
     for (i = 0; i < 5; i++ ){
         set_sprite_tile(i, i + i);
@@ -204,6 +206,7 @@ void drawPlay() {
 
 void drawCredits() {
     UINT8 i;
+    selected = 2;
     for (i = 0; i < 6; i++ ){
         set_sprite_tile(i, i + i + 10);
         move_sprite(i, 65 + i*8, 124);
@@ -239,7 +242,7 @@ void initGameOver(){
     set_sprite_data(0, 12, Yes); // Sets the yes sprite, starts on zero, counts twelve tiles
     set_sprite_data(12, 10, No); // Sets the no sprite, starts on 12, counts ten tiles
     drawYes();
-    set_sprite_tile(39, 156); // empty player sprite
+    set_sprite_tile(39, 119); // empty player sprite
     SHOW_SPRITES;
     fadein();
 }
@@ -288,6 +291,18 @@ void initGameMenu() {
     drawPlay();
     SHOW_SPRITES;
     fadein(); 
+}
+
+void initCredits() {
+    set_bkg_palette(0, 1, credits_pal);
+	set_bkg_data(0x01, credits_tiles, credits_dat);
+	VBK_REG = 1;
+	set_bkg_tiles(0, 0, credits_cols, credits_rows, credits_att);
+	VBK_REG = 0;
+	set_bkg_tiles(0, 0, credits_cols, credits_rows, credits_map);
+	move_bkg (0, 0);
+	SHOW_BKG;
+    fadein();
 }
 
 void drawBigSprite() { // draw big skin with flipx
@@ -481,7 +496,13 @@ void main(){
     initGameMenu();
     while(1) {
         while(state == 0) { // 0: Credits
-            
+            switch(joypad()) { // Listens for user input
+                case J_A:
+                    waitpadup();  
+                    initGameMenu();
+                    state = 1;
+            }
+            setDelay(1);
         }
 
         while(state == 1){ // 1: Main Menu  
@@ -519,6 +540,7 @@ void main(){
                             state = 2;
                         }
                         else if (selected == 2){
+                            initCredits();
                             state = 0;
                             selected = 1;
                         }
