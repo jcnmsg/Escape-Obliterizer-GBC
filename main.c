@@ -195,17 +195,18 @@ void eraseOptions() {
 
 void drawPlay() {
     UINT8 i;
-    for (i = 0; i < 12; i++ ){
+    set_sprite_tile(5, 199);
+    for (i = 0; i < 5; i++ ){
         set_sprite_tile(i, i + i);
-        move_sprite(i, 136 + i*8, 108);
+        move_sprite(i, 71 + i*8, 109);
     }
 }
 
 void drawCredits() {
     UINT8 i;
-    for (i = 0; i < 12; i++ ){
-        set_sprite_tile(i, i + i + 8);
-        move_sprite(i, 122 + i*8, 124);
+    for (i = 0; i < 6; i++ ){
+        set_sprite_tile(i, i + i + 10);
+        move_sprite(i, 65 + i*8, 124);
     }
 }
 
@@ -283,7 +284,7 @@ void initGameMenu() {
 	move_bkg (0, 0);
 	SHOW_BKG;
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
-    set_sprite_data(0, 20, MenuOptions);
+    set_sprite_data(0, 22, MenuOptions);
     drawPlay();
     SHOW_SPRITES;
     fadein(); 
