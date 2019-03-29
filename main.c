@@ -1,4 +1,4 @@
-// GBDK
+// GBDK LIBRARY
 #include <gb/gb.h>
 #include <gb/font.h>
 #include <gb/drawing.h>
@@ -8,44 +8,26 @@
 #include <rand.h>
 #include <time.h>
 
-// SPRITES 
-#include "sprites/skins/big_skins.c"
-#include "sprites/skins/names/argh.c"
-#include "sprites/skins/names/classic.c"
-#include "sprites/skins/names/delloween.c"
-#include "sprites/skins/names/gameboy.c"
-#include "sprites/skins/names/steve.c"
-#include "sprites/skins/names/zipper.c"
-#include "sprites/skins/arrows.c"
-#include "sprites/player.c"
-#include "sprites/verticallaser.c"
- 
-// WORDS
-#include "sprites/words/Yes.c"
-#include "sprites/words/No.c"
-#include "sprites/words/MenuOptions.c"
+// EXTERNAL FUNCTIONS
+#include "helpers.c" // General functions that are used throughout states (sound, visual fx, etc)
+#include "menu.c" // Menu state specific functions
+#include "gameover.c" // Game over state specific functions
+#include "credits.c" // Credits state specific functions
+#include "skins.c" // Skins state specific functions
 
-// BACKGROUNDS
+// GAME BACKGROUNDS
 #include "background/game/backgroundmap.c"
 #include "background/game/backgroundtiles.c"
-#include "background/logo/logo.c"
-#include "background/gameover/gameover.c"
-#include "background/credits/credits.c"
-#include "background/skins/skins.c"
 
-// STRUCTS
-#include "Laser.c"
+// GAME SPRITES
+#include "sprites/player.c"
+#include "sprites/verticallaser.c"
 
-/* 
-    Cheat sheet:
-    0xE4 : 11100100 - Regular palette
-    0xF9 : 11111001 - Darker
-    0xFE : 11111110 - Even Darker
-    0xFF : 11111111 - Even Darker
-    Code: Up-Up-Down-Down-Left-Right-Left-Right-B-A
-*/
+// GENERAL STATE AND GAMEPLAY VARIABLES
+struct Laser {
+    UBYTE repetitions[10];
+}
 
-// Play state variables
 struct Laser hLaser;
 UINT8 hLaserReady = 1;
 UINT8 hLaserPos, hCurrentClock;
@@ -59,192 +41,12 @@ UINT8 bPos, bCurrentClock;
 
 UINT8 playerX, playerY;
 
-// Global game variables
 int score = 0; 
 UINT8 state = 1;
 
-// Menu variables
-UINT8 selected = 1; 
-UINT8 keyCount = 0;
-const unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
-
-// Hidden skins menu variables
-UINT8 selectedSkin = 0;
-const unsigned char *skinNames[6] = {GameBoySkinName, ClassicSkinName, DelloweenSkinName, ZipperSkinName, SteveSkinName, ArghSkinName};
-const unsigned int *skinSize[6] = {14, 10, 16, 10, 8, 8};
-const unsigned int *skinSpacing[6] = {63, 69, 60, 71, 72, 73};
-
-unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
-    unsigned UINT8 num;
-    num = (rand() % (upper + 1) );
-    return num; 
-}
-
-void processCheatCode(unsigned char key) {
-    if (keyCount < 10) {
-        if (key == cheatCode[keyCount]) {
-            keyCount++;
-        }
-        else {
-            keyCount = 0;
-        }
-    }
-}
-
-void playSoundFX(UINT8 fx) {
-    if (fx == 0) { // Laser blowing sound 
-        NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
-        NR51_REG = 0x11; // Select channel to use: 0x11 - 1, 0x22 - 2, 0x33 - 3, 0x88 - 4, 0xFF - All
-        NR50_REG = 0x77; // Volume, min: 0x00, max: 0x77
-        
-        NR10_REG = 0x1C; // Channel 1, Register 0 => Binary: 00001100
-        NR11_REG = 0xC6; // Channel 1, Register 1 => Binary: 11000110 
-        NR12_REG = 0x73; // Channel 1, Register 2 => Binary: 01110011
-        NR13_REG = 0x00; // Channel 1, Register 3 => Binary: 00000000
-        NR14_REG = 0xC3; // Channel 1, Register 4 => Binary: 11000011
-    }
-}
-
-void setDelay(UINT8 loops) {
-    UINT8 i;
-    for (i = 0; i < loops; i++){
-        wait_vbl_done();
-    }
-}
-
-void fadeout() {
-    UINT8 i;
-    for (i=0; i<4; i++) {
-        if (i == 0) {
-            BGP_REG = 0xE4; // Background palette
-            OBP0_REG = 0xE4; // Sprite palette
-        }
-        if (i == 1) {
-            BGP_REG = 0x90;
-            OBP0_REG = 0x90;
-        }
-        if (i == 2) {
-            BGP_REG = 0x80;
-            OBP0_REG = 0x80;
-        }
-        if (i == 3) {
-            BGP_REG = 0x00;
-            OBP0_REG = 0x00;
-        }
-        setDelay(3);
-    }
-}
-
-void fadein() {
-    UINT8 i;
-    for (i=0; i<4; i++) {
-        if (i == 0) {
-            OBP0_REG = 0x00; // Sprite palette
-            BGP_REG = 0x00; // Background palette
-        }
-        if (i == 1) {
-            OBP0_REG = 0x80;
-            BGP_REG = 0x80;
-        }
-        if (i == 2) {
-            OBP0_REG = 0x90;
-            BGP_REG = 0x90;
-        }
-        if (i == 3) {
-            OBP0_REG = 0xE4; 
-            BGP_REG = 0xE4;
-        }
-        setDelay(3);
-    }
-}
-
-void drawYes() {
-    UINT8 i, z;
-    selected = 1;
-    for (z = 0; z < 5; z++ ){
-        set_sprite_tile(z + 6, z + z + 12);
-        move_sprite(z + 6, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 6; i++ ){
-        set_sprite_tile(i, i + i);
-        move_sprite(i, 44 + i*8, 120);
-    }
-}
-
-void drawNo() {
-    UINT8 i, z;
-    selected = 0;
-    for (z = 0; z < 6; z++ ){
-        set_sprite_tile(z, z + z);
-        move_sprite(z, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 5; i++ ){
-        set_sprite_tile(i + 6, i + i + 12);
-        move_sprite(i + 6, 97 + i*8, 120);
-    }
-}
-
-void eraseOptions() {
-    UINT8 i, z;
-    for (z = 0; z < 6; z++ ){
-        move_sprite(z, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 5; i++ ){
-        move_sprite(i + 6, 166 + i + 8, 144);
-    }
-}
-
-void drawPlay() {
-    UINT8 i;
-    selected = 1;
-    set_sprite_tile(5, 199);
-    for (i = 0; i < 5; i++ ){
-        set_sprite_tile(i, i + i);
-        move_sprite(i, 71 + i*8, 109);
-    }
-}
-
-void drawCredits() {
-    UINT8 i;
-    selected = 2;
-    for (i = 0; i < 6; i++ ){
-        set_sprite_tile(i, i + i + 10);
-        move_sprite(i, 65 + i*8, 124);
-    }
-}
-
-void eraseMenuOptions() {
-    UINT8 i;
-    for (i = 0; i < 12; i++ ){
-        set_sprite_tile(i, i + i);
-        move_sprite(i, 166 + i + 8, 144);
-    }
-}
-
-void remSkinsState(){
-    UINT8 w, z;
-    for (z = 0; z <= 39 ; z++) { 
-        move_sprite(z, 180, 180);    
-    }
-    for (w = 0; w <= 39; w++) {
-        set_sprite_prop(w, 0x00);
-    }
-}
-
-void initGameOver(){
-    HIDE_SPRITES;
-    set_bkg_palette(0, 1, gameoverbg_pal);
-    set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
-    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
-    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
-    move_bkg (0, 0);
-    SHOW_BKG;
-    set_sprite_data(0, 12, Yes); // Sets the yes sprite, starts on zero, counts twelve tiles
-    set_sprite_data(12, 10, No); // Sets the no sprite, starts on 12, counts ten tiles
-    drawYes();
-    set_sprite_tile(39, 119); // empty player sprite
-    SHOW_SPRITES;
-    fadein();
+void countScore() {
+    gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
+    printf("%u", score++); // Print score at desired position
 }
 
 void resetPlayerPosition(){
@@ -272,138 +74,6 @@ void initGameLoop(){
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
-}
-
-void initGameMenu() {
-    fadeout();
-    remSkinsState();
-    HIDE_SPRITES;
-    set_bkg_palette(0, 1, gbpic_pal);
-	set_bkg_data(0x01, gbpic_tiles, gbpic_dat); 
-	VBK_REG = 1;
-	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
-	VBK_REG = 0;
-	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
-	move_bkg (0, 0);
-	SHOW_BKG;
-    SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
-    set_sprite_data(0, 22, MenuOptions);
-    drawPlay();
-    SHOW_SPRITES;
-    fadein(); 
-}
-
-void initCredits() {
-    set_bkg_palette(0, 1, credits_pal);
-	set_bkg_data(0x01, credits_tiles, credits_dat);
-	VBK_REG = 1;
-	set_bkg_tiles(0, 0, credits_cols, credits_rows, credits_att);
-	VBK_REG = 0;
-	set_bkg_tiles(0, 0, credits_cols, credits_rows, credits_map);
-	move_bkg (0, 0);
-	SHOW_BKG;
-    fadein();
-}
-
-void drawBigSprite() { // draw big skin with flipx
-    UINT8 i;
-    if (selectedSkin < 5) {
-        for (i = 0; i < 4; i++) {
-            set_sprite_tile(i, i+i+(selectedSkin*8));
-            set_sprite_tile(i+4, i+i+(selectedSkin*8));
-            set_sprite_prop(i+4, S_FLIPX);
-        }
-        for (i = 0; i <= 8; i++) {
-            if (i < 2) {
-                move_sprite(i, 76+(8*i), 76);    
-            }
-            if ( i == 2 || i == 3 ) {
-                move_sprite(i, 76+(8*(i-2)), 92);
-            }
-            if ( i == 4 ) {
-                move_sprite(i, 76+(8*(i-2)), 76); 
-            }
-            if ( i == 5 ) {
-                move_sprite(i, 76+(8*(i-4)), 76);
-            }
-            if ( i == 6 ) {
-                move_sprite(i, 76+(8*(i-4)), 92);
-            }
-            if ( i == 7 ) {
-                move_sprite(i, 76+(8*(i-6)), 92);
-            }
-        }
-    }
-    if (selectedSkin >= 5) {
-        for (i = 0; i <= 5; i++) { 
-            if (i < 3) {
-                set_sprite_tile(i, i+i+(selectedSkin*8));
-                move_sprite(i, 76+(8*i), 76);    
-            }
-            if (i >= 3 && i < 5) {
-                set_sprite_tile(i, i+i+(selectedSkin*8));
-                move_sprite(i, 76+(8*(i-3)), 92);
-            }
-            if (i == 5) {
-                set_sprite_tile(i, i+i+(selectedSkin*8)-3);
-                move_sprite(i, 76+(8*(i-3)), 92);
-            }
-        }
-    }
-}
-
-void drawSkinName() {
-    UINT8 i, z;
-    set_sprite_data(52, skinSize[selectedSkin], skinNames[selectedSkin]);
-    for (z = 0; z < ((UINT8) skinSize[selectedSkin]) ; z++) {
-        set_sprite_tile(8+z, 52+z+z); 
-        move_sprite(8+z, ((UINT8) skinSpacing[selectedSkin])+(z*8), 110);
-    }
-    for (i = ((UINT8) skinSize[selectedSkin] - (UINT8) skinSize[selectedSkin] / 2); i < 18; i++ ) {
-        move_sprite(8+i, 180, 180);
-    }
-}
-
-void drawSelectedSkin() {
-    UINT8 i;
-    for (i = 0; i <= 6; i++) {
-        if (selectedSkin == i) {
-            drawBigSprite();
-            drawSkinName();
-        }
-    }
-    // Lightup the arrows
-    if (selectedSkin <= 0) {
-        move_sprite(38, 190, 190);
-    }
-    if (selectedSkin > 0) {
-        move_sprite(38, 65, 84);
-    }
-    if (selectedSkin < 5) {
-        move_sprite(39, 103, 84);
-    }
-    if (selectedSkin >= 5) {
-        move_sprite(39, 190, 190);
-    }
-}
-
-void initSkinsState() {
-    HIDE_SPRITES;
-    set_bkg_palette(0, 1, skins_pal);
-	set_bkg_data(0x01, skins_tiles, skins_dat);
-	VBK_REG = 1;
-	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_att);
-	VBK_REG = 0;
-	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_map);
-	move_bkg (0, 0);
-	SHOW_BKG;
-    set_sprite_data(0, 54, BigSkins);
-    set_sprite_data(80, 4, Arrows);
-    set_sprite_tile(38, 80);
-    set_sprite_tile(39, 82);
-    drawSelectedSkin();  
-    SHOW_SPRITES;
-    fadein(); 
 }
  
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -484,11 +154,6 @@ void startHazards() {
            printf("");
         }
     }
-}
-
-void countScore() {
-    gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
-    printf("%u", score++); // Print score at desired position
 }
 
 void main(){
@@ -599,7 +264,7 @@ void main(){
                     resetPlayerPosition(); // If no key, resets player to the center
             }
             isVLaserReadyToBlow();
-            setDelay(2);
+            setDelay(1);
         }
 
         while (state == 3) { // 3: Game Over

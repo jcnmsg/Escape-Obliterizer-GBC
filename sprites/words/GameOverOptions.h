@@ -1,6 +1,6 @@
 /*
 
- YES.H
+ GAMEOVEROPTIONS.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 5
+  Tiles                : 0 to 13
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define YesBank 0
+#define GameOverOptionsBank 0
 /* Start of tile array. */
-extern unsigned char Yes[];
+extern unsigned char GameOverOptions[];
 
-/* End of YES.H */
+/* End of GAMEOVEROPTIONS.H */
