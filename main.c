@@ -9,12 +9,12 @@
 #include <time.h>
 
 // REFACTORED FUNCTIONS
-#include "helpers.c" // General functions that are used throughout states (sound, visual fx, etc)
-#include "menu.c" // Menu state specific functions
-#include "credits.c" // Credits state specific functions
-#include "gameover.c" // Game over state specific functions
-#include "skins.c" // Skins state specific functions
-#include "game.c" // Game state functions and initialization of a lot of the variables
+#include "game/helpers.c" // General functions that are used throughout states (sound, visual fx, etc)
+#include "game/menu.c" // Menu state specific functions
+#include "game/credits.c" // Credits state specific functions
+#include "game/gameover.c" // Game over state specific functions
+#include "game/skins.c" // Skins state specific functions
+#include "game/game.c" // Game state functions and initialization of a lot of the variables
 
 void main(){ // Main loop
     DISPLAY_ON;
