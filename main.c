@@ -28,7 +28,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            setDelay(2);
+            setDelay(1);
         }
 
         while(state == 1){ // 1: Main Menu  
@@ -79,16 +79,16 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(2);
+            setDelay(1);
         }
 
         while(state == 2){ // 2: Game Loop
             countScore();
 
             // Debug clock -- convert clock to int
-            gotoxy(1, 1);
+            /* gotoxy(1, 1);
             printf("C:");
-            printf("%d", clock() / CLOCKS_PER_SEC);
+            printf("%d", clock() / CLOCKS_PER_SEC);*/
 
             startHazards();
             switch(joypad()) { // Listens for user input
@@ -131,7 +131,7 @@ void main(){ // Main loop
                     resetPlayerPosition(); // If no key, resets player to the center
             }
             isVLaserReadyToBlow();
-            setDelay(2);
+            setDelay(1);
         }
 
         while (state == 3) { // 3: Game Over
@@ -156,7 +156,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(2);
+            setDelay(1);
         }
 
         while (state == 4) { // 4: Pause
@@ -199,7 +199,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            setDelay(2);
+            setDelay(1);
         }
     }
 }

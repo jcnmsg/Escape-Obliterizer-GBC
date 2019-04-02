@@ -77,8 +77,8 @@ int reverseDigits(int num) {
 void processScore() {
     UINT16 digit;
     int i, count, current_score;
-    current_score = 698;
-    
+    current_score = score - 1;
+
     count = 0;
     while (current_score != 0) {
         digit = current_score % 10;
