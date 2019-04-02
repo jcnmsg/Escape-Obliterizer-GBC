@@ -6,7 +6,6 @@
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
 
-
 struct Laser {
     UBYTE repetitions[10];
 }
@@ -23,9 +22,6 @@ UINT8 bReady = 1;
 UINT8 bPos, bCurrentClock;
 
 UINT8 playerX, playerY;
-
-int score = 0; 
-UINT8 state = 1;
 
 void countScore() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
@@ -123,7 +119,7 @@ void callVLaser(){
 
 void startHazards() {
     unsigned UINT8 hazard;
-    if ( (clock() / CLOCKS_PER_SEC) % 2 == 0) { // change for timer 
+    if ( (int)((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
         hazard = generate_random_num(2);
         if (hazard == 0 && vLaserReady == 1) {
             callVLaser();

@@ -8,12 +8,12 @@
 #include <rand.h>
 #include <time.h>
 
-// REFACTORED FUNCTIONS
+// FUNCTIONS
 #include "game/helpers.c" // General functions that are used throughout states (sound, visual fx, etc)
 #include "game/menu.c" // Menu state specific functions
 #include "game/credits.c" // Credits state specific functions
-#include "game/gameover.c" // Game over state specific functions
 #include "game/skins.c" // Skins state specific functions
+#include "game/gameover.c" // Game over state specific functions
 #include "game/game.c" // Game state functions and initialization of a lot of the variables
 
 void main(){ // Main loop
@@ -26,8 +26,9 @@ void main(){ // Main loop
                     waitpadup();  
                     initGameMenu();
                     state = 1;
+                    break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while(state == 1){ // 1: Main Menu  
@@ -78,11 +79,17 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while(state == 2){ // 2: Game Loop
             countScore();
+
+            // Debug clock -- convert clock to int
+            gotoxy(1, 1);
+            printf("C:");
+            printf("%d", clock() / CLOCKS_PER_SEC);
+
             startHazards();
             switch(joypad()) { // Listens for user input
                 case J_LEFT:
@@ -124,7 +131,7 @@ void main(){ // Main loop
                     resetPlayerPosition(); // If no key, resets player to the center
             }
             isVLaserReadyToBlow();
-            setDelay(1);
+            setDelay(2);
         }
 
         while (state == 3) { // 3: Game Over
@@ -149,7 +156,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while (state == 4) { // 4: Pause
@@ -192,7 +199,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
     }
 }

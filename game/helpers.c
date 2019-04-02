@@ -1,3 +1,7 @@
+// GLOBAL VARIABLES NEEDED ACROSS STATES
+int score = 0; 
+UINT8 state = 1;
+
 // GAMEPLAY
 unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
     unsigned UINT8 num;
