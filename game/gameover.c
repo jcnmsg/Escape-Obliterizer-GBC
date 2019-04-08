@@ -8,6 +8,13 @@ const unsigned int *numbers[10] = {9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31
 const unsigned int *pos[6] = {0, 84, 90, 95, 101, 106};
 UINT16 *digits[10] = {11, 11, 11, 11, 11, 11, 11, 11, 11, 11};
 
+void clearDigits() {
+    UINT8 i;
+    for (i = 0; i < 10; i++ ) {
+        digits[i] = 11;
+    }
+}
+
 void drawYes() {
     UINT8 i;
     selected = 1;
@@ -23,16 +30,6 @@ void drawNo() {
     for (i = 0; i < 2; i++ ){
         set_sprite_tile(i, i + i + 4);
         move_sprite(i, 92 + i*8, 115);
-    }
-}
-
-void eraseOptions() {
-    UINT8 i, z; 
-    for (z = 0; z < 6; z++ ){
-        move_sprite(z, 166 + z + 8, 144);
-    }
-    for (i = 0; i < 5; i++ ){
-        move_sprite(i + 6, 166 + i + 8, 144);
     }
 }
 
@@ -52,32 +49,58 @@ void drawScore(int count) {
 }
 
 void drawHighScore() {
-    /*
-        Retrieve score from volatile ram
-        if (score > highscore) {
-            draw score as highscore
-            save current score to volatile ram
-        }
-        else {
-            draw highscore from volatile ram
-        }
-    */
-}
+    UINT16 digit;
+    int i, count, current_highscore;
+    current_highscore = highscore;
+    clearDigits(); 
 
-int reverseDigits(int num) {
-    int rev_num = 0;
-    while(num > 0){
-        rev_num = rev_num*10 + num%10;
-        num = num/10;
+    count = 0;
+    while (current_highscore != 0) {
+        digit = current_highscore % 10;
+        current_highscore /= 10;
+        digits[count] = digit;
+        count++;
     }
-    return rev_num;
+
+    count = 0;
+    for (i = 9; i > 0; i-- ) {
+        if (digits[i] != 11 ) {
+            count++;
+        }
+    }
+
+    for (i = 0; i < count; i++ ) {
+        if (digits[i] != 11 ) {
+            if ((int)digits[i] == 0) {
+                set_sprite_tile(i + 2 + 20, 27);
+            }
+            else {
+                set_sprite_tile(i + 2 + 20, numbers[(int)digits[i]-1]);
+            }
+            move_sprite(i + 2 + 20, (int)pos[count]-(11*i), 86);
+        }
+    }
 }
 
+void processHighScore() {
+    ENABLE_RAM_MBC1; // Open nvram
+
+    if ((score - 1) > highscore) { // If current score larger than highscore
+        highscore = score - 1; // Save current score to nvram
+        drawHighScore();
+    } 
+    else {
+        drawHighScore();
+    }
+
+    DISABLE_RAM_MBC1; // Close nvram
+}
 
 void processScore() {
     UINT16 digit;
     int i, count, current_score;
     current_score = score - 1;
+    clearDigits(); 
 
     count = 0;
     while (current_score != 0) {
@@ -95,7 +118,7 @@ void processScore() {
     }
 
     drawScore(count);
-    drawHighScore();
+    processHighScore();
 }
 
 void initGameOver(){

@@ -24,8 +24,8 @@ The development is just starting so I'll keep a checklist of what I've done so f
 - [x] Design and add pause screen
 - [x] Add Main-Menu Interactivity
 - [x] Add credits screen
-- [ ] Save the highest score to non-volatile RAM
-- [ ] Design and add interactive game over screen with a "random quote system" like the original
+- [x] Save the highest score to non-volatile RAM
+- [x] Design and add interactive game over screen
 - [x] Beautify: "fade" transitions between states
 - [x] Cheat code on menu (UUDDLRLRBA)
 

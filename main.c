@@ -28,7 +28,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while(state == 1){ // 1: Main Menu  
@@ -79,7 +79,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while(state == 2){ // 2: Game Loop
@@ -131,7 +131,7 @@ void main(){ // Main loop
                     resetPlayerPosition(); // If no key, resets player to the center
             }
             isVLaserReadyToBlow();
-            setDelay(1);
+            setDelay(2);
         }
 
         while (state == 3) { // 3: Game Over
@@ -143,7 +143,7 @@ void main(){ // Main loop
                     drawNo();
                     break;
                 case J_A:
-                    eraseOptions();
+                    clearSpritePositions();
                     score = 0;
                     if (selected == 1) {
                         fadeout();
@@ -156,7 +156,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
 
         while (state == 4) { // 4: Pause
@@ -199,7 +199,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            setDelay(1);
+            setDelay(2);
         }
     }
 }

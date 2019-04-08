@@ -1,4 +1,5 @@
 // GLOBAL VARIABLES NEEDED ACROSS STATES
+extern int highscore;
 int score = 0; 
 UINT8 state = 1;
 
@@ -75,5 +76,12 @@ void fadein() {
             BGP_REG = 0xE4;
         }
         setDelay(2);
+    }
+}
+
+void clearSpritePositions() {
+    UINT8 i;
+    for (i = 0; i < 30; i++ ){
+        move_sprite(i, 200, 200);
     }
 }
