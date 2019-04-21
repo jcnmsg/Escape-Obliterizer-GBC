@@ -33,6 +33,12 @@ void resetPlayerPosition(){
     for (w = 0; w <= 5; w++) {
         if (w == selectedSkin) {
             set_sprite_tile(39, 11+w+w);
+            if (selectedSkin < 2) {
+                set_sprite_prop(39, 0);
+            }
+            if (selectedSkin >= 2){
+                set_sprite_prop(39, selectedSkin + 1);
+            }
         }
     }
     move_sprite(39, 84, 80); 

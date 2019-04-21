@@ -119,6 +119,14 @@ void main(){ // Main loop
                 printf("%d", clock() / CLOCKS_PER_SEC);*/
 
                 startHazards();
+
+                if (selectedSkin < 2) {
+                    set_sprite_prop(39, 0);
+                }
+                if (selectedSkin >= 2){
+                    set_sprite_prop(39, selectedSkin + 1);
+                }
+
                 switch(joypad()) { // Listens for user input
                     case J_LEFT:
                         move_sprite(39, 44, 80); // Moves player sprite accordingly
@@ -208,7 +216,7 @@ void main(){ // Main loop
                         break;
                     case J_RIGHT: 
                         waitpadup();
-                        if (selectedSkin < 5) {
+                        if (selectedSkin < 4) {
                             selectedSkin++;
                             drawSelectedSkin();
                         }
