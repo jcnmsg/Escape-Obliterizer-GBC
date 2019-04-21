@@ -9,6 +9,7 @@
 #include <time.h>
 
 // FUNCTIONS
+#include "game/colors.c" // CGB color palettes
 #include "game/helpers.c" // General functions that are used throughout states (sound, visual fx, etc)
 #include "game/menu.c" // Menu state specific functions
 #include "game/credits.c" // Credits state specific functions
@@ -17,6 +18,7 @@
 #include "game/game.c" // Game state functions and initialization of a lot of the variables
 
 void main(){ // Main loop
+    initColors();
     DISPLAY_ON;
     initGameMenu();
     while(1) {

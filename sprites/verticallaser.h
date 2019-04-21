@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define LaserBank 0
+#define VerticalLaserBank 0
 /* Start of tile array. */
-extern unsigned char Laser[];
+extern unsigned char VerticalLaser[];
 
 /* End of VERTICALLASER.H */

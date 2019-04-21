@@ -69,6 +69,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
     for(i = 0; i < 9; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 30);
+        set_sprite_prop(i, 1);
     }
     drawTheVLaser(&vLaser, x, 0);
 }

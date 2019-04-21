@@ -2,7 +2,7 @@
 #include "../background/credits/credits.c"
 
 void initCredits() {
-    set_bkg_palette(0, 1, credits_pal);
+	set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
 	set_bkg_data(0x01, credits_tiles, credits_dat);
 	VBK_REG = 1;
 	set_bkg_tiles(0, 0, credits_cols, credits_rows, credits_att);

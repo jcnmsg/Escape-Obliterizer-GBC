@@ -123,7 +123,7 @@ void processScore() {
 
 void initGameOver(){
     HIDE_SPRITES;
-    set_bkg_palette(0, 1, gameoverbg_pal);
+    set_bkg_palette(0, 1, &bkg_palettes[1]); // set bg palettes
     set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
     VBK_REG = 1;
     set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);

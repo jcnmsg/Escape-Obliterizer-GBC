@@ -1,5 +1,5 @@
 # Escape Obliterizer for the Game Boy
-Escape Obliterizer is a really small JavaScript game I made with a couple of friends during an hackathon in 2016 (original game is available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, the game is so simple that it fits the original Game Boy hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? 
+Escape Obliterizer is a really small JavaScript game I made with a couple of friends during an hackathon in 2016 (original game is available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, the game is so simple that it fits the Game Boy hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? It should play fine in both Game Boy and Game Boy Color.
 
 ## Compiling
 The game is being developed in C using the Game Boy Development Kit. If you'd like to compile the code yourself, you first need to download and setup the last available version of [GBDK](http://gbdk.sourceforge.net/) on your machine. From there, all you have to do is clone this repo, run the **build.bat** script, and it should build and place a playable .GB file in the **build** folder (the current build of the game is already available in that folder, if you'd like to just play the game). 
@@ -16,7 +16,7 @@ Stuff I've added in this version that's not on the original version:
 - Credits screen;
 - Player skin changing via cheat code (KONAMI CODE)
 - Highscore saving (uses non-volatile ram, so no battery needed on real carts)
-- Fade transitions between states
+- Fade transitions between states (needs fixing on SGB)
 - Player death dissolving animation. It's currently using a placeholder animation, needs redesign.
 
 ## Invaluable Resources
