@@ -27,6 +27,7 @@ void drawPlay() {
     for (i = 0; i < 5; i++ ){
         set_sprite_tile(i, i + i);
         move_sprite(i, 133 + i*8, 113);
+        set_sprite_prop(i, 2);
     }
 }
 
@@ -36,6 +37,7 @@ void drawCredits() {
     for (i = 0; i < 6; i++ ){
         set_sprite_tile(i, i + i + 10);
         move_sprite(i, 120 + i*8, 123);
+        set_sprite_prop(i, 2);
     }
 }
 

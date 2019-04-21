@@ -1,5 +1,5 @@
-# Escape Obliterizer for the Game Boy
-Escape Obliterizer is a really small JavaScript game I made with a couple of friends during an hackathon in 2016 (original game is available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, the game is so simple that it fits the Game Boy hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? It should play fine in both Game Boy and Game Boy Color.
+# Escape Obliterizer for the Game Boy Color
+Escape Obliterizer is a really small game I made with a couple of friends during an hackathon in 2016 (available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, it fits Game Boy Color hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? Since it's a Game Boy Color game, it only runs on a Game Boy Color or Game Boy Advance. It doesn't run on any prior systems (DMG, SGB, POCKET).
 
 ## Compiling
 The game is being developed in C using the Game Boy Development Kit. If you'd like to compile the code yourself, you first need to download and setup the last available version of [GBDK](http://gbdk.sourceforge.net/) on your machine. From there, all you have to do is clone this repo, run the **build.bat** script, and it should build and place a playable .GB file in the **build** folder (the current build of the game is already available in that folder, if you'd like to just play the game). 
@@ -24,3 +24,4 @@ Stuff I've added in this version that's not on the original version:
 - GBDK Documentation: [GBDK Libraries Documentation](http://gbdk.sourceforge.net/doc/html/book01.html)
 - Sound FX: [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt) / [Game Boy Sound Operation](https://gist.github.com/drhelius/3652407) 
 - Saving to RAM - [GB Save Ram](http://www.devrs.com/gb/files/sram.txt)
+- Useful demos - [GBDK Playground](https://github.com/mrombout/gbdk_playground)

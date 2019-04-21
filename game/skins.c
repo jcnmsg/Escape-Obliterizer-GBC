@@ -22,7 +22,16 @@ void drawBigSprite() { // draw big skin with flipx
         for (i = 0; i < 4; i++) {
             set_sprite_tile(i, i+i+(selectedSkin*8));
             set_sprite_tile(i+4, i+i+(selectedSkin*8));
-            set_sprite_prop(i+4, S_FLIPX);
+            if (selectedSkin < 2) {
+                set_sprite_prop(i, 0);
+                set_sprite_prop(i+4, 0);
+                set_sprite_prop(i+4, get_sprite_prop(i+4) | S_FLIPX);
+            }
+            if (selectedSkin == 2) {
+                set_sprite_prop(i, 3);
+                set_sprite_prop(i+4, 3);
+                set_sprite_prop(i+4, get_sprite_prop(i+4) | S_FLIPX);
+            }
         }
         for (i = 0; i <= 8; i++) {
             if (i < 2) {
@@ -69,9 +78,11 @@ void drawSkinName() {
     for (z = 0; z < ((UINT8) skinSize[selectedSkin]) ; z++) {
         set_sprite_tile(8+z, 52+z+z); 
         move_sprite(8+z, ((UINT8) skinSpacing[selectedSkin])+(z*8), 110);
+        set_sprite_prop(8+z, 2);
     }
     for (i = ((UINT8) skinSize[selectedSkin] - (UINT8) skinSize[selectedSkin] / 2); i < 18; i++ ) {
         move_sprite(8+i, 180, 180);
+        set_sprite_prop(8+i, 2);
     }
 }
 
@@ -100,7 +111,7 @@ void drawSelectedSkin() {
 
 void initSkinsState() {
     HIDE_SPRITES;
-    set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
+    set_bkg_palette(0, 1, bkg_palettes); // set bg palettes
 	set_bkg_data(0x01, skins_tiles, skins_dat);
 	VBK_REG = 1;
 	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_att);
@@ -111,7 +122,9 @@ void initSkinsState() {
     set_sprite_data(0, 54, BigSkins);
     set_sprite_data(80, 4, Arrows);
     set_sprite_tile(38, 80);
+    set_sprite_prop(38, 2);
     set_sprite_tile(39, 82);
+    set_sprite_prop(39, 2);
     drawSelectedSkin();  
     SHOW_SPRITES;
     fadein(); 

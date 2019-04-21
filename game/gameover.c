@@ -21,6 +21,7 @@ void drawYes() {
     for (i = 0; i < 2; i++ ){
         set_sprite_tile(i, i + i);
         move_sprite(i, 75 + i*8, 115);
+        set_sprite_prop(i, 2);
     }
 }
 
@@ -30,6 +31,7 @@ void drawNo() {
     for (i = 0; i < 2; i++ ){
         set_sprite_tile(i, i + i + 4);
         move_sprite(i, 92 + i*8, 115);
+        set_sprite_prop(i, 2);
     }
 }
 
@@ -44,6 +46,7 @@ void drawScore(int count) {
                 set_sprite_tile(i + 2, numbers[(int)digits[i]-1]);
             }
             move_sprite(i + 2, (int)pos[count]-(11*i), 57);
+            set_sprite_prop(i + 2, 2);
         }
     }
 }
@@ -78,6 +81,7 @@ void drawHighScore() {
                 set_sprite_tile(i + 2 + 20, numbers[(int)digits[i]-1]);
             }
             move_sprite(i + 2 + 20, (int)pos[count]-(11*i), 86);
+            set_sprite_prop(i + 2 + 20, 2); 
         }
     }
 }
@@ -123,7 +127,7 @@ void processScore() {
 
 void initGameOver(){
     HIDE_SPRITES;
-    set_bkg_palette(0, 1, &bkg_palettes[1]); // set bg palettes
+    set_bkg_palette(0, 1, bkg_gameover_palette); // set bg palettes
     set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
     VBK_REG = 1;
     set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
