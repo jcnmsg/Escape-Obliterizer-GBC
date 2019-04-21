@@ -11,7 +11,7 @@
 //BG
 #define RGB_VIOLET           RGB(7, 1, 6)
 #define RGB_LIGHTVIOLET      RGB(14, 4, 12)
-#define RGB_BGYELLOW         RGB(30, 30, 1)
+#define RGB_BGYELLOW         RGB(30, 30, 1) 
 
 
 const UWORD sprite_palettes[] = {
