@@ -136,8 +136,8 @@ void startHazards() {
             printf("");
         }
         else if (hazard == 2 && bReady == 1) {
-           //callBomb();
-           printf("");
+            //callBomb();
+            printf("");
         }
     }
 }

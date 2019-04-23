@@ -34,7 +34,9 @@ void playSoundFX(UINT8 fx) {
 
 // VISUAL FX
 void fadeout() {
-    UINT8 i;
+    DISPLAY_OFF;
+    //UINT8 i;
+    /* NOT IN USE ANYMORE, DOESN'T WORK ON GBC, ONLY DMG AND POCKET
     for (i=0; i<4; i++) {
         if (i == 0) {
             BGP_REG = 0xE4; // Background palette
@@ -53,11 +55,13 @@ void fadeout() {
             OBP0_REG = 0x00;
         }
         setDelay(2);
-    }
+    }*/
 }
 
 void fadein() {
-    UINT8 i;
+    DISPLAY_ON;
+    //UINT8 i;
+    /* NOT IN USE ANYMORE, DOESN'T WORK ON GBC, ONLY DMG AND POCKET
     for (i=0; i<4; i++) {
         if (i == 0) {
             OBP0_REG = 0x00; // Sprite palette
@@ -76,7 +80,7 @@ void fadein() {
             BGP_REG = 0xE4;
         }
         setDelay(2);
-    }
+    }*/
 }
 
 void clearSpritePositions() {

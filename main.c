@@ -21,11 +21,11 @@
 extern UBYTE _cpu;
 
 void main(){ // Main loop
-    if (_cpu == 0x01 || _cpu == 0xFF) {
+    if (_cpu == 0x01 || _cpu == 0xFF) { // If running on MGB or prior models
         font_t min; // Declare font variable
-        font_init(); // Initialize font library after state change to avoid overwriting bg tiles
-        min = font_load(font_spect); // Load built in font_ibm
-        font_set(min); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
+        font_init(); // Initialize font library 
+        min = font_load(font_spect); // Load built in font_spect
+        font_set(min); // Set built in font_spect
         gotoxy(1, 1);
         printf("%s", "This game game is");
         gotoxy(1,3);
@@ -43,7 +43,7 @@ void main(){ // Main loop
         gotoxy(1, 16);
         printf("%s", "Sorry!");
     }
-    else {
+    else { // GBC or GBA
         initColors();
         DISPLAY_ON;
         initGameMenu();
