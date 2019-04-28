@@ -2,6 +2,9 @@
 /build/main.map
 /build/main.o
 /build/main.sym
+/build/main.sav
+/build/savestate.lst
+/build/savestate.o
 /.vscode
 !/.vscode/tasks.json
 !/.vscode/settings.json
