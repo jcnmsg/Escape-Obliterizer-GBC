@@ -179,6 +179,7 @@ void main(){ // Main loop
                         drawNo();
                         break;
                     case J_A:
+                        waitpadup();
                         clearSpritePositions();
                         score = 0;
                         if (selected == 1) {
