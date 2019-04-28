@@ -112,14 +112,10 @@ void main(){ // Main loop
 
             while(state == 2){ // 2: Game Loop
                 countScore();
-
-                // Debug clock -- convert clock to int
-                /* gotoxy(1, 1);
-                printf("C:");
-                printf("%d", clock() / CLOCKS_PER_SEC);*/
-
+                processStun();
                 startHazards();
 
+                // Colorize skins
                 if (selectedSkin < 2) {
                     set_sprite_prop(39, 0);
                 }
@@ -129,35 +125,77 @@ void main(){ // Main loop
 
                 switch(joypad()) { // Listens for user input
                     case J_LEFT:
-                        move_sprite(39, 44, 80); // Moves player sprite accordingly
-                        playerX = 44;
-                        playerY = 80;
-                        if (selectedSkin == 0) {
-                            set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
+                        if (stunned == 0) {
+                            if (stun <= 100) {
+                                stun++;
+                                move_sprite(39, 44, 80); // Moves player sprite accordingly
+                                playerX = 44;
+                                playerY = 80;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
+                            
                         }
                         break;
                     case J_RIGHT:
-                        move_sprite(39, 124, 80); 
-                        playerX = 124;
-                        playerY = 80;
-                        if (selectedSkin == 0) {
-                            set_sprite_tile(39, 9);
+                        if (stunned == 0) {
+                            if (stun <= 100) {
+                                stun++;
+                                move_sprite(39, 124, 80); 
+                                playerX = 124;
+                                playerY = 80;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 9);
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
+
                         }
                         break;
                     case J_UP:
-                        move_sprite(39, 84, 40); 
-                        playerX = 84;
-                        playerY = 40;
-                        if (selectedSkin == 0) {
-                            set_sprite_tile(39, 9);
+                        if (stunned == 0) {
+                            if (stun <= 100) {
+                                stun++;
+                                move_sprite(39, 84, 40); 
+                                playerX = 84;
+                                playerY = 40;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 9);
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
                         }
                         break;
                     case J_DOWN:
-                        move_sprite(39, 84, 120);
-                        playerX = 84;
-                        playerY = 120;
-                        if (selectedSkin == 0) {
-                            set_sprite_tile(39, 5); 
+                        if (stunned == 0) {
+                            if (stun <= 100) {
+                                stun++;
+                                move_sprite(39, 84, 120);
+                                playerX = 84;
+                                playerY = 120;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 5); 
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
                         }
                         break;
                     case J_START:

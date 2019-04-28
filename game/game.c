@@ -44,6 +44,9 @@ void resetPlayerPosition(){
     move_sprite(39, 84, 80); 
     playerX = 84;
     playerY = 80;
+    if (stunned == 0)  {
+        stun = 0;
+    }
 }
 
 void initGameLoop(){
@@ -59,6 +62,8 @@ void initGameLoop(){
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
+    stun = 0;
+    stunned = 0;
 }
  
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -139,4 +144,21 @@ void startHazards() {
             printf("");
         }
     }
+}
+
+void playStunAnimation() {
+    // Hello
+}
+
+void processStun() {
+    if (stunned == 1) {
+        playStunAnimation();
+        if(stun <= 100){ 
+            stun++;
+        }
+        else {
+            stunned = 0;
+            stun = 0;
+        }
+    } 
 }

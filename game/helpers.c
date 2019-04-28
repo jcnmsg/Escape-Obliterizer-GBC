@@ -1,6 +1,8 @@
 // GLOBAL VARIABLES NEEDED ACROSS STATES
 extern int highscore;
 int score = 0; 
+int stun = 0;
+int stunned = 0;
 UINT8 state = 1;
 
 // GAMEPLAY
