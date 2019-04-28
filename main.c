@@ -206,7 +206,7 @@ void main(){ // Main loop
                 state = 2; 
             }
 
-            while (state == 5) { 
+            while (state == 5) {
                 switch(joypad()) { // Listens for user input
                     case J_LEFT: 
                         waitpadup();
