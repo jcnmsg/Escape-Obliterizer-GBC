@@ -8,6 +8,7 @@ If you're using [Visual Studio Code](https://code.visualstudio.com/) to edit the
 
 ## Development
 The development is still ongoing, what's still missing from the original game? 
+
 GENERAL:
 
     - Music implementation (GBT Player ?)
