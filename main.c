@@ -126,7 +126,7 @@ void main(){ // Main loop
                 switch(joypad()) { // Listens for user input
                     case J_LEFT:
                         if (stunned == 0) {
-                            if (stun <= 100) {
+                            if (stun <= 60) { 
                                 stun++;
                                 move_sprite(39, 44, 80); // Moves player sprite accordingly
                                 playerX = 44;
@@ -145,7 +145,7 @@ void main(){ // Main loop
                         break;
                     case J_RIGHT:
                         if (stunned == 0) {
-                            if (stun <= 100) {
+                            if (stun <= 60) {
                                 stun++;
                                 move_sprite(39, 124, 80); 
                                 playerX = 124;
@@ -164,7 +164,7 @@ void main(){ // Main loop
                         break;
                     case J_UP:
                         if (stunned == 0) {
-                            if (stun <= 100) {
+                            if (stun <= 60) {
                                 stun++;
                                 move_sprite(39, 84, 40); 
                                 playerX = 84;
@@ -182,7 +182,7 @@ void main(){ // Main loop
                         break;
                     case J_DOWN:
                         if (stunned == 0) {
-                            if (stun <= 100) {
+                            if (stun <= 60) {
                                 stun++;
                                 move_sprite(39, 84, 120);
                                 playerX = 84;
