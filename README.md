@@ -8,14 +8,26 @@ If you're using [Visual Studio Code](https://code.visualstudio.com/) to edit the
 
 ## Development
 The development is still ongoing, what's still missing from the original game? 
+GENERAL:
+
+    - Music implementation (GBT Player ?)
+
 STUN:
+
     - Draw the sprite animation for visual queue (4 frames)
+
     - Implement sprite animation on key press, on release animation resets
+
     - Play animation when stunned
+
     - Sound for when player is stunned
+
 SCORE: 
+
     - When pressing a key (up down left right), score should implement faster
+
 HAZARDS:
+
     - Everything for bombs and vertical lasers
 
 
