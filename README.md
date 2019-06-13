@@ -8,8 +8,16 @@ If you're using [Visual Studio Code](https://code.visualstudio.com/) to edit the
 
 ## Development
 The development is still ongoing, what's still missing from the original game? 
-- Implementation of the horizontal lasers, bombs and the stun functionality. Vertical lasers are fully done and animated.
-- Background music/beat (currently researching into GBT Player);
+STUN:
+    - Draw the sprite animation for visual queue (4 frames)
+    - Implement sprite animation on key press, on release animation resets
+    - Play animation when stunned
+    - Sound for when player is stunned
+SCORE: 
+    - When pressing a key (up down left right), score should implement faster
+HAZARDS:
+    - Everything for bombs and vertical lasers
+
 
 ## Flashing
 If you'd like to play the game on real hardware, you can flash it onto chinese bootleg carts using specific hardware. I'm personally using GBxCartRW 1.3 without any hassle, but you can also use Bennvenn's Joey-Joebags or equivalent. Check the lcc flags on the **build.bat** script if you need ROM specifications.
