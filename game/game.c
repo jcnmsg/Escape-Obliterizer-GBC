@@ -5,6 +5,8 @@
 // GAME SPRITES
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
+#include "../sprites/stun.c"
+#include "../sprites/stunqueue.c"
 
 struct Laser {
     UBYTE repetitions[10];
@@ -41,7 +43,17 @@ void resetPlayerPosition(){
             }
         }
     }
-    move_sprite(39, 84, 80); 
+        
+    set_sprite_tile(37, 48);
+    set_sprite_prop(37, 7);
+    set_sprite_tile(38, 48);
+    set_sprite_prop(38, get_sprite_prop(37) | S_FLIPX);
+    
+    move_sprite(37, 200, 200); //hide stun queue
+    move_sprite(38, 200, 200); //hide reversed stun queue
+
+    move_sprite(39, 84, 80); // reset player
+
     playerX = 84;
     playerY = 80;
     if (stunned == 0)  {
@@ -58,7 +70,11 @@ void initGameLoop(){
     set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
-    set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites 
+    set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites
+    set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
+    set_sprite_data(58, 10, TheStun); // Sets the stun sprites
+    set_sprite_prop(36, 6); // Setup stun animation colors
+
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
@@ -147,18 +163,54 @@ void startHazards() {
 }
 
 void playStunAnimation() {
-    // Hello
+    move_sprite(36, 85, 78);
+    if ((stun > 0 && stun <= 5) || (stun > 25 && stun <= 30) || (stun > 50 && stun <= 55) ) {
+        set_sprite_tile(36, 58);
+    }
+    if ((stun > 5 && stun <= 10) || (stun > 30 && stun <= 35) || (stun > 55 && stun <= 60)) {
+        set_sprite_tile(36, 60);
+    }
+    if ((stun > 10 && stun <= 15) || (stun > 35 && stun <= 40) || (stun > 60 && stun <= 65)) {
+        set_sprite_tile(36, 62);
+    }
+    if ((stun > 15 && stun <= 20) || (stun > 40 && stun <= 45) || (stun > 65 && stun <= 70)) {
+        set_sprite_tile(36, 64);
+    }
+    if ((stun >= 20 && stun <= 25) || (stun > 45 && stun <= 50) || (stun > 70 && stun <= 75)) {
+        set_sprite_tile(36, 66);
+    }
 }
 
 void processStun() {
     if (stunned == 1) {
         playStunAnimation();
-        if(stun <= 100){ 
+        if(stun <= 75){ 
             stun++;
         }
         else {
             stunned = 0;
             stun = 0;
+            move_sprite(36, 200, 200); // hide stun sprite on stun finish
         }
     } 
+}
+
+void animateStunQueue(int stun){
+    if (stun > 0 && stun < 20) {
+        set_sprite_tile(37, 50);
+        set_sprite_tile(38, 50);
+    }
+    if (stun >=20 && stun < 40) {
+        set_sprite_tile(37, 52);
+        set_sprite_tile(38, 52);
+    } 
+    if (stun >=40 && stun < 60) {
+        set_sprite_tile(37, 54);
+        set_sprite_tile(38, 54);
+    } 
+    if (stun >= 60 && stun < 80) {
+        set_sprite_tile(37, 56);
+        set_sprite_tile(38, 56);
+    }
+    score+=3;
 }

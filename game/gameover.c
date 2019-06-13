@@ -138,6 +138,9 @@ void initGameOver(){
     processScore();
     set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
     drawYes();
+    set_sprite_tile(36, 119); // empty stun anim sprite
+    set_sprite_tile(37, 119); // empty stun queue
+    set_sprite_tile(38, 119); // empty stun queue
     set_sprite_tile(39, 119); // empty player sprite
     SHOW_SPRITES;
     fadein();

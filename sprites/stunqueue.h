@@ -1,6 +1,6 @@
 /*
 
- STUN.H
+ STUNQUEUE.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 16
-  Tiles                : 0 to 4
+  Tiles                : 0 to 3
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define TheStunBank 0
+#define StunQueueBank 0
 /* Start of tile array. */
-extern unsigned char TheStun[];
+extern unsigned char StunQueue[];
 
-/* End of STUN.H */
+/* End of STUNQUEUE.H */

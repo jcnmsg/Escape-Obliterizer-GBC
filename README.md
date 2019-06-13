@@ -15,17 +15,7 @@ GENERAL:
 
 STUN:
 
-    - Draw the sprite animation for visual queue (4 frames)
-
-    - Implement sprite animation on key press, on release animation resets
-
-    - Play animation when stunned
-
     - Sound for when player is stunned
-
-SCORE: 
-
-    - When pressing a key (up down left right), score should implement faster
 
 HAZARDS:
 
