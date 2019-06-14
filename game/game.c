@@ -166,18 +166,23 @@ void playStunAnimation() {
     move_sprite(36, 85, 78);
     if ((stun > 0 && stun <= 5) || (stun > 25 && stun <= 30) || (stun > 50 && stun <= 55) ) {
         set_sprite_tile(36, 58);
+        playSoundFX(1);
     }
     if ((stun > 5 && stun <= 10) || (stun > 30 && stun <= 35) || (stun > 55 && stun <= 60)) {
         set_sprite_tile(36, 60);
+        playSoundFX(2);
     }
     if ((stun > 10 && stun <= 15) || (stun > 35 && stun <= 40) || (stun > 60 && stun <= 65)) {
         set_sprite_tile(36, 62);
+        playSoundFX(3);
     }
     if ((stun > 15 && stun <= 20) || (stun > 40 && stun <= 45) || (stun > 65 && stun <= 70)) {
         set_sprite_tile(36, 64);
+        playSoundFX(4);
     }
     if ((stun >= 20 && stun <= 25) || (stun > 45 && stun <= 50) || (stun > 70 && stun <= 75)) {
         set_sprite_tile(36, 66);
+        playSoundFX(5);
     }
 }
 
@@ -209,8 +214,8 @@ void animateStunQueue(int stun){
         set_sprite_tile(38, 54);
     } 
     if (stun >= 60 && stun < 80) {
-        set_sprite_tile(37, 56);
-        set_sprite_tile(38, 56);
+        set_sprite_tile(37, 119);
+        set_sprite_tile(38, 119);
     }
     score+=3;
 }

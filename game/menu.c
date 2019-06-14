@@ -60,7 +60,6 @@ void remSkinsState(){
 }
 
 void initGameMenu() {
-    fadeout();
     remSkinsState();
     HIDE_SPRITES;
     set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
@@ -75,5 +74,5 @@ void initGameMenu() {
     set_sprite_data(0, 22, MenuOptions);
     drawPlay();
     SHOW_SPRITES;
-    fadein(); 
+    fadein();
 }

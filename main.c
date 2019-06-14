@@ -52,6 +52,7 @@ void main(){ // Main loop
                 switch(joypad()) { // Listens for user input
                     case J_A:
                         waitpadup();  
+                        fadeout();
                         initGameMenu();
                         state = 1;
                         break;
@@ -238,6 +239,7 @@ void main(){ // Main loop
                             state = 2;
                         }
                         else if (selected == 0){
+                            fadeout();
                             initGameMenu();
                             state = 1;
                         }
@@ -276,12 +278,14 @@ void main(){ // Main loop
                         waitpadup();
                         selectedSkin = 0;
                         keyCount = 0;
+                        fadeout();
                         initGameMenu();
                         state = 1;
                         break;
                     case J_A:
                         waitpadup();
                         keyCount = 0;
+                        fadeout();
                         initGameMenu();
                         state = 1;
                         break;
