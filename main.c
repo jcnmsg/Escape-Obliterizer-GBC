@@ -217,6 +217,7 @@ void main(){ // Main loop
                         resetPlayerPosition(); // If no key, resets player to the center
                 }
                 isVLaserReadyToBlow();
+                isBombReadyToBlow();
                 setDelay(2);
             }
 
@@ -226,7 +227,7 @@ void main(){ // Main loop
                         drawYes();
                         break;
                     case J_RIGHT:
-                        drawNo();
+                        drawNo(); 
                         break;
                     case J_A:
                         waitpadup();

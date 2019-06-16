@@ -8,6 +8,7 @@
 #include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
+#include "../sprites/explosion.c"
 
 struct Laser {
     UBYTE repetitions[10];
@@ -75,8 +76,8 @@ void initGameLoop(){
     set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
-    set_sprite_data(68, 6, BombLaser);
-
+    set_sprite_data(68, 6, BombLaser); // Sets the bomb laser sprites
+    set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
@@ -118,14 +119,13 @@ void drawTheBomb(UINT8 x, UINT8 y) {
         if (i == 7) {
             move_sprite(9+i, x + 8 , y + 12);
         }
-        move_sprite(36, x, y-4);
     }
 }
 
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
     UINT8 i;
     vLaserPos = x;
-    vCurrentClock = (clock() / CLOCKS_PER_SEC);
+    vCurrentClock = (UINT16)(clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 9; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 30);
@@ -137,7 +137,7 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
 void triggerBomb(UINT8 x) {
     UINT8 i;
     bPos = x;
-    bCurrentClock = (clock() / CLOCKS_PER_SEC);
+    bCurrentClock = (UINT16)(clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 8; i++){
         if (i < 2) {
             set_sprite_tile(9+i, 68+i+i);
@@ -162,14 +162,12 @@ void triggerBomb(UINT8 x) {
             set_sprite_prop(9+i, get_sprite_prop(9+i) | S_FLIPX | S_FLIPY);
         }
     }
-    set_sprite_tile(36, 72);
-    set_sprite_prop(36, 1);
     drawTheBomb(x, 80);
 }
 
 void isVLaserReadyToBlow() {
     UINT8 i, z;
-    if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 ) {
+    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 ) {
         playSoundFX(0);
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
@@ -189,6 +187,24 @@ void isVLaserReadyToBlow() {
             state = 3;
         }
         vLaserReady = 1;
+    }
+}
+
+void isBombReadyToBlow() {
+    UINT8 i;
+    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 ) {
+        playSoundFX(0);
+        setDelay(2);
+        if (playerX == bPos) {
+            for (i = 0; i <= 5; i++) {
+                set_sprite_tile(39, 23+i);
+                setDelay(3);
+            }
+            fadeout();
+            initGameOver();
+            state = 3;
+        }
+        bReady = 1;
     }
 }
 
@@ -239,7 +255,6 @@ void startHazards() {
         }
         else if (hazard == 2 && bReady == 1) {
             callBomb();
-            printf("");
         }
     }
 }
