@@ -5,6 +5,7 @@
 // GAME SPRITES
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
+#include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
 
@@ -74,6 +75,7 @@ void initGameLoop(){
     set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
+    set_sprite_data(68, 6, BombLaser);
 
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
@@ -89,6 +91,37 @@ void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     } 
 }
 
+void drawTheBomb(UINT8 x, UINT8 y) {
+    UINT8 i; 
+    for(i = 0; i < 8; i++){
+        if (i == 0) {
+            move_sprite(9+i, x - 16, y - 20);
+        }
+        if (i == 1) {
+            move_sprite(9+i, x - 8 , y - 20);
+        }
+        if (i == 2) {
+            move_sprite(9+i, x + 16, y - 20);
+        }
+        if (i == 3) {
+            move_sprite(9+i, x + 8 , y - 20);
+        }
+        if (i == 4) {
+            move_sprite(9+i, x - 16, y + 12);
+        }
+        if (i == 5) {
+            move_sprite(9+i, x - 8 , y + 12);
+        }
+        if (i == 6) {
+            move_sprite(9+i, x + 16, y + 12);
+        }
+        if (i == 7) {
+            move_sprite(9+i, x + 8 , y + 12);
+        }
+        move_sprite(36, x, y-4);
+    }
+}
+
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
     UINT8 i;
     vLaserPos = x;
@@ -99,6 +132,39 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
         set_sprite_prop(i, 1);
     }
     drawTheVLaser(&vLaser, x, 0);
+}
+
+void triggerBomb(UINT8 x) {
+    UINT8 i;
+    bPos = x;
+    bCurrentClock = (clock() / CLOCKS_PER_SEC);
+    for(i = 0; i < 8; i++){
+        if (i < 2) {
+            set_sprite_tile(9+i, 68+i+i);
+        }
+        if (i >= 2 && i < 4) {
+            set_sprite_tile(9+i, 68+i+i-2-2);
+        }
+        if (i >= 4 && i < 6) {
+            set_sprite_tile(9+i, 68+i+i-4-4);
+        }
+        if (i >= 6 && i < 8) {
+            set_sprite_tile(9+i, 68+i+i-6-6);
+        }
+        set_sprite_prop(9+i, 1);
+        if (i >= 2 && i < 4) {
+            set_sprite_prop(9+i, get_sprite_prop(9+i) | S_FLIPX);
+        }
+        if (i >=4 && i < 6) {
+            set_sprite_prop(9+i, get_sprite_prop(9+i) | S_FLIPY);
+        }
+        if (i>=6){
+            set_sprite_prop(9+i, get_sprite_prop(9+i) | S_FLIPX | S_FLIPY);
+        }
+    }
+    set_sprite_tile(36, 72);
+    set_sprite_prop(36, 1);
+    drawTheBomb(x, 80);
 }
 
 void isVLaserReadyToBlow() {
@@ -145,6 +211,21 @@ void callVLaser(){
     }
 }
 
+void callBomb() {
+    unsigned UINT8 pos = generate_random_num(2);
+    if (pos == 0) {
+        bReady = 0;
+        triggerBomb(44);
+    }
+    else if (pos == 1) {
+        bReady = 0;
+        triggerBomb(124);
+    }
+    else if (pos == 2) {
+        bReady = 1;
+    }
+}
+
 void startHazards() {
     unsigned UINT8 hazard;
     if ( (int)((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
@@ -157,6 +238,7 @@ void startHazards() {
             printf("");
         }
         else if (hazard == 2 && bReady == 1) {
+            callBomb();
             printf("");
         }
     }
