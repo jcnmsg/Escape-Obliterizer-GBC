@@ -13,10 +13,6 @@ GENERAL:
 
     - Music implementation (GBT Player ?)
 
-STUN:
-
-    - Sound for when player is stunned
-
 HAZARDS:
 
     - Everything for bombs and vertical lasers
@@ -28,6 +24,6 @@ If you'd like to play the game on real hardware, you can flash it onto chinese b
 ## Invaluable Resources
 - Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Offical Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)
 - GBDK Documentation: [GBDK Libraries Documentation](http://gbdk.sourceforge.net/doc/html/book01.html)
-- Sound FX: [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt) / [Game Boy Sound Operation](https://gist.github.com/drhelius/3652407) 
+- Sound FX: [The Skinny on GB Sound](https://github.com/bwhitman/pushpin/blob/master/src/gbsound.txt) / [Game Boy Sound Operation](https://gist.github.com/drhelius/3652407) / [GBSoundDemo](https://github.com/Zal0/GBSoundDemo/blob/master/sound.c)
 - Saving to RAM - [GB Save Ram](http://www.devrs.com/gb/files/sram.txt)
 - Useful demos - [GBDK Playground](https://github.com/mrombout/gbdk_playground)

@@ -129,7 +129,7 @@ void main(){ // Main loop
                         if (stunned == 0) {
                             if (stun <= 65) { 
                                 stun++;
-                                animateStunQueue(stun);
+                                animateStunQueue();
                                 move_sprite(39, 44, 80); // Moves player sprite accordingly
                                 move_sprite(37, 40, 76); // move stun queue
                                 move_sprite(38, 48, 76); // move stun queue
@@ -143,15 +143,14 @@ void main(){ // Main loop
                                 stunned = 1;
                                 stun = 0;
                                 resetPlayerPosition();
-                            }
-                            
+                            } 
                         }
                         break;
-                    case J_RIGHT:
+                    case J_RIGHT: 
                         if (stunned == 0) {
                             if (stun <= 65) {
-                                stun++;
-                                animateStunQueue(stun);
+                                stun++; 
+                                animateStunQueue();
                                 move_sprite(39, 124, 80); 
                                 move_sprite(37, 120, 76); // move stun queue
                                 move_sprite(38, 128, 76); // move stun queue
@@ -173,7 +172,7 @@ void main(){ // Main loop
                         if (stunned == 0) {
                             if (stun <= 65) {
                                 stun++;
-                                animateStunQueue(stun);
+                                animateStunQueue();
                                 move_sprite(39, 84, 40); // move player sprite
                                 move_sprite(37, 80, 36); // move stun queue
                                 move_sprite(38, 88, 36); // move stun queue
@@ -194,7 +193,7 @@ void main(){ // Main loop
                         if (stunned == 0) {
                             if (stun <= 65) {
                                 stun++;
-                                animateStunQueue(stun);
+                                animateStunQueue();
                                 move_sprite(39, 84, 120);
                                 move_sprite(37, 80, 116); // move stun queue
                                 move_sprite(38, 88, 116); // move stun queue
