@@ -8,7 +8,7 @@
 #include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
-#include "../sprites/explosion.c"
+//#include "../sprites/explosion.c"
 
 struct Laser {
     UBYTE repetitions[10];
@@ -77,7 +77,7 @@ void initGameLoop(){
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
     set_sprite_data(68, 6, BombLaser); // Sets the bomb laser sprites
-    set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
+    //set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
