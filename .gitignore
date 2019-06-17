@@ -5,6 +5,8 @@
 /build/main.sav
 /build/savestate.lst
 /build/savestate.o
+/build/sprite_bank.lst
+/build/sprite_bank.o
 /.vscode
 !/.vscode/tasks.json
 !/.vscode/settings.json
