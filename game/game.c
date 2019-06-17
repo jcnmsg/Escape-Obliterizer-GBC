@@ -183,6 +183,7 @@ void isVLaserReadyToBlow() {
                 setDelay(3);
             }
             fadeout();
+            playerX = 0;
             initGameOver();
             state = 3;
         }
@@ -201,6 +202,7 @@ void isBombReadyToBlow() {
                 setDelay(3);
             }
             fadeout();
+            playerX = 0;
             initGameOver();
             state = 3;
         }

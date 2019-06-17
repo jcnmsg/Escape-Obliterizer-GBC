@@ -127,7 +127,6 @@ void processScore() {
 
 void initGameOver(){
     HIDE_SPRITES;
-    clearSpritePositions();
     set_bkg_palette(0, 1, bkg_gameover_palette); // set bg palettes
     set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
     VBK_REG = 1;
@@ -136,13 +135,14 @@ void initGameOver(){
     set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
     move_bkg (0, 0);
     SHOW_BKG;
-    processScore();
-    set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
-    drawYes();
+    clearSpritePositions();
     set_sprite_tile(36, 119); // empty stun anim sprite
     set_sprite_tile(37, 119); // empty stun queue
     set_sprite_tile(38, 119); // empty stun queue
     set_sprite_tile(39, 119); // empty player sprite
+    processScore();
+    set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
+    drawYes();
     SHOW_SPRITES;
     fadein();
 }
