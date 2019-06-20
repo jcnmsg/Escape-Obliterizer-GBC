@@ -13,8 +13,7 @@
 #define RGB_DELOWEENYELLOW   RGB(30, 29, 16)
 #define RGB_STEVEBROWN       RGB(10, 6, 1)
 #define RGB_STEVESKIN        RGB(30, 20, 14)
-
-//BG
+#define RGB_EORANGE          RGB(31, 21, 3)
 #define RGB_VIOLET           RGB(7, 1, 6)
 #define RGB_LIGHTVIOLET      RGB(14, 4, 12)
 #define RGB_BGYELLOW         RGB(30, 30, 1) 
@@ -26,7 +25,7 @@ const UWORD sprite_palettes[] = {
     0, RGB_DELOWEENYELLOW, RGB_DELLOWEENRED, 0, // deloween colors
     0, RGB_NLIGHTGRAY, RGB_NDARKGRAY, 0, // zipper colors
     0, RGB_NWHITE, RGB_STEVESKIN, RGB_STEVEBROWN, // wrong game steve colors
-    0, RGB_BGYELLOW, 0 , 0, // stun yellow
+    0, RGB_BGYELLOW, RGB_EORANGE , 0, // stun yellow
 	0, RGB_LIGHTVIOLET, 0, 0 // stun color
 };
 

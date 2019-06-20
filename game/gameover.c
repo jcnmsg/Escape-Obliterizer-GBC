@@ -128,11 +128,9 @@ void processScore() {
 void initGameOver(){
     HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_gameover_palette); // set bg palettes
-    set_bkg_data(0x01, gameoverbg_tiles, gameoverbg_dat);
-    VBK_REG = 1;
-    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_att);
+    set_bkg_data(0x01, 60, gameoverbg_dat);
     VBK_REG = 0;
-    set_bkg_tiles(0, 0, gameoverbg_cols, gameoverbg_rows, gameoverbg_map);
+    set_bkg_tiles(0, 0, 20, 18, gameoverbg_map);
     move_bkg (0, 0);
     SHOW_BKG;
     clearSpritePositions();

@@ -63,11 +63,9 @@ void initGameMenu() {
     remSkinsState();
     HIDE_SPRITES;
     set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
-	set_bkg_data(0x01, gbpic_tiles, gbpic_dat); 
-	VBK_REG = 1;
-	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_att);
+	set_bkg_data(0x01, 77, gbpic_dat); 
 	VBK_REG = 0;
-	set_bkg_tiles(0, 0, gbpic_cols, gbpic_rows, gbpic_map);
+	set_bkg_tiles(0, 0, 20, 18, gbpic_map);
 	move_bkg (0, 0);
 	SHOW_BKG;
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8

@@ -8,7 +8,7 @@
 #include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
-//#include "../sprites/explosion.c"
+#include "../sprites/explosion.c"
 
 struct Laser {
     UBYTE repetitions[10];
@@ -77,7 +77,9 @@ void initGameLoop(){
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
     set_sprite_data(68, 6, BombLaser); // Sets the bomb laser sprites
-    //set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
+    set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
+    set_sprite_prop(17, 6);
+    set_sprite_prop(18, get_sprite_prop(17) | S_FLIPX);
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
     fadein();
@@ -195,7 +197,18 @@ void isBombReadyToBlow() {
     UINT8 i;
     if ( (UINT16)(clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 ) {
         playSoundFX(0);
-        setDelay(2);
+        set_sprite_tile(17, 76);
+        set_sprite_tile(18, 76);
+        move_sprite(17, bPos-4, 76); // reset player
+        move_sprite(18, bPos+4, 76); // reset player
+        for(i = 9; i < 17; i++ ) {
+            move_sprite(i, 200, 200);
+        }
+        for(i = 0; i < 18; i+=2){
+            set_sprite_tile(17, 76+i);
+            set_sprite_tile(18, 76+i);
+            setDelay(2);
+        }
         if (playerX == bPos) {
             for (i = 0; i <= 5; i++) {
                 set_sprite_tile(39, 23+i);

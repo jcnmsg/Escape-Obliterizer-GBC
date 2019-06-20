@@ -94,11 +94,9 @@ void drawSelectedSkin() {
 void initSkinsState() {
     HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_palettes); // set bg palettes
-	set_bkg_data(0x01, skins_tiles, skins_dat);
-	VBK_REG = 1;
-	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_att);
+	set_bkg_data(0x01, 13, skins_dat);
 	VBK_REG = 0;
-	set_bkg_tiles(0, 0, skins_cols, skins_rows, skins_map);
+	set_bkg_tiles(0, 0, 20, 18, skins_map);
 	move_bkg (0, 0);
 	SHOW_BKG;
     set_sprite_data(0, 54, BigSkins);
