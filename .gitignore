@@ -3,6 +3,7 @@
 /build/main.o
 /build/main.sym
 /build/main.sav
+/build/background
 /build/savestate.lst
 /build/savestate.o
 /build/sprite_bank.lst
