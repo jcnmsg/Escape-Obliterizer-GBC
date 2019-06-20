@@ -85,6 +85,7 @@ void initGameLoop(){
     fadein();
     stun = 0;
     stunned = 0;
+    pDuty = 2;
 }
  
 void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -169,7 +170,7 @@ void triggerBomb(UINT8 x) {
 
 void isVLaserReadyToBlow() {
     UINT8 i, z;
-    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 ) {
+    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 && state !=3 ) {
         playSoundFX(0);
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
@@ -191,12 +192,15 @@ void isVLaserReadyToBlow() {
         }
         vLaserReady = 1;
     }
+    else if (state == 3) {
+        vLaserReady = 1;
+    }
 }
 
 void isBombReadyToBlow() {
     UINT8 i;
-    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 ) {
-        playSoundFX(0);
+    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 && state != 3) {
+        playSoundFX(2);
         set_sprite_tile(17, 76);
         set_sprite_tile(18, 76);
         move_sprite(17, bPos-4, 76); // reset player
@@ -219,6 +223,9 @@ void isBombReadyToBlow() {
             initGameOver();
             state = 3;
         }
+        bReady = 1;
+    }
+    else if (state == 3) {
         bReady = 1;
     }
 }

@@ -39,17 +39,27 @@ void playSoundFX(UINT8 fx) {
         NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
         NR51_REG = 0x22; // Select channel to use: 0x11 - 1, 0x22 - 2, 0x33 - 3, 0x88 - 4, 0xFF - All
         NR50_REG = 0x77; // Volume, min: 0x00, max: 0x77
-        if (pDuty == 2) {
-            NR21_REG = 0xC0; 
-            pDuty = 3;
-        }
         if (pDuty == 3) {
-            NR21_REG = 0x80; 
+            NR21_REG = 0xC0; 
             pDuty = 2;
+        }
+        else if (pDuty == 2) {
+            NR21_REG = 0x80; 
+            pDuty = 3;
         }
         NR22_REG = 0x74; 
         NR23_REG = 0x90;
         NR24_REG = 0xC7;
+    }
+
+    if (fx == 2) {
+        NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
+        NR51_REG = 0x88; // Select channel to use: 0x11 - 1, 0x22 - 2, 0x33 - 3, 0x88 - 4, 0xFF - All
+        NR50_REG = 0x77; // Volume, min: 0x00, max: 0x77
+        NR41_REG = 1;
+        NR42_REG = 1 | (0 << 3) | (15 << 4);
+        NR43_REG =  1 | (2 << 3) | (2 << 4);
+        NR44_REG = (1 << 6) | (1 << 7);
     }
 }
 
