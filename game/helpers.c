@@ -6,7 +6,6 @@ int stunned = 0;
 UINT8 state = 1;
 UINT8 pDuty = 2;
 
-
 // GAMEPLAY
 unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
     unsigned UINT8 num;
@@ -14,7 +13,7 @@ unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper
     return num;
 }
 
-void setDelay(UINT8 loops) {
+void set_delay(UINT8 loops) {
     UINT8 i;
     for (i = 0; i < loops; i++){
         wait_vbl_done();

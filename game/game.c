@@ -5,6 +5,7 @@
 // GAME SPRITES
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
+#include "../sprites/horizontallaser.c"
 #include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
@@ -73,6 +74,7 @@ void initGameLoop(){
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites
+    set_sprite_data(94, 18, HorizontalLaser); // Sets the horizontal laser sprites
     set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
@@ -92,6 +94,13 @@ void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     UINT8 i; 
     for (i = 1; i < 10; i++ ){ 
         move_sprite(laser->repetitions[i], x, y + (16 * i));
+    } 
+}
+
+void drawTheHLaser(struct Laser* laser, UINT8 x, UINT8 y) {
+    UINT8 i; 
+    for (i = 0; i < 10; i++ ){ 
+        move_sprite(laser->repetitions[i], x + (8*(i)), y);
     } 
 }
 
@@ -128,7 +137,7 @@ void drawTheBomb(UINT8 x, UINT8 y) {
 void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
     UINT8 i;
     vLaserPos = x;
-    vCurrentClock = (UINT16)(clock() / CLOCKS_PER_SEC);
+    vCurrentClock = (clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 9; i++){
         vLaser.repetitions[i] = i;
         set_sprite_tile(i, 30);
@@ -137,10 +146,23 @@ void triggerVLaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordin
     drawTheVLaser(&vLaser, x, 0);
 }
 
+void triggerHLaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coordinate, x = 0
+    UINT8 i;
+    hLaserPos = y;
+    hCurrentClock = (clock() / CLOCKS_PER_SEC);
+    for(i = 0; i < 9; i++){
+        hLaser.repetitions[i] = i+19;
+        set_sprite_tile(19 + i, 94);
+        set_sprite_prop(19 + i, 1);
+    }
+    drawTheHLaser(&hLaser, 0, y);
+}
+
+
 void triggerBomb(UINT8 x) {
     UINT8 i;
     bPos = x;
-    bCurrentClock = (UINT16)(clock() / CLOCKS_PER_SEC);
+    bCurrentClock = (clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 8; i++){
         if (i < 2) {
             set_sprite_tile(9+i, 68+i+i);
@@ -170,7 +192,7 @@ void triggerBomb(UINT8 x) {
 
 void isVLaserReadyToBlow() {
     UINT8 i, z;
-    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 && state !=3 ) {
+    if ( (clock() / CLOCKS_PER_SEC) - vCurrentClock >= 1 && vLaserReady == 0 && state !=3 ) {
         playSoundFX(0);
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
@@ -178,12 +200,12 @@ void isVLaserReadyToBlow() {
                 set_sprite_tile(i, 28+z);
             }
             drawTheVLaser(&vLaser, vLaserPos, 0);
-            setDelay(2);
+            set_delay(2);
         }
         if (playerX == vLaserPos) {
             for (i = 0; i <= 5; i++) {
                 set_sprite_tile(39, 23+i);
-                setDelay(3);
+                set_delay(3);
             }
             fadeout();
             playerX = 0;
@@ -197,9 +219,38 @@ void isVLaserReadyToBlow() {
     }
 }
 
+void isHLaserReadyToBlow() {
+    UINT8 i, z;
+    if ( (clock() / CLOCKS_PER_SEC) - hCurrentClock >= 1 && hLaserReady == 0 && state !=3 ) {
+        playSoundFX(0);
+        for (z = 2; z < 20; z+=2) {
+            for(i = 0; i < 9; i++){
+                hLaser.repetitions[i] = i;
+                set_sprite_tile(i + 19, 96+z);
+            }
+            drawTheHLaser(&hLaser, 0, hLaserPos);
+            set_delay(2);
+        }
+        if (playerY == hLaserPos) {
+            for (i = 0; i <= 5; i++) {
+                set_sprite_tile(39, 23+i);
+                set_delay(3);
+            }
+            fadeout();
+            playerY = 0;
+            initGameOver();
+            state = 3;
+        }
+        hLaserReady = 1;
+    }
+    else if (state == 3) {
+        hLaserReady = 1;
+    }
+}
+
 void isBombReadyToBlow() {
     UINT8 i;
-    if ( (UINT16)(clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 && state != 3) {
+    if ( (clock() / CLOCKS_PER_SEC) - bCurrentClock >= 1 && bReady == 0 && state != 3) {
         playSoundFX(2);
         set_sprite_tile(17, 76);
         set_sprite_tile(18, 76);
@@ -211,12 +262,12 @@ void isBombReadyToBlow() {
         for(i = 0; i < 18; i+=2){
             set_sprite_tile(17, 76+i);
             set_sprite_tile(18, 76+i);
-            setDelay(2);
+            set_delay(2);
         }
         if (playerX == bPos) {
             for (i = 0; i <= 5; i++) {
                 set_sprite_tile(39, 23+i);
-                setDelay(3);
+                set_delay(3);
             }
             fadeout();
             playerX = 0;
@@ -264,9 +315,28 @@ void callBomb() {
     }
 }
 
+void callHLaser() {
+    unsigned UINT8 pos = generate_random_num(3);
+    if (pos == 0) {
+        hLaserReady = 0;
+        triggerHLaser(36);
+    }
+    else if (pos == 1) {
+        hLaserReady = 0;
+        triggerHLaser(76);
+    }
+    else if (pos == 2) {
+        hLaserReady = 0;
+        triggerHLaser(116);
+    }
+    else if (pos == 3) {
+        hLaserReady = 1;
+    }
+}
+
 void startHazards() {
     unsigned UINT8 hazard;
-    if ( (int)((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
+    if ( ((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
         hazard = generate_random_num(2);
         if (hazard == 0 && vLaserReady == 1) {
             callVLaser();

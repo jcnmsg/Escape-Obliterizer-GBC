@@ -18,254 +18,281 @@
 #include "game/gameover.c" // Game over state specific functions
 #include "game/game.c" // Game state functions and initialization of a lot of the variables
 
+extern UBYTE _cpu;
+
 void main(){ // Main loop
-    initColors();
-    DISPLAY_ON;
-    initGameMenu();
-    while(1) {
-        while(state == 0) { // 0: Credits
-            switch(joypad()) { // Listens for user input
-                case J_A:
-                    waitpadup();  
-                    fadeout();
-                    initGameMenu();
-                    state = 1;
-                    break;
-            }
-            setDelay(2);
-        }
-
-        while(state == 1){ // 1: Main Menu  
-            switch(joypad()) { // Listens for user input
-                case J_UP:
-                    drawPlay();
-                    waitpadup();
-                    processCheatCode(J_UP);
-                    break;
-                case J_DOWN:
-                    drawCredits();
-                    waitpadup();
-                    processCheatCode(J_DOWN);
-                    break;
-                case J_LEFT: 
-                    waitpadup();
-                    processCheatCode(J_LEFT);
-                    break;
-                case J_RIGHT: 
-                    waitpadup();
-                    processCheatCode(J_RIGHT);
-                    break;
-                case J_B: 
-                    waitpadup();
-                    processCheatCode(J_B);
-                    break;
-                case J_A:
-                    waitpadup();
-                    processCheatCode(J_A);
-                    if (keyCount < 10) {
-                        fadeout();
-                        eraseMenuOptions();
-                        if (selected == 1) {
-                            initGameLoop(); // Loads sprites and backgrounds to VRAM
-                            state = 2;
-                        }
-                        else if (selected == 2){
-                            initCredits();
-                            state = 0;
-                            selected = 1;
-                        }
-                    }
-                    else {
-                        fadeout();
-                        eraseMenuOptions();
-                        initSkinsState();
-                        state = 5;
-                    }
-                    break;
-            }
-            setDelay(2);
-        }
-
-        while(state == 2){ // 2: Game Loop
-            countScore();
-            processStun();
-            startHazards();
-
-            // Colorize skins
-            if (selectedSkin < 2) {
-                set_sprite_prop(39, 0);
-            }
-            if (selectedSkin >= 2){
-                set_sprite_prop(39, selectedSkin + 1);
-            }
-
-            switch(joypad()) { // Listens for user input
-                case J_LEFT:
-                    if (stunned == 0) {
-                        if (stun <= 65) { 
-                            stun++;
-                            animateStunQueue();
-                            move_sprite(39, 44, 80); // Moves player sprite accordingly
-                            move_sprite(37, 40, 76); // move stun queue
-                            move_sprite(38, 48, 76); // move stun queue
-                            playerX = 44;
-                            playerY = 80;
-                            if (selectedSkin == 0) {
-                                set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
-                            }
-                        }
-                        else {
-                            stunned = 1;
-                            stun = 0;
-                            resetPlayerPosition();
-                        } 
-                    }
-                    break;
-                case J_RIGHT: 
-                    if (stunned == 0) {
-                        if (stun <= 65) {
-                            stun++; 
-                            animateStunQueue();
-                            move_sprite(39, 124, 80); 
-                            move_sprite(37, 120, 76); // move stun queue
-                            move_sprite(38, 128, 76); // move stun queue
-                            playerX = 124;
-                            playerY = 80;
-                            if (selectedSkin == 0) {
-                                set_sprite_tile(39, 9);
-                            }
-                        }
-                        else {
-                            stunned = 1;
-                            stun = 0;
-                            resetPlayerPosition();
-                        }
-
-                    }
-                    break;
-                case J_UP:
-                    if (stunned == 0) {
-                        if (stun <= 65) {
-                            stun++;
-                            animateStunQueue();
-                            move_sprite(39, 84, 40); // move player sprite
-                            move_sprite(37, 80, 36); // move stun queue
-                            move_sprite(38, 88, 36); // move stun queue
-                            playerX = 84;
-                            playerY = 40;
-                            if (selectedSkin == 0) {
-                                set_sprite_tile(39, 9);
-                            }
-                        }
-                        else {
-                            stunned = 1;
-                            stun = 0;
-                            resetPlayerPosition();
-                        }
-                    }
-                    break;
-                case J_DOWN:
-                    if (stunned == 0) {
-                        if (stun <= 65) {
-                            stun++;
-                            animateStunQueue();
-                            move_sprite(39, 84, 120);
-                            move_sprite(37, 80, 116); // move stun queue
-                            move_sprite(38, 88, 116); // move stun queue
-                            playerX = 84;
-                            playerY = 120;
-                            if (selectedSkin == 0) {
-                                set_sprite_tile(39, 5); 
-                            }
-                        }
-                        else {
-                            stunned = 1;
-                            stun = 0;
-                            resetPlayerPosition();
-                        }
-                    }
-                    break;
-                case J_START:
-                    waitpadup();
-                    state = 4;
-                default: 
-                    resetPlayerPosition(); // If no key, resets player to the center
-            }
-            isVLaserReadyToBlow();
-            isBombReadyToBlow();
-            setDelay(2);
-        }
-
-        while (state == 3) { // 3: Game Over
-            switch(joypad()) { // Listens for user input
-                case J_LEFT:
-                    drawYes();
-                    break;
-                case J_RIGHT:
-                    drawNo(); 
-                    break;
-                case J_A:
-                    waitpadup();
-                    clearSpritePositions();
-                    score = 0;
-                    if (selected == 1) {
-                        fadeout();
-                        initGameLoop();
-                        state = 2;
-                    }
-                    else if (selected == 0){
+    if (_cpu == 0x01 || _cpu == 0xFF) { // If running on MGB or prior models
+        font_t min; // Declare font variable
+        font_init(); // Initialize font library 
+        min = font_load(font_spect); // Load built in font_spect
+        font_set(min); // Set built in font_spect
+        gotoxy(1, 1);
+        printf("%s", "This game game is");
+        gotoxy(1,3);
+        printf("%s", "not compatible");
+        gotoxy(1,5);
+        printf("%s", "with your system.");
+        gotoxy(1, 7);
+        printf("%s", "It can only be");
+        gotoxy(1, 9);
+        printf("%s", "played on a Game");
+        gotoxy(1, 11);
+        printf("%s", "Boy Color or Game");
+        gotoxy(1, 13);
+        printf("%s", "Boy Advance.");
+        gotoxy(1, 16);
+        printf("%s", "Sorry!");
+    }
+    else {
+        initColors();
+        DISPLAY_ON;
+        initGameMenu();
+        while(1) {
+            while(state == 0) { // 0: Credits
+                switch(joypad()) { // Listens for user input
+                    case J_A:
+                        waitpadup();  
                         fadeout();
                         initGameMenu();
                         state = 1;
-                    }
-                    break;
+                        break;
+                }
+                set_delay(2);
             }
-            setDelay(2);
-        }
 
-        while (state == 4) { // 4: Pause
-            gotoxy(13, 16);
-            printf("%s", "PAUSED");
-            waitpad(J_START);
-            waitpadup();
-            gotoxy(13, 16);
-            printf("%s", "      "); 
-            state = 2; 
-        }
-
-        while (state == 5) {
-            switch(joypad()) { // Listens for user input
-                case J_LEFT: 
-                    waitpadup();
-                    if (selectedSkin > 0) {
-                        selectedSkin--;
-                        drawSelectedSkin();
-                    }
-                    break;
-                case J_RIGHT: 
-                    waitpadup();
-                    if (selectedSkin < 4) {
-                        selectedSkin++;
-                        drawSelectedSkin();
-                    }
-                    break;
-                case J_B: 
-                    waitpadup();
-                    selectedSkin = 0;
-                    keyCount = 0;
-                    fadeout();
-                    initGameMenu();
-                    state = 1;
-                    break;
-                case J_A:
-                    waitpadup();
-                    keyCount = 0;
-                    fadeout();
-                    initGameMenu();
-                    state = 1;
-                    break;
+            while(state == 1){ // 1: Main Menu  
+                switch(joypad()) { // Listens for user input
+                    case J_UP:
+                        drawPlay();
+                        waitpadup();
+                        processCheatCode(J_UP);
+                        break;
+                    case J_DOWN:
+                        drawCredits();
+                        waitpadup();
+                        processCheatCode(J_DOWN);
+                        break;
+                    case J_LEFT: 
+                        waitpadup();
+                        processCheatCode(J_LEFT);
+                        break;
+                    case J_RIGHT: 
+                        waitpadup();
+                        processCheatCode(J_RIGHT);
+                        break;
+                    case J_B: 
+                        waitpadup();
+                        processCheatCode(J_B);
+                        break;
+                    case J_A:
+                        waitpadup();
+                        processCheatCode(J_A);
+                        if (keyCount < 10) {
+                            fadeout();
+                            eraseMenuOptions();
+                            if (selected == 1) {
+                                initGameLoop(); // Loads sprites and backgrounds to VRAM
+                                state = 2;
+                            }
+                            else if (selected == 2){
+                                initCredits();
+                                state = 0;
+                                selected = 1;
+                            }
+                        }
+                        else {
+                            fadeout();
+                            eraseMenuOptions();
+                            initSkinsState();
+                            state = 5;
+                        }
+                        break;
+                }
+                set_delay(2);
             }
-            setDelay(2);
-        }
-    } 
+
+            while(state == 2){ // 2: Game Loop
+                countScore();
+                processStun();
+                startHazards();
+
+                // Colorize skins
+                if (selectedSkin < 2) {
+                    set_sprite_prop(39, 0);
+                }
+                if (selectedSkin >= 2){
+                    set_sprite_prop(39, selectedSkin + 1);
+                }
+
+                switch(joypad()) { // Listens for user input
+                    case J_LEFT:
+                        if (stunned == 0) {
+                            if (stun <= 65) { 
+                                stun++;
+                                animateStunQueue();
+                                move_sprite(39, 44, 80); // Moves player sprite accordingly
+                                move_sprite(37, 40, 76); // move stun queue
+                                move_sprite(38, 48, 76); // move stun queue
+                                playerX = 44;
+                                playerY = 80;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 3); // Sets the desired sprite tile to animate the eyes
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            } 
+                        }
+                        break;
+                    case J_RIGHT: 
+                        if (stunned == 0) {
+                            if (stun <= 65) {
+                                stun++; 
+                                animateStunQueue();
+                                move_sprite(39, 124, 80); 
+                                move_sprite(37, 120, 76); // move stun queue
+                                move_sprite(38, 128, 76); // move stun queue
+                                playerX = 124;
+                                playerY = 80;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 9);
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
+
+                        }
+                        break;
+                    case J_UP:
+                        if (stunned == 0) {
+                            if (stun <= 65) {
+                                stun++;
+                                animateStunQueue();
+                                move_sprite(39, 84, 40); // move player sprite
+                                move_sprite(37, 80, 36); // move stun queue
+                                move_sprite(38, 88, 36); // move stun queue
+                                playerX = 84;
+                                playerY = 40;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 9);
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
+                        }
+                        break;
+                    case J_DOWN:
+                        if (stunned == 0) {
+                            if (stun <= 65) {
+                                stun++;
+                                animateStunQueue();
+                                move_sprite(39, 84, 120);
+                                move_sprite(37, 80, 116); // move stun queue
+                                move_sprite(38, 88, 116); // move stun queue
+                                playerX = 84;
+                                playerY = 120;
+                                if (selectedSkin == 0) {
+                                    set_sprite_tile(39, 5); 
+                                }
+                            }
+                            else {
+                                stunned = 1;
+                                stun = 0;
+                                resetPlayerPosition();
+                            }
+                        }
+                        break;
+                    case J_START:
+                        waitpadup();
+                        state = 4;
+                    default: 
+                        resetPlayerPosition(); // If no key, resets player to the center
+                }
+                isVLaserReadyToBlow();
+                isHLaserReadyToBlow();
+                isBombReadyToBlow();
+                set_delay(2);
+            }
+
+            while (state == 3) { // 3: Game Over
+                switch(joypad()) { // Listens for user input
+                    case J_LEFT:
+                        drawYes();
+                        break;
+                    case J_RIGHT:
+                        drawNo(); 
+                        break;
+                    case J_A:
+                        waitpadup();
+                        clearSpritePositions();
+                        score = 0;
+                        if (selected == 1) {
+                            fadeout();
+                            initGameLoop();
+                            state = 2;
+                        }
+                        else if (selected == 0){
+                            fadeout();
+                            initGameMenu();
+                            state = 1;
+                        }
+                        break;
+                }
+                set_delay(2);
+            }
+
+            while (state == 4) { // 4: Pause
+                gotoxy(13, 16);
+                printf("%s", "PAUSED");
+                waitpad(J_START);
+                waitpadup();
+                gotoxy(13, 16);
+                printf("%s", "      "); 
+                state = 2; 
+            }
+
+            while (state == 5) {
+                switch(joypad()) { // Listens for user input
+                    case J_LEFT: 
+                        waitpadup();
+                        if (selectedSkin > 0) {
+                            selectedSkin--;
+                            drawSelectedSkin();
+                        }
+                        break;
+                    case J_RIGHT: 
+                        waitpadup();
+                        if (selectedSkin < 4) {
+                            selectedSkin++;
+                            drawSelectedSkin();
+                        }
+                        break;
+                    case J_B: 
+                        waitpadup();
+                        selectedSkin = 0;
+                        keyCount = 0;
+                        fadeout();
+                        initGameMenu();
+                        state = 1;
+                        break;
+                    case J_A:
+                        waitpadup();
+                        keyCount = 0;
+                        fadeout();
+                        initGameMenu();
+                        state = 1;
+                        break;
+                }
+                set_delay(2);
+            }
+        } 
+    }
 }
