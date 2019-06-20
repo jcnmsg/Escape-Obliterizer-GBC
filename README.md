@@ -1,5 +1,5 @@
 # Escape Obliterizer for the Game Boy Color
-Escape Obliterizer is a really small game I made with a couple of friends during an hackathon in 2016 (available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, it fits Game Boy Color hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? It runs on all Game Boy models, but you might encounter some minor graphical glitches on DMG and MGB models because they handle palettes and sprite priority differently.
+Escape Obliterizer is a really small game I made with a couple of friends during an hackathon in 2016 (available on [itch.io](https://9studios.itch.io/escape-obliterizer) and you can read about it on [Behance](https://www.behance.net/gallery/45779923/Escape-Obliterizer-HTML5-Game-(2016))). If you look at its core mechanics and visuals, it fits Game Boy Color hardware and its limitations (almost) perfectly. That said, why not just port it for the fun of it? Even though it could technically run on all Game Boy models, I've disallowed it from running on every model prior to the CGB (DMG and MGB models) due to some graphical glitches that could arise when handling palettes and sprite priority.
 
 ## Compiling
 The game is being developed in C using the Game Boy Development Kit. If you'd like to compile the code yourself, you first need to download and setup the last available version of [GBDK](http://gbdk.sourceforge.net/) on your machine. All you have to do afterwards is clone this repo, run the **build.bat** script, and it should build a playable .GB file into the **build** folder (the current build of the game is already available in that folder, if you'd like to just test the current build). 
@@ -23,6 +23,7 @@ If you'd like to play the game on real hardware, you can flash it onto chinese b
 - Saving to RAM - [GB Save Ram](http://www.devrs.com/gb/files/sram.txt)
 - Useful demos - [GBDK Playground](https://github.com/mrombout/gbdk_playground)
 - Tools for Game Boy Color Development - [Robert Ramey Software Development](http://rrsd.com/software_development/gameboy_development/)
+- Beginner Tutorials - [GamingMonsters Youtube Channel](https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo)
 
 ## Special Thanks
 A special thanks is due to everyone at the [GBDev Community](https://github.com/gbdev/awesome-gbdev) Discord server, whom have answered all my questions and taught me the intricacies of developing for the Game Boy. These are the people who are keeping these consoles alive today and they sure deserve our appreciation.
