@@ -77,7 +77,7 @@ void init_game_loop(){
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites
     set_sprite_data(94, 4, HorizontalLaser); // Sets the horizontal laser sprites
-    set_sprite_data(100, 12, LaserGun); // Sets the laser gun sprites
+    set_sprite_data(100, 14, LaserGun); // Sets the laser gun sprites
     set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
@@ -253,10 +253,29 @@ void is_hlaser_ready_to_blow() {
         for (i = 0; i < 5; i++) {
             move_sprite(19+i, 200, 200);
         }
-        // animate hazard
-        for (i = 0; i < 14; i++) {
+        for (i = 0; i < 3; i++) {
+            move_sprite(19 + i, 8+(i*8), hlaser_pos);
+        }
+        for (i = 0; i < 3; i++) {
+            set_sprite_tile(19 + i, 100 + (i*2));
+            set_sprite_prop(19 + i, 5);
+            wait_vbl_done();
+        }
+        for (i = 0; i < 3; i++) {
+            set_sprite_tile(19 + i, 106 + (i*2));
+            set_sprite_prop(19 + i, 5);
             set_delay(2);
         }
+        for (i = 0; i < 3; i++) {
+            set_sprite_tile(19 + i, 112 + (i*2));
+            set_sprite_prop(19 + i, 5);
+            wait_vbl_done();
+        }
+        for (i = 0; i < 5; i++) {
+            move_sprite(19, 90 + i*30 , hlaser_pos);
+            wait_vbl_done();
+        }
+        
         if (player_y == hlaser_pos + 4) {
             for (i = 0; i <= 5; i++) {
                 set_sprite_tile(39, 23+i);

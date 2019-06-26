@@ -23,9 +23,9 @@ const UWORD sprite_palettes[] = {
     0, RGB_ROSE, RGB_ROSE, 0, // options colors
     0, RGB_DELOWEENYELLOW, RGB_DELLOWEENRED, 0, // deloween colors
     0, RGB_NLIGHTGRAY, RGB_NDARKGRAY, 0, // zipper colors
-    0, RGB_NWHITE, RGB_STEVESKIN, RGB_STEVEBROWN, // wrong game steve colors
-    0, RGB_BGYELLOW, RGB_EORANGE , 0, // stun yellow
-	0, RGB_LIGHTVIOLET, 0, 0 // stun color
+    0, RGB_NWHITE, RGB_LIGHTGREEN, RGB_LIGHTGREEN, // laser gun
+    0, RGB_BGYELLOW, RGB_EORANGE, 0, // stun yellow
+	0, RGB_LIGHTVIOLET, 0, 0, // stun color
 };
 
 const UWORD bkg_palettes[] = {
