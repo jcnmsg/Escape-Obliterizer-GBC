@@ -10,7 +10,7 @@
 // BACKGROUNDS
 #include "../background/skins/skins.c"
 
-UINT8 selectedSkin = 0;
+UINT8 selected_skin = 0;
 const unsigned char *skinNames[4] = {GameBoySkinName, ClassicSkinName, DelloweenSkinName, ZipperSkinName};
 const unsigned int *skinSize[4] = {10, 8, 12, 8};
 const unsigned int *skinSpacing[4] = {68, 73, 65, 75};
@@ -18,17 +18,17 @@ const unsigned int *skinSpacing[4] = {68, 73, 65, 75};
 void drawBigSprite() { // draw big skin with flipx
     UINT8 i;
     for (i = 0; i < 4; i++) {
-        set_sprite_tile(i, i+i+(selectedSkin*8));
-        set_sprite_tile(i+4, i+i+(selectedSkin*8));
+        set_sprite_tile(i, i+i+(selected_skin*8));
+        set_sprite_tile(i+4, i+i+(selected_skin*8));
         // Set according palettes
-        if (selectedSkin < 2) {
+        if (selected_skin < 2) {
             set_sprite_prop(i, 0);
             set_sprite_prop(i+4, 0);
             set_sprite_prop(i+4, get_sprite_prop(i+4) | S_FLIPX);
         }
-        if (selectedSkin >= 2){
-            set_sprite_prop(i, selectedSkin + 1);
-            set_sprite_prop(i+4, selectedSkin + 1);
+        if (selected_skin >= 2){
+            set_sprite_prop(i, selected_skin + 1);
+            set_sprite_prop(i+4, selected_skin + 1);
             set_sprite_prop(i+4, get_sprite_prop(i+4) | S_FLIPX);
         }
     }
@@ -56,42 +56,42 @@ void drawBigSprite() { // draw big skin with flipx
 
 void drawSkinName() {
     UINT8 i, z;
-    set_sprite_data(52, skinSize[selectedSkin], skinNames[selectedSkin]);
-    for (z = 0; z < ((UINT8) skinSize[selectedSkin]) ; z++) {
+    set_sprite_data(52, skinSize[selected_skin], skinNames[selected_skin]);
+    for (z = 0; z < ((UINT8) skinSize[selected_skin]) ; z++) {
         set_sprite_tile(8+z, 52+z+z); 
-        move_sprite(8+z, ((UINT8) skinSpacing[selectedSkin])+(z*8), 110);
+        move_sprite(8+z, ((UINT8) skinSpacing[selected_skin])+(z*8), 110);
         set_sprite_prop(8+z, 2);
     }
-    for (i = ((UINT8) skinSize[selectedSkin] - (UINT8) skinSize[selectedSkin] / 2); i < 18; i++ ) {
+    for (i = ((UINT8) skinSize[selected_skin] - (UINT8) skinSize[selected_skin] / 2); i < 18; i++ ) {
         move_sprite(8+i, 180, 180);
         set_sprite_prop(8+i, 2);
     }
 }
 
-void drawSelectedSkin() {
+void draw_selected_skin() {
     UINT8 i;
     for (i = 0; i <= 4; i++) {
-        if (selectedSkin == i) {
+        if (selected_skin == i) {
             drawBigSprite();
             drawSkinName();
         }
     }
     // Lightup the arrows
-    if (selectedSkin <= 0) {
+    if (selected_skin <= 0) {
         move_sprite(38, 190, 190);
     }
-    if (selectedSkin > 0) {
+    if (selected_skin > 0) {
         move_sprite(38, 65, 84);
     }
-    if (selectedSkin < 3) {
+    if (selected_skin < 3) {
         move_sprite(39, 103, 84);
     }
-    if (selectedSkin >= 3) {
+    if (selected_skin >= 3) {
         move_sprite(39, 190, 190);
     }
 }
 
-void initSkinsState() {
+void init_skin_state() {
     HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_palettes); // set bg palettes
 	set_bkg_data(0x01, 13, skins_dat);
@@ -105,7 +105,7 @@ void initSkinsState() {
     set_sprite_prop(38, 2);
     set_sprite_tile(39, 82);
     set_sprite_prop(39, 2);
-    drawSelectedSkin();  
+    draw_selected_skin();  
     SHOW_SPRITES;
     DISPLAY_ON; 
 }

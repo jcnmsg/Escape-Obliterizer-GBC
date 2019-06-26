@@ -6,21 +6,21 @@
 
 // VARIABLES
 UINT8 selected = 1; 
-UINT8 keyCount = 0;
-const unsigned char *cheatCode[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
+UINT8 key_count = 0;
+const unsigned char *cheat_code[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};
 
-void processCheatCode(unsigned char key) {
-    if (keyCount < 10) {
-        if (key == cheatCode[keyCount]) {
-            keyCount++;
+void process_cheat_code(unsigned char key) {
+    if (key_count < 10) {
+        if (key == cheat_code[key_count]) {
+            key_count++;
         }
         else {
-            keyCount = 0;
+            key_count = 0;
         }
     }
 }
 
-void drawPlay() {
+void draw_play() {
     UINT8 i;
     selected = 1;
     set_sprite_tile(5, 199);
@@ -31,7 +31,7 @@ void drawPlay() {
     }
 }
 
-void drawCredits() {
+void draw_credits() {
     UINT8 i;
     selected = 2;
     for (i = 0; i < 6; i++ ){
@@ -41,7 +41,7 @@ void drawCredits() {
     }
 }
 
-void eraseMenuOptions() {
+void erase_menu_options() {
     UINT8 i;
     for (i = 0; i < 12; i++ ){
         set_sprite_tile(i, i + i);
@@ -49,7 +49,7 @@ void eraseMenuOptions() {
     }
 }
 
-void remSkinsState(){
+void remove_skin_state(){
     UINT8 w, z;
     for (z = 0; z <= 39 ; z++) { 
         move_sprite(z, 180, 180);    
@@ -59,8 +59,8 @@ void remSkinsState(){
     }
 }
 
-void initGameMenu() {
-    remSkinsState();
+void init_game_menu() {
+    remove_skin_state();
     HIDE_SPRITES;
     set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
 	set_bkg_data(0x01, 77, gbpic_dat); 
@@ -70,7 +70,7 @@ void initGameMenu() {
 	SHOW_BKG;
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
     set_sprite_data(0, 22, MenuOptions);
-    drawPlay();
+    draw_play();
     SHOW_SPRITES;
     DISPLAY_ON;
 }

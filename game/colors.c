@@ -41,13 +41,13 @@ const UWORD bkg_credits_palette[] = {
 };
 
 const UWORD bkg_game_palette[] = {
-    RGB_ROSE, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // bg menu palette and game
+    RGB_VIOLET, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // bg menu palette and game
 };
 
 const UWORD bkg_laser_palette[] = {
     RGB_VIOLET, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // laser sprite
 };
 
-void initColors() { 
+void init_colors() { 
     set_sprite_palette(0, 8, sprite_palettes); // Set sprite palettes to memory
 }

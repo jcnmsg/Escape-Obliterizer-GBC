@@ -4,7 +4,7 @@ int score = 0;
 int stun = 0;
 int stunned = 0;
 UINT8 state = 1;
-UINT8 pDuty = 2;
+UINT8 pattern_duty = 2;
 
 // GAMEPLAY
 unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
@@ -21,7 +21,7 @@ void set_delay(UINT8 loops) {
 }
 
 // SOUND
-void playSoundFX(UINT8 fx) {
+void play_sound_fx(UINT8 fx) {
 
     if (fx == 0) { // Laser blowing sound        
         NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
@@ -38,13 +38,13 @@ void playSoundFX(UINT8 fx) {
         NR52_REG = 0x80; // Turn on sound registers, setting it to 0x00 turns them off
         NR51_REG = 0x22; // Select mode to use: 0x11 - 1, 0x22 - 2, 0x33 - 3, 0x88 - 4, 0xFF - All
         NR50_REG = 0x77; // Volume, min: 0x00, max: 0x77
-        if (pDuty == 3) {
+        if (pattern_duty == 3) {
             NR21_REG = 0xC0; 
-            pDuty = 2;
+            pattern_duty = 2;
         }
-        else if (pDuty == 2) {
+        else if (pattern_duty == 2) {
             NR21_REG = 0x80; 
-            pDuty = 3;
+            pattern_duty = 3;
         }
         NR22_REG = 0x74; 
         NR23_REG = 0x90;

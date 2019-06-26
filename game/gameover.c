@@ -15,7 +15,7 @@ void clear_digits() {
     }
 }
 
-void drawYes() {
+void draw_yes() {
     UINT8 i;
     selected = 1;
     for (i = 0; i < 2; i++ ){
@@ -25,7 +25,7 @@ void drawYes() {
     }
 }
 
-void drawNo() {
+void draw_no() {
     UINT8 i;
     selected = 0;
     for (i = 0; i < 2; i++ ){
@@ -35,7 +35,7 @@ void drawNo() {
     }
 }
 
-void drawScore(int count) {
+void draw_score(int count) {
     int i;
     for (i = 0; i < count; i++ ) {
         if (digits[i] != 11 ) {
@@ -51,7 +51,7 @@ void drawScore(int count) {
     }
 }
 
-void drawHighScore() {
+void draw_highscore() {
     UINT16 digit;
     int i, count, current_highscore;
     current_highscore = highscore;
@@ -86,21 +86,21 @@ void drawHighScore() {
     }
 }
 
-void processHighScore() {
+void process_highscore() {
     ENABLE_RAM_MBC1; // Open nvram
 
     if ((score - 1) > highscore) { // If current score larger than highscore
         highscore = score - 1; // Save current score to nvram
-        drawHighScore();
+        draw_highscore();
     } 
     else {
-        drawHighScore();
+        draw_highscore();
     }
 
     DISABLE_RAM_MBC1; // Close nvram
 }
 
-void processScore() {
+void process_score() {
     UINT16 digit;
     int i, count, current_score;
     current_score = score - 1;
@@ -121,11 +121,11 @@ void processScore() {
         }
     }
 
-    drawScore(count);
-    processHighScore();
+    draw_score(count);
+    process_highscore();
 }
 
-void initGameOver(){
+void init_game_over(){
     HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_gameover_palette); // set bg palettes
     set_bkg_data(0x01, 60, gameoverbg_dat);
@@ -138,9 +138,9 @@ void initGameOver(){
     set_sprite_tile(37, 119); // empty stun queue
     set_sprite_tile(38, 119); // empty stun queue
     set_sprite_tile(39, 119); // empty player sprite
-    processScore();
+    process_score();
     set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
-    drawYes();
+    draw_yes();
     SHOW_SPRITES;
     DISPLAY_ON;
 }
