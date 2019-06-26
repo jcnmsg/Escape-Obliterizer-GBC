@@ -1,7 +1,3 @@
-#define BackgroundMapWidth 20
-#define BackgroundMapHeight 18
-#define BackgroundMapBank 0
-
 const unsigned char BackgroundMap[] =
 {
   0x6D,0x6D,0x6D,0x6D,0x6D,0x6D,0x6D,0x6D,0x6D,0x6D,
