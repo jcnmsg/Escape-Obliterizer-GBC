@@ -3,7 +3,7 @@
 #include "../sprites/skins/names/classic.c"
 #include "../sprites/skins/names/delloween.c"
 #include "../sprites/skins/names/gameboy.c"
-#include "../sprites/skins/names/steve.c"
+//#include "../sprites/skins/names/steve.c"
 #include "../sprites/skins/names/zipper.c"
 #include "../sprites/skins/arrows.c"
 
@@ -11,9 +11,9 @@
 #include "../background/skins/skins.c"
 
 UINT8 selectedSkin = 0;
-const unsigned char *skinNames[6] = {GameBoySkinName, ClassicSkinName, DelloweenSkinName, ZipperSkinName, SteveSkinName};
-const unsigned int *skinSize[6] = {10, 8, 12, 8, 6};
-const unsigned int *skinSpacing[6] = {68, 73, 65, 75, 77};
+const unsigned char *skinNames[4] = {GameBoySkinName, ClassicSkinName, DelloweenSkinName, ZipperSkinName};
+const unsigned int *skinSize[4] = {10, 8, 12, 8};
+const unsigned int *skinSpacing[4] = {68, 73, 65, 75};
 
 void drawBigSprite() { // draw big skin with flipx
     UINT8 i;
@@ -83,10 +83,10 @@ void drawSelectedSkin() {
     if (selectedSkin > 0) {
         move_sprite(38, 65, 84);
     }
-    if (selectedSkin < 4) {
+    if (selectedSkin < 3) {
         move_sprite(39, 103, 84);
     }
-    if (selectedSkin >= 4) {
+    if (selectedSkin >= 3) {
         move_sprite(39, 190, 190);
     }
 }
@@ -107,5 +107,5 @@ void initSkinsState() {
     set_sprite_prop(39, 2);
     drawSelectedSkin();  
     SHOW_SPRITES;
-    fadein(); 
+    DISPLAY_ON; 
 }

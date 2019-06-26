@@ -72,5 +72,5 @@ void initGameMenu() {
     set_sprite_data(0, 22, MenuOptions);
     drawPlay();
     SHOW_SPRITES;
-    fadein();
+    DISPLAY_ON;
 }

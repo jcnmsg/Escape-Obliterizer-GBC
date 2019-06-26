@@ -8,7 +8,7 @@ const unsigned int *numbers[10] = {9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31
 const unsigned int *pos[6] = {0, 84, 90, 95, 101, 106};
 UINT16 *digits[10] = {11, 11, 11, 11, 11, 11, 11, 11, 11, 11};
 
-void clearDigits() {
+void clear_digits() {
     UINT8 i;
     for (i = 0; i < 10; i++ ) {
         digits[i] = 11;
@@ -55,7 +55,7 @@ void drawHighScore() {
     UINT16 digit;
     int i, count, current_highscore;
     current_highscore = highscore;
-    clearDigits(); 
+    clear_digits(); 
 
     count = 0;
     while (current_highscore != 0) {
@@ -104,7 +104,7 @@ void processScore() {
     UINT16 digit;
     int i, count, current_score;
     current_score = score - 1;
-    clearDigits(); 
+    clear_digits(); 
 
     count = 0;
     while (current_score != 0) {
@@ -133,7 +133,7 @@ void initGameOver(){
     set_bkg_tiles(0, 0, 20, 18, gameoverbg_map);
     move_bkg (0, 0);
     SHOW_BKG;
-    clearSpritePositions();
+    clear_sprite_positions();
     set_sprite_tile(36, 119); // empty stun anim sprite
     set_sprite_tile(37, 119); // empty stun queue
     set_sprite_tile(38, 119); // empty stun queue
@@ -142,5 +142,5 @@ void initGameOver(){
     set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
     drawYes();
     SHOW_SPRITES;
-    fadein();
+    DISPLAY_ON;
 }

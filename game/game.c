@@ -6,6 +6,7 @@
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
 #include "../sprites/horizontallaser.c"
+#include "../sprites/lasergun.c"
 #include "../sprites/bomblaser.c"
 #include "../sprites/stun.c"
 #include "../sprites/stunqueue.c"
@@ -15,7 +16,7 @@ struct Laser {
     UBYTE repetitions[10];
 }
 
-struct Laser hLaser;
+UINT8 hLaser;
 UINT8 hLaserReady = 1;
 UINT8 hLaserPos, hCurrentClock;
  
@@ -27,6 +28,7 @@ UINT8 bReady = 1;
 UINT8 bPos, bCurrentClock;
 
 UINT8 playerX, playerY;
+font_t ibm;// Declare font variable
 
 void countScore() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
@@ -65,16 +67,17 @@ void resetPlayerPosition(){
 }
 
 void initGameLoop(){
-    font_t ibm; // Declare font variable
     font_init(); // Initialize font library after state change to avoid overwriting bg tiles
     color(DKGREY, BLACK, SOLID); // Customize colors of font 
     ibm = font_load(font_ibm); // Load built in font_ibm
     font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
-    set_bkg_data(109, 3, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
+    set_bkg_palette(0, 1, bkg_game_palette);
+    set_bkg_data(109, 6, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
     set_bkg_tiles(0, 0, 20, 18, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites
-    set_sprite_data(94, 18, HorizontalLaser); // Sets the horizontal laser sprites
+    set_sprite_data(94, 4, HorizontalLaser); // Sets the horizontal laser sprites
+    set_sprite_data(100, 12, LaserGun); // Sets the laser gun sprites
     set_sprite_data(48, 8, StunQueue); // Sets the stun queue sprites
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
@@ -84,7 +87,7 @@ void initGameLoop(){
     set_sprite_prop(18, get_sprite_prop(17) | S_FLIPX);
     SHOW_SPRITES; // Draw sprites
     resetPlayerPosition();
-    fadein();
+    DISPLAY_ON;
     stun = 0;
     stunned = 0;
     pDuty = 2;
@@ -97,11 +100,16 @@ void drawTheVLaser(struct Laser* laser, UINT8 x, UINT8 y) {
     } 
 }
 
-void drawTheHLaser(struct Laser* laser, UINT8 x, UINT8 y) {
-    UINT8 i; 
-    for (i = 0; i < 10; i++ ){ 
-        move_sprite(laser->repetitions[i], x + (8*(i)), y);
-    } 
+void drawTheHLaser(UINT8 x, UINT8 y) {
+    UINT8 i;
+    if (y == 36 || y == 116) {
+        move_sprite(19, 84, y);
+    }
+    else if (y == 76) {
+        for(i = x; i < 3; i++){
+            move_sprite(19 + i, 44 + (i*40), y);
+        }
+    }
 }
 
 void drawTheBomb(UINT8 x, UINT8 y) {
@@ -150,12 +158,25 @@ void triggerHLaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coor
     UINT8 i;
     hLaserPos = y;
     hCurrentClock = (clock() / CLOCKS_PER_SEC);
-    for(i = 0; i < 9; i++){
-        hLaser.repetitions[i] = i+19;
-        set_sprite_tile(19 + i, 94);
-        set_sprite_prop(19 + i, 1);
+    if (y == 36 || y == 116) {
+        set_sprite_tile(19, 94);
+        set_sprite_prop(19, 1);
+        if (y == 36) {
+           // set_bkg_tiles(0,3,20,1, LaserBgMapSingleBase);
+        }
+        if (y == 116) {
+           // set_bkg_tiles(0,13,20,1, LaserBgMapSingleBase);
+        }
     }
-    drawTheHLaser(&hLaser, 0, y);
+    else if (y == 76) {
+        for(i = 0; i < 3; i++){
+            set_sprite_tile(19 + i, 94);
+            set_sprite_prop(19 + i, 1);
+            //set_bkg_tiles(0,8,20,1, LaserBgMapDualBase);
+        }
+    }
+    
+    drawTheHLaser(0, y);
 }
 
 
@@ -207,7 +228,7 @@ void isVLaserReadyToBlow() {
                 set_sprite_tile(39, 23+i);
                 set_delay(3);
             }
-            fadeout();
+            DISPLAY_OFF;
             playerX = 0;
             initGameOver();
             state = 3;
@@ -219,24 +240,25 @@ void isVLaserReadyToBlow() {
     }
 }
 
+
+
 void isHLaserReadyToBlow() {
-    UINT8 i, z;
+    UINT8 i;
     if ( (clock() / CLOCKS_PER_SEC) - hCurrentClock >= 1 && hLaserReady == 0 && state !=3 ) {
-        playSoundFX(0);
-        for (z = 2; z < 20; z+=2) {
-            for(i = 0; i < 9; i++){
-                hLaser.repetitions[i] = i;
-                set_sprite_tile(i + 19, 96+z);
-            }
-            drawTheHLaser(&hLaser, 0, hLaserPos);
+        playSoundFX(3);
+        for (i = 0; i < 3; i++) {
+            set_sprite_tile(19+i, 120, 120);
+        }
+        // animate hazard
+        for (i = 0; i < 14; i++) {
             set_delay(2);
         }
-        if (playerY == hLaserPos) {
+        if (playerY == hLaserPos + 4) {
             for (i = 0; i <= 5; i++) {
                 set_sprite_tile(39, 23+i);
                 set_delay(3);
             }
-            fadeout();
+            DISPLAY_OFF;
             playerY = 0;
             initGameOver();
             state = 3;
@@ -269,7 +291,7 @@ void isBombReadyToBlow() {
                 set_sprite_tile(39, 23+i);
                 set_delay(3);
             }
-            fadeout();
+            DISPLAY_OFF;
             playerX = 0;
             initGameOver();
             state = 3;
@@ -342,8 +364,7 @@ void startHazards() {
             callVLaser();
         }
         else if (hazard == 1 && hLaserReady == 1) {
-            //callHLaser();
-            printf("");
+            callHLaser();
         }
         else if (hazard == 2 && bReady == 1) {
             callBomb();

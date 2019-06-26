@@ -1,5 +1,4 @@
 //SPRITES
-#define RGB_NBLACK           RGB( 0,  0,  0)
 #define RGB_NDARKGRAY        RGB(10, 10, 10)
 #define RGB_NLIGHTGRAY       RGB(21, 21, 21)
 #define RGB_NWHITE           RGB(31, 31, 31)
@@ -39,6 +38,14 @@ const UWORD bkg_gameover_palette[] = {
 
 const UWORD bkg_credits_palette[] = {
     RGB_ROSE, RGB_LIGHTVIOLET, RGB_LIGHTVIOLET, RGB_VIOLET // bg menu palette and game
+};
+
+const UWORD bkg_game_palette[] = {
+    RGB_ROSE, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // bg menu palette and game
+};
+
+const UWORD bkg_laser_palette[] = {
+    RGB_VIOLET, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // laser sprite
 };
 
 void initColors() { 
