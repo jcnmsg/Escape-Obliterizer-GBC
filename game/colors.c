@@ -10,6 +10,7 @@
 #define RGB_ROSE             RGB(25, 0, 15)
 #define RGB_DELLOWEENRED     RGB(31, 10, 8)
 #define RGB_DELOWEENYELLOW   RGB(30, 29, 16)
+#define RGB_NICEBLUE         RGB(16, 30, 31)
 #define RGB_STEVEBROWN       RGB(10, 6, 1)
 #define RGB_STEVESKIN        RGB(30, 20, 14)
 #define RGB_EORANGE          RGB(31, 21, 3)
@@ -23,7 +24,7 @@ const UWORD sprite_palettes[] = {
     0, RGB_ROSE, RGB_ROSE, 0, // options colors
     0, RGB_DELOWEENYELLOW, RGB_DELLOWEENRED, 0, // deloween colors
     0, RGB_NLIGHTGRAY, RGB_NDARKGRAY, 0, // zipper colors
-    0, RGB_NWHITE, RGB_LIGHTGREEN, RGB_LIGHTGREEN, // laser gun
+    0, RGB_LIGHTGREEN, RGB_NICEBLUE, RGB_NWHITE, // laser gun
     0, RGB_BGYELLOW, RGB_EORANGE, 0, // stun yellow
 	0, RGB_LIGHTVIOLET, 0, 0, // stun color
 };

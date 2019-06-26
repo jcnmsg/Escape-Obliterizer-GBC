@@ -246,7 +246,7 @@ void is_vlaser_ready_to_blow() {
 }
 
 void is_hlaser_ready_to_blow() {
-    UINT8 i;
+    UINT8 i, z;
     if ( (clock() / CLOCKS_PER_SEC) - h_current_clock >= 1 && hlaser_ready == 0 && state !=3 ) {
         play_sound_fx(3);
         set_bkg_tiles(0, 0, 20, 14, BackgroundMap); // Reset full bgmap
@@ -255,24 +255,16 @@ void is_hlaser_ready_to_blow() {
         }
         for (i = 0; i < 3; i++) {
             move_sprite(19 + i, 8+(i*8), hlaser_pos);
+        } 
+        for (z = 0; z < 18; z+=6) {
+            for (i = 0; i < 3; i++) {
+                set_sprite_tile(19 + i, 100 + z + (i*2));
+                set_sprite_prop(19 + i, 5);
+                wait_vbl_done();
+            }
         }
-        for (i = 0; i < 3; i++) {
-            set_sprite_tile(19 + i, 100 + (i*2));
-            set_sprite_prop(19 + i, 5);
-            wait_vbl_done();
-        }
-        for (i = 0; i < 3; i++) {
-            set_sprite_tile(19 + i, 106 + (i*2));
-            set_sprite_prop(19 + i, 5);
-            set_delay(2);
-        }
-        for (i = 0; i < 3; i++) {
-            set_sprite_tile(19 + i, 112 + (i*2));
-            set_sprite_prop(19 + i, 5);
-            wait_vbl_done();
-        }
-        for (i = 0; i < 5; i++) {
-            move_sprite(19, 90 + i*30 , hlaser_pos);
+        for (i = 0; i < 6; i++) {
+            move_sprite(19, 50 + i*25 , hlaser_pos);
             wait_vbl_done();
         }
         
