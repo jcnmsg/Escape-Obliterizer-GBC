@@ -19,7 +19,7 @@
 #include "game/game.c" // Game state functions and initialization of a lot of the variables
 
 void main(){ // Main loop
-    init_colors();
+    set_sprite_palette(0, 8, sprite_palettes);
     DISPLAY_ON;
     init_game_menu();
     while(1) {
@@ -69,7 +69,7 @@ void main(){ // Main loop
                             init_game_loop(); // Loads sprites and backgrounds to VRAM
                             state = 2;
                         }
-                        else if (selected == 2){
+                        if (selected == 2){
                             init_credits();
                             state = 0;
                             selected = 1;
@@ -214,7 +214,7 @@ void main(){ // Main loop
                         init_game_loop();
                         state = 2;
                     }
-                    else if (selected == 0){
+                    if (selected == 0){
                         DISPLAY_OFF;
                         init_game_menu();
                         state = 1;

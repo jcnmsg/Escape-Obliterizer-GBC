@@ -48,7 +48,3 @@ const UWORD bkg_game_palette[] = {
 const UWORD bkg_laser_palette[] = {
     RGB_VIOLET, RGB_LASERRED, RGB_LIGHTVIOLET, RGB_VIOLET // laser sprite
 };
-
-void init_colors() { 
-    set_sprite_palette(0, 8, sprite_palettes); // Set sprite palettes to memory
-}

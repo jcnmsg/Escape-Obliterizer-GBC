@@ -18,21 +18,56 @@ struct Laser {
 
 UINT8 h_laser;
 UINT8 hlaser_ready = 1;
-UINT8 hlaser_pos, h_current_clock;
+UINT8 hlaser_pos;
  
 struct Laser v_laser;
 UINT8 vlaser_ready = 1; 
-UINT8 v_laser_pos, v_current_clock;
+UINT8 v_laser_pos;
 
 UINT8 b_ready = 1;
-UINT8 b_pos, b_current_clock;
+UINT8 b_pos;
 
 UINT8 player_x, player_y;
+
+UINT8 level = 0;
+UINT8 v_laser_triggered = 0;
+UINT8 h_laser_triggered = 0;
+UINT8 b_triggered = 0;
+
+UINT8 b_counter_cap = 50;
+UINT8 v_counter_cap = 60;
+UINT8 h_counter_cap = 65;
+
+int b_counter = 0;
+int v_counter = 0;
+int h_counter = 0;
+
 font_t ibm;// Declare font variable
 
 void count_score() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
     printf("%u", score++); // Print score at desired position
+    if (score > 500 && score < 1000) {
+        level = 1;
+    }
+    if (score >= 1000) {
+        level = 2;
+    }
+    if (score > 1500 && score <= 3500) {
+        b_counter_cap = 40;
+        v_counter_cap = 50;
+        h_counter_cap = 55;
+    }   
+    if (score > 3500 && score <= 4500) {
+        b_counter_cap = 30;
+        v_counter_cap = 40;
+        h_counter_cap = 45;
+    } 
+    if (score > 4500) {
+        b_counter_cap = 15;
+        v_counter_cap = 25;
+        h_counter_cap = 20;
+    }
 }
 
 void reset_player_position(){
@@ -106,7 +141,7 @@ void draw_the_hlaser(UINT8 x, UINT8 y) {
         move_sprite(19, 80, y);
         move_sprite(20, 88, y);
     }
-    else if (y == 76) {
+    if (y == 76) {
         move_sprite(19, 40, y);
         move_sprite(20, 48, y);
         move_sprite(21, 84, y);
@@ -148,7 +183,6 @@ void draw_the_bomb(UINT8 x, UINT8 y) {
 void trigger_vlaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
     UINT8 i;
     v_laser_pos = x;
-    v_current_clock = (clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 9; i++){
         v_laser.repetitions[i] = i;
         set_sprite_tile(i, 30);
@@ -160,7 +194,7 @@ void trigger_vlaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordi
 void trigger_hlaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coordinate, x = 0
     UINT8 i;
     hlaser_pos = y;
-    h_current_clock = (clock() / CLOCKS_PER_SEC);
+    draw_the_hlaser(0, y);
     if (y == 36 || y == 116) {
         set_sprite_tile(19, 94);
         set_sprite_prop(19, 1);
@@ -173,22 +207,19 @@ void trigger_hlaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coo
            set_bkg_tiles(0,13,20,1, LaserBgMapSingleBase);
         }
     }
-    else if (y == 76) {
+    if (y == 76) {
         for(i = 0; i < 6; i++){
             set_sprite_tile(19 + i, 94);
             set_sprite_prop(19 + i, 1);
             set_bkg_tiles(0,8,20,1, LaserBgMapDualBase);
         }
     }
-    
-    draw_the_hlaser(0, y);
 }
 
 
 void trigger_bomb(UINT8 x) {
     UINT8 i;
     b_pos = x;
-    b_current_clock = (clock() / CLOCKS_PER_SEC);
     for(i = 0; i < 8; i++){
         if (i < 2) {
             set_sprite_tile(9+i, 68+i+i);
@@ -218,7 +249,10 @@ void trigger_bomb(UINT8 x) {
 
 void is_vlaser_ready_to_blow() {
     UINT8 i, z;
-    if ( (clock() / CLOCKS_PER_SEC) - v_current_clock >= 1 && vlaser_ready == 0 && state !=3 ) {
+    if (v_laser_triggered == 1) {
+        v_counter++;
+    }
+    if ( v_counter > v_counter_cap && vlaser_ready == 0 && state !=3 ) {
         play_sound_fx(0);
         for (z = 2; z < 20; z+=2) {
             for(i = 0; i < 9; i++){
@@ -235,19 +269,29 @@ void is_vlaser_ready_to_blow() {
             }
             DISPLAY_OFF;
             player_x = 0;
+            level = 0;
+            v_laser_triggered = 0;
+            v_counter = 0;
             init_game_over();
             state = 3;
         }
         vlaser_ready = 1;
+        v_laser_triggered = 0;
+        v_counter = 0;
     }
-    else if (state == 3) {
+    if (state == 3) {
         vlaser_ready = 1;
+        v_laser_triggered = 0;
+        v_counter = 0;
     }
 }
 
 void is_hlaser_ready_to_blow() {
     UINT8 i, z;
-    if ( (clock() / CLOCKS_PER_SEC) - h_current_clock >= 1 && hlaser_ready == 0 && state !=3 ) {
+    if (h_laser_triggered == 1) {
+        h_counter++;
+    }
+    if ( h_counter > h_counter_cap && hlaser_ready == 0 && state !=3 ) {
         play_sound_fx(3);
         set_bkg_tiles(0, 0, 20, 14, BackgroundMap); // Reset full bgmap
         for (i = 0; i < 5; i++) {
@@ -275,19 +319,28 @@ void is_hlaser_ready_to_blow() {
             }
             DISPLAY_OFF;
             player_y = 0;
+            h_counter = 0;
+            h_laser_triggered = 0;
             init_game_over();
             state = 3;
         }
         hlaser_ready = 1;
+        h_counter = 0;
+        h_laser_triggered = 0;
     }
-    else if (state == 3) {
+    if (state == 3) {
         hlaser_ready = 1;
+        h_laser_triggered = 0;
+        h_counter = 0;
     }
 }
 
 void is_bomb_ready_to_blow() {
     UINT8 i;
-    if ( (clock() / CLOCKS_PER_SEC) - b_current_clock >= 1 && b_ready == 0 && state != 3) {
+    if (b_triggered == 1) {
+        b_counter++;
+    }
+    if ( b_counter > b_counter_cap && b_ready == 0 && state != 3) {
         play_sound_fx(2);
         set_sprite_tile(17, 76);
         set_sprite_tile(18, 76);
@@ -308,13 +361,20 @@ void is_bomb_ready_to_blow() {
             }
             DISPLAY_OFF;
             player_x = 0;
+            level = 0;
+            b_triggered = 0;
+            b_counter = 0;
             init_game_over();
             state = 3;
         }
         b_ready = 1;
+        b_triggered = 0;
+        b_counter = 0;
     }
-    else if (state == 3) {
+    if (state == 3) {
         b_ready = 1;
+        b_triggered = 0;
+        b_counter = 0;
     }
 }
 
@@ -323,17 +383,17 @@ void call_vlaser(){
     if (pos == 0) {
         vlaser_ready = 0;
         trigger_vlaser(44);
+        v_laser_triggered = 1;
     }
     else if (pos == 1) {
         vlaser_ready = 0;
         trigger_vlaser(84);
+        v_laser_triggered = 1;
     }
     else if (pos == 2) {
         vlaser_ready = 0;
         trigger_vlaser(124);
-    }
-    else if (pos == 3) {
-        vlaser_ready = 1;
+        v_laser_triggered = 1;
     }
 }
 
@@ -342,13 +402,12 @@ void call_bomb() {
     if (pos == 0) {
         b_ready = 0;
         trigger_bomb(44);
+        b_triggered = 1;
     }
     else if (pos == 1) {
         b_ready = 0;
         trigger_bomb(124);
-    }
-    else if (pos == 2) {
-        b_ready = 1;
+        b_triggered = 1;
     }
 }
 
@@ -357,17 +416,17 @@ void call_hlaser() {
     if (pos == 0) {
         hlaser_ready = 0;
         trigger_hlaser(36);
+        h_laser_triggered = 1;
     }
-    else if (pos == 1) {
+    else if (pos == 1 && (v_laser_pos != 84 && v_laser_triggered == 1 || v_laser_triggered == 0)) {
         hlaser_ready = 0;
         trigger_hlaser(76);
+        h_laser_triggered = 1;
     }
     else if (pos == 2) {
         hlaser_ready = 0;
         trigger_hlaser(116);
-    }
-    else if (pos == 3) {
-        hlaser_ready = 1;
+        h_laser_triggered = 1;
     }
 }
 
@@ -375,13 +434,13 @@ void start_hazards() {
     unsigned UINT8 hazard;
     if ( ((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
         hazard = generate_random_num(2);
-        if (hazard == 0 && vlaser_ready == 1) {
+        if (hazard == 0 && vlaser_ready == 1 && level >= 0) {
             call_vlaser();
         }
-        else if (hazard == 1 && hlaser_ready == 1) {
+        else if (hazard == 1 && hlaser_ready == 1 && level >= 1) {
             call_hlaser();
         }
-        else if (hazard == 2 && b_ready == 1) {
+        else if (hazard == 2 && b_ready == 1 && level >= 2) {
             call_bomb();
         }
     }
