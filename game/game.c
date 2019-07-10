@@ -61,10 +61,15 @@ void count_score() {
         v_counter_cap = 45;
         h_counter_cap = 40;
     } 
-    if (score > 4500) {
+    if (score > 4500 && score <= 5500) {
         b_counter_cap = 15;
         v_counter_cap = 22;
         h_counter_cap = 20;
+    }
+    if (score > 5500) {
+        b_counter_cap = 12;
+        v_counter_cap = 17;
+        h_counter_cap = 15;
     }
 }
 
