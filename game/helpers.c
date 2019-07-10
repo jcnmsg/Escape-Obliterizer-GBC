@@ -7,8 +7,8 @@ UINT8 state = 1;
 UINT8 pattern_duty = 2;
 
 // GAMEPLAY
-unsigned UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
-    unsigned UINT8 num;
+UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
+    UINT8 num;
     num = (rand() % (upper + 1) );
     return num;
 }

@@ -32,7 +32,7 @@ void main(){ // Main loop
                     state = 1;
                     break;
             }
-            set_delay(2);
+            wait_vbl_done();
         }
 
         while(state == 1){ // 1: Main Menu  
@@ -83,7 +83,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            set_delay(2);
+            wait_vbl_done();
         }
 
         while(state == 2){ // 2: Game Loop
@@ -221,7 +221,7 @@ void main(){ // Main loop
                     }
                     break;
             }
-            set_delay(2);
+            wait_vbl_done();
         }
 
         while (state == 4) { // 4: Pause

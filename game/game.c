@@ -34,9 +34,7 @@ UINT8 v_laser_triggered = 0;
 UINT8 h_laser_triggered = 0;
 UINT8 b_triggered = 0;
 
-UINT8 b_counter_cap = 50;
-UINT8 v_counter_cap = 60;
-UINT8 h_counter_cap = 65;
+UINT8 b_counter_cap, v_counter_cap, h_counter_cap;
 
 int b_counter = 0;
 int v_counter = 0;
@@ -55,17 +53,17 @@ void count_score() {
     }
     if (score > 1500 && score <= 3500) {
         b_counter_cap = 40;
-        v_counter_cap = 50;
-        h_counter_cap = 55;
+        v_counter_cap = 55;
+        h_counter_cap = 50;
     }   
     if (score > 3500 && score <= 4500) {
         b_counter_cap = 30;
-        v_counter_cap = 40;
-        h_counter_cap = 45;
+        v_counter_cap = 45;
+        h_counter_cap = 40;
     } 
     if (score > 4500) {
         b_counter_cap = 15;
-        v_counter_cap = 25;
+        v_counter_cap = 22;
         h_counter_cap = 20;
     }
 }
@@ -123,9 +121,19 @@ void init_game_loop(){
     SHOW_SPRITES; // Draw sprites
     reset_player_position();
     DISPLAY_ON;
+    b_counter_cap = 50;
+    v_counter_cap = 65;
+    h_counter_cap = 60;
+    h_laser_triggered = 0;
+    v_laser_triggered = 0;
+    b_triggered = 0;
+    v_counter = 0;
+    b_counter = 0;
+    h_counter = 0;
     stun = 0;
     stunned = 0;
     pattern_duty = 2;
+    level = 0;
 }
  
 void draw_the_vlaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -135,8 +143,7 @@ void draw_the_vlaser(struct Laser* laser, UINT8 x, UINT8 y) {
     } 
 }
 
-void draw_the_hlaser(UINT8 x, UINT8 y) {
-    x = 0;
+void draw_the_hlaser(UINT8 y) {
     if (y == 36 || y == 116) {
         move_sprite(19, 80, y);
         move_sprite(20, 88, y);
@@ -194,7 +201,7 @@ void trigger_vlaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordi
 void trigger_hlaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coordinate, x = 0
     UINT8 i;
     hlaser_pos = y;
-    draw_the_hlaser(0, y);
+    draw_the_hlaser(y);
     if (y == 36 || y == 116) {
         set_sprite_tile(19, 94);
         set_sprite_prop(19, 1);
@@ -271,7 +278,6 @@ void is_vlaser_ready_to_blow() {
             player_x = 0;
             level = 0;
             v_laser_triggered = 0;
-            v_counter = 0;
             init_game_over();
             state = 3;
         }
@@ -281,8 +287,9 @@ void is_vlaser_ready_to_blow() {
     }
     if (state == 3) {
         vlaser_ready = 1;
+        hlaser_ready = 1;
+        b_ready = 1; 
         v_laser_triggered = 0;
-        v_counter = 0;
     }
 }
 
@@ -319,7 +326,6 @@ void is_hlaser_ready_to_blow() {
             }
             DISPLAY_OFF;
             player_y = 0;
-            h_counter = 0;
             h_laser_triggered = 0;
             init_game_over();
             state = 3;
@@ -330,8 +336,8 @@ void is_hlaser_ready_to_blow() {
     }
     if (state == 3) {
         hlaser_ready = 1;
-        h_laser_triggered = 0;
-        h_counter = 0;
+        vlaser_ready = 1;
+        b_ready = 1; 
     }
 }
 
@@ -373,19 +379,19 @@ void is_bomb_ready_to_blow() {
     }
     if (state == 3) {
         b_ready = 1;
-        b_triggered = 0;
-        b_counter = 0;
+        hlaser_ready = 1;
+        vlaser_ready = 1; 
     }
 }
 
 void call_vlaser(){
-    unsigned UINT8 pos = generate_random_num(3);
+    UINT8 pos = generate_random_num(3);
     if (pos == 0) {
         vlaser_ready = 0;
         trigger_vlaser(44);
         v_laser_triggered = 1;
     }
-    else if (pos == 1) {
+    else if (pos == 1 && (hlaser_pos != 76 && h_laser_triggered == 1 || h_laser_triggered == 0)) {
         vlaser_ready = 0;
         trigger_vlaser(84);
         v_laser_triggered = 1;
@@ -398,7 +404,7 @@ void call_vlaser(){
 }
 
 void call_bomb() {
-    unsigned UINT8 pos = generate_random_num(2);
+    UINT8 pos = generate_random_num(2);
     if (pos == 0) {
         b_ready = 0;
         trigger_bomb(44);
@@ -412,7 +418,7 @@ void call_bomb() {
 }
 
 void call_hlaser() {
-    unsigned UINT8 pos = generate_random_num(3);
+    UINT8 pos = generate_random_num(3);
     if (pos == 0) {
         hlaser_ready = 0;
         trigger_hlaser(36);
@@ -431,8 +437,8 @@ void call_hlaser() {
 }
 
 void start_hazards() {
-    unsigned UINT8 hazard;
-    if ( ((clock() / CLOCKS_PER_SEC)) % 2 == 0) { // change for timer 
+    UINT8 hazard;
+    if ( ((clock() / CLOCKS_PER_SEC)) % 2 == 0 || score > 5000 ) { // change for timer 
         hazard = generate_random_num(2);
         if (hazard == 0 && vlaser_ready == 1 && level >= 0) {
             call_vlaser();
