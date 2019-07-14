@@ -1,10 +1,6 @@
-// BACKGROUND
 #include "../background/logo/logo.c"
-
-// SPRITES
 #include "../sprites/words/MenuOptions.c"
 
-// VARIABLES
 UINT8 selected = 1; 
 UINT8 key_count = 0;
 const unsigned char *cheat_code[10] = {J_UP, J_UP, J_DOWN, J_DOWN, J_LEFT, J_RIGHT, J_LEFT, J_RIGHT, J_B, J_A};

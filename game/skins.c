@@ -1,13 +1,9 @@
-// SPRITES 
 #include "../sprites/skins/big_skins.c"
 #include "../sprites/skins/names/classic.c"
 #include "../sprites/skins/names/delloween.c"
 #include "../sprites/skins/names/gameboy.c"
-//#include "../sprites/skins/names/steve.c"
 #include "../sprites/skins/names/zipper.c"
 #include "../sprites/skins/arrows.c"
-
-// BACKGROUNDS
 #include "../background/skins/skins.c"
 
 UINT8 selected_skin = 0;
@@ -56,7 +52,6 @@ void drawBigSprite() { // draw big skin with flipx
 
 void drawSkinName() {
     UINT8 i, z;
-    set_sprite_data(52, skinSize[selected_skin], skinNames[selected_skin]);
     for (z = 0; z < ((UINT8) skinSize[selected_skin]) ; z++) {
         set_sprite_tile(8+z, 52+z+z); 
         move_sprite(8+z, ((UINT8) skinSpacing[selected_skin])+(z*8), 110);
@@ -66,6 +61,7 @@ void drawSkinName() {
         move_sprite(8+i, 180, 180);
         set_sprite_prop(8+i, 2);
     }
+    set_sprite_data(52, skinSize[selected_skin], skinNames[selected_skin]);
 }
 
 void draw_selected_skin() {
@@ -93,7 +89,7 @@ void draw_selected_skin() {
 
 void init_skin_state() {
     HIDE_SPRITES;
-    set_bkg_palette(0, 1, bkg_palettes); // set bg palettes
+    set_bkg_palette(0, 1, bkg_palettes);
 	set_bkg_data(0x01, 13, skins_dat);
 	VBK_REG = 0;
 	set_bkg_tiles(0, 0, 20, 15, skins_map);

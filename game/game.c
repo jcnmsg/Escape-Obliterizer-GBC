@@ -1,8 +1,5 @@
-// GAME BACKGROUNDS
 #include "../background/game/backgroundmap.c"
 #include "../background/game/backgroundtiles.c"
-
-// GAME SPRITES
 #include "../sprites/player.c"
 #include "../sprites/verticallaser.c"
 #include "../sprites/horizontallaser.c"
@@ -19,21 +16,16 @@ struct Laser {
 UINT8 h_laser;
 UINT8 hlaser_ready = 1;
 UINT8 hlaser_pos;
- 
 struct Laser v_laser;
 UINT8 vlaser_ready = 1; 
 UINT8 v_laser_pos;
-
 UINT8 b_ready = 1;
 UINT8 b_pos;
-
 UINT8 player_x, player_y;
-
 UINT8 level = 0;
 UINT8 v_laser_triggered = 0;
 UINT8 h_laser_triggered = 0;
 UINT8 b_triggered = 0;
-
 UINT8 b_counter_cap, v_counter_cap, h_counter_cap;
 
 int b_counter = 0;
@@ -45,6 +37,7 @@ font_t ibm;// Declare font variable
 void count_score() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
     printf("%u", score++); // Print score at desired position
+    /* Difficulty management */
     if (score > 500 && score < 1000) {
         level = 1;
     }
@@ -192,7 +185,7 @@ void draw_the_bomb(UINT8 x, UINT8 y) {
     }
 }
 
-void trigger_vlaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordinate, y = 0
+void trigger_vlaser(UINT8 x) { 
     UINT8 i;
     v_laser_pos = x;
     for(i = 0; i < 9; i++){
@@ -203,7 +196,7 @@ void trigger_vlaser(UINT8 x) { // Trigger Vertical Laser, only requires x coordi
     draw_the_vlaser(&v_laser, x, 0);
 }
 
-void trigger_hlaser(UINT8 y) { // Trigger Horiziontal Laser, only requires y coordinate, x = 0
+void trigger_hlaser(UINT8 y) { 
     UINT8 i;
     hlaser_pos = y;
     draw_the_hlaser(y);
@@ -355,8 +348,8 @@ void is_bomb_ready_to_blow() {
         play_sound_fx(2);
         set_sprite_tile(17, 76);
         set_sprite_tile(18, 76);
-        move_sprite(17, b_pos-4, 76); // reset player
-        move_sprite(18, b_pos+4, 76); // reset player
+        move_sprite(17, b_pos-4, 76); 
+        move_sprite(18, b_pos+4, 76); 
         for(i = 9; i < 17; i++ ) {
             move_sprite(i, 200, 200);
         }

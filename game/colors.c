@@ -1,4 +1,3 @@
-//SPRITES
 #define RGB_NDARKGRAY        RGB(10, 10, 10)
 #define RGB_NLIGHTGRAY       RGB(21, 21, 21)
 #define RGB_NWHITE           RGB(31, 31, 31)
@@ -11,8 +10,6 @@
 #define RGB_DELLOWEENRED     RGB(31, 10, 8)
 #define RGB_DELOWEENYELLOW   RGB(30, 29, 16)
 #define RGB_NICEBLUE         RGB(16, 30, 31)
-#define RGB_STEVEBROWN       RGB(10, 6, 1)
-#define RGB_STEVESKIN        RGB(30, 20, 14)
 #define RGB_EORANGE          RGB(31, 21, 3)
 #define RGB_VIOLET           RGB(7, 1, 6)
 #define RGB_LIGHTVIOLET      RGB(14, 4, 12)

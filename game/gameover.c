@@ -1,7 +1,4 @@
-// BACKGROUND
 #include "../background/gameover/gameover.c"
-
-// SPRITES
 #include "../sprites/words/GameOverOptions.c"
 
 const unsigned int *numbers[10] = {9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31};
