@@ -265,6 +265,7 @@ void is_vlaser_ready_to_blow() {
                 set_sprite_tile(i, 28+z);
             }
             draw_the_vlaser(&v_laser, v_laser_pos, 0);
+            count_score();
             set_delay(2);
         }
         if (player_x == v_laser_pos) {
@@ -309,11 +310,13 @@ void is_hlaser_ready_to_blow() {
             for (i = 0; i < 3; i++) {
                 set_sprite_tile(19 + i, 100 + z + (i*2));
                 set_sprite_prop(19 + i, 5);
+                count_score();
                 wait_vbl_done();
             }
         }
         for (i = 0; i < 6; i++) {
             move_sprite(19, 50 + i*25 , hlaser_pos);
+            count_score();
             wait_vbl_done();
         }
         
@@ -356,6 +359,7 @@ void is_bomb_ready_to_blow() {
         for(i = 0; i < 18; i+=2){
             set_sprite_tile(17, 76+i);
             set_sprite_tile(18, 76+i);
+            count_score();
             set_delay(2);
         }
         if (player_x == b_pos) {
