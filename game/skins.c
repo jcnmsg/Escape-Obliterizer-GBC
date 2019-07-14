@@ -92,7 +92,7 @@ void init_skin_state() {
     set_bkg_palette(0, 1, bkg_palettes);
 	set_bkg_data(0x01, 13, skins_dat);
 	VBK_REG = 0;
-	set_bkg_tiles(0, 0, 20, 15, skins_map);
+	set_bkg_tiles(0, 2, 20, 13, skins_map);
 	move_bkg (0, 0);
 	SHOW_BKG;
     set_sprite_data(0, 54, BigSkins);

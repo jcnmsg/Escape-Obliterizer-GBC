@@ -113,7 +113,7 @@ void init_game_loop(){
     set_sprite_data(58, 10, TheStun); // Sets the stun sprites
     set_sprite_prop(36, 6); // Setup stun animation colors
     set_sprite_data(68, 6, BombLaser); // Sets the bomb laser sprites
-    set_sprite_data(76, 14, Explosion); // Sets the explosion sprites
+    set_sprite_data(76, 16, Explosion); // Sets the explosion sprites
     set_sprite_prop(17, 6);
     set_sprite_prop(18, get_sprite_prop(17) | S_FLIPX);
     SHOW_SPRITES; // Draw sprites
@@ -159,28 +159,28 @@ void draw_the_bomb(UINT8 x, UINT8 y) {
     UINT8 i; 
     for(i = 0; i < 8; i++){
         if (i == 0) {
-            move_sprite(9+i, x - 16, y - 20);
+            move_sprite(9+i, x - 18, y - 20);
         }
         if (i == 1) {
-            move_sprite(9+i, x - 8 , y - 20);
+            move_sprite(9+i, x - 10 , y - 20);
         }
         if (i == 2) {
-            move_sprite(9+i, x + 16, y - 20);
+            move_sprite(9+i, x + 18, y - 20);
         }
         if (i == 3) {
-            move_sprite(9+i, x + 8 , y - 20);
+            move_sprite(9+i, x + 10 , y - 20);
         }
         if (i == 4) {
-            move_sprite(9+i, x - 16, y + 12);
+            move_sprite(9+i, x - 18, y + 12);
         }
         if (i == 5) {
-            move_sprite(9+i, x - 8 , y + 12);
+            move_sprite(9+i, x - 10 , y + 12);
         }
         if (i == 6) {
-            move_sprite(9+i, x + 16, y + 12);
+            move_sprite(9+i, x + 18, y + 12);
         }
         if (i == 7) {
-            move_sprite(9+i, x + 8 , y + 12);
+            move_sprite(9+i, x + 10, y + 12);
         }
     }
 }
@@ -230,13 +230,13 @@ void trigger_bomb(UINT8 x) {
             set_sprite_tile(9+i, 68+i+i);
         }
         if (i >= 2 && i < 4) {
-            set_sprite_tile(9+i, 68+i+i-2-2);
+            set_sprite_tile(9+i, 68+i+i-4);
         }
         if (i >= 4 && i < 6) {
-            set_sprite_tile(9+i, 68+i+i-4-4);
+            set_sprite_tile(9+i, 68+i+i-8);
         }
         if (i >= 6 && i < 8) {
-            set_sprite_tile(9+i, 68+i+i-6-6);
+            set_sprite_tile(9+i, 68+i+i-12);
         }
         set_sprite_prop(9+i, 1);
         if (i >= 2 && i < 4) {
