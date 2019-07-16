@@ -17,11 +17,12 @@ If you'd like to play the game on real hardware, you can flash it onto chinese b
 - RAM: 8KB (1 bank)
 
 ## :video_game: Playtesting
-I have playtested it alone, so the chance of finding bugs is definitely not ruled out. The current build is available in the build folder, so if you end up downloading, playing and finding any unknown bug not stated in the list below, please report it to me so I can look into it. I have played it in a couple of different emulators for the Web, Android, Windows and PSP, as well as on real hardware (Game Boy Advance SP 001 and 101, Game Boy Advance and Game Boy Color).
+I've playtested it thoroughly and I've also got some people on Reddit and Instagram to play it! Have had around 30 downloads since I put it up on itch.io, and very few bug reports have been filled. It has been tested in a couple of different emulators for the Web (VaporBoy), Android (My OldBoy!), Windows (BGB and Visual Boy Advance) and PSP (MasterBoy), as well as on real hardware (Game Boy Advance SP models 001 and 101, classic Game Boy Advance and Game Boy Color, both using flashed carts and using an GB Everdrive X3).
 
 ## :beetle: Known bugs
 - The colors are way too dark when played using a classic Game Boy Advance. That's due to the way the GBA translates Game Boy Color palettes. The current colors have been balanced to fit GBA SPs without washing out the GBCs' colors too much, so playing it on an SP (001 or 101) or Game Boy Color fixes it;
 - When you switch directions too fast without releasing the buttons (eg. you go from left to right but don't pass in the middle position), the stun counter doesn't reset, meaning you can get stunned for doing something that was ok in the original game. Easily fixable by adding a direction flag, but I think it really adds to the challenge anyway, so I'm probably keeping this one;
+- Not a bug but some people denoted the lack of contrast between text and background, I'll fix it as soon as possible.
 
 ## :notebook_with_decorative_cover: Invaluable Resources
 - Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Official Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)
@@ -34,4 +35,4 @@ I have playtested it alone, so the chance of finding bugs is definitely not rule
 - Beginner Tutorials - [GamingMonsters Youtube Channel](https://www.youtube.com/playlist?list=PLeEj4c2zF7PaFv5MPYhNAkBGrkx4iPGJo)
 
 ## :beers: Special Thanks
-A special thanks is due to everyone at the [GBDev Community](https://github.com/gbdev/awesome-gbdev) Discord server, whom have answered all my questions and taught me the intricacies of developing for the Game Boy. These are the people who are keeping these consoles alive today and they sure deserve our appreciation.
+A special thanks is due to everyone at the [GBDev Community](https://github.com/gbdev/awesome-gbdev) Discord server, whom have answered all my questions and taught me the intricacies of developing for the Game Boy. These are the people who are keeping these consoles alive today and they sure deserve our appreciation. Also thanks to everyone on [/r/GameBoy](https://www.reddit.com/r/Gameboy/) and on my Instagram page who have taken some of their time to playtest this really small and silly game.
