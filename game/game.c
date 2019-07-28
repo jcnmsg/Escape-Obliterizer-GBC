@@ -104,7 +104,7 @@ void init_game_loop(){
     font_set(ibm); // Set built in font_ibm, will be used on displaying the score, only 36 tiles
     set_bkg_palette(0, 1, bkg_game_palette);
     set_bkg_data(109, 6, BackgroundTiles); // Sets which background tileset to use, starts on 39, after the font load, counts three tiles
-    set_bkg_tiles(0, 0, 20, 14, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
+    set_bkg_tiles(0, 3, 20, 11, BackgroundMap); // Sets which background map to use and position on screen starting on x=0, y=0 (offscreen) and spanning 20x18 tiles of 8 pixels each
     set_sprite_data(0, 30, Player); // Sets the player sprite, starts on zero, counts seven
     set_sprite_data(30, 18, VerticalLaser); // Sets the vertical laser sprites
     set_sprite_data(94, 4, HorizontalLaser); // Sets the horizontal laser sprites
@@ -299,7 +299,7 @@ void is_hlaser_ready_to_blow() {
     }
     if ( h_counter > h_counter_cap && hlaser_ready == 0 && state !=3 ) {
         play_sound_fx(3);
-        set_bkg_tiles(0, 0, 20, 14, BackgroundMap); // Reset full bgmap
+        set_bkg_tiles(0, 3, 20, 11, BackgroundMap); // Reset full bgmap
         for (i = 0; i < 5; i++) {
             move_sprite(19+i, 200, 200);
         }
