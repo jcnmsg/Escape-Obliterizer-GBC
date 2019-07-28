@@ -120,7 +120,6 @@ void process_score() {
 }
 
 void init_game_over(){
-    HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_gameover_palette); // set bg palettes
     set_bkg_data(0x01, 60, gameoverbg_dat);
     VBK_REG = 0;
@@ -135,6 +134,5 @@ void init_game_over(){
     process_score();
     set_sprite_data(0, 28, GameOverOptions); // Sets the yes sprite, starts on zero, counts twelve tiles
     draw_yes();
-    SHOW_SPRITES;
     DISPLAY_ON;
 }

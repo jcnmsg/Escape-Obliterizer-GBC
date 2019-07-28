@@ -88,7 +88,6 @@ void draw_selected_skin() {
 }
 
 void init_skin_state() {
-    HIDE_SPRITES;
     set_bkg_palette(0, 1, bkg_palettes);
 	set_bkg_data(0x01, 13, skins_dat);
 	VBK_REG = 0;
@@ -102,6 +101,5 @@ void init_skin_state() {
     set_sprite_tile(39, 82);
     set_sprite_prop(39, 2);
     draw_selected_skin();  
-    SHOW_SPRITES;
     DISPLAY_ON; 
 }

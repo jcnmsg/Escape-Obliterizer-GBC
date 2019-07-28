@@ -116,7 +116,6 @@ void init_game_loop(){
     set_sprite_data(76, 16, Explosion); // Sets the explosion sprites
     set_sprite_prop(17, 6);
     set_sprite_prop(18, get_sprite_prop(17) | S_FLIPX);
-    SHOW_SPRITES; // Draw sprites
     reset_player_position();
     DISPLAY_ON;
     b_counter_cap = 50;

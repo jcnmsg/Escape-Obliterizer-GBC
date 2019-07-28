@@ -57,7 +57,6 @@ void remove_skin_state(){
 
 void init_game_menu() {
     remove_skin_state();
-    HIDE_SPRITES;
     set_bkg_palette(0, 1, &bkg_palettes[0]); // set bg palettes
 	set_bkg_data(0x01, 77, gbpic_dat); 
 	VBK_REG = 0;
@@ -67,6 +66,6 @@ void init_game_menu() {
     SPRITES_8x16; // Activate 8*16 sprite mode, defaults to 8x8
     set_sprite_data(0, 22, MenuOptions);
     draw_play();
-    SHOW_SPRITES;
+    SHOW_SPRITES; // Draw sprites
     DISPLAY_ON;
 }
