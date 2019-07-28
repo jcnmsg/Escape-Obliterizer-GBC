@@ -88,11 +88,8 @@ void process_highscore() {
 
     if ((score - 1) > highscore) { // If current score larger than highscore
         highscore = score - 1; // Save current score to nvram
-        draw_highscore();
     } 
-    else {
-        draw_highscore();
-    }
+    draw_highscore();
 
     DISABLE_RAM_MBC1; // Close nvram
 }
