@@ -5,7 +5,6 @@ extern int highscore;
 int score = 0; 
 int stun = 0;
 int stunned = 0;
-int bpm = 0;
 UINT8 state = 1;
 UINT8 pattern_duty = 2;
 

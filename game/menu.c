@@ -46,12 +46,10 @@ void erase_menu_options() {
 }
 
 void remove_skin_state(){
-    UINT8 w, z;
+    UINT8 z;
     for (z = 0; z <= 39 ; z++) { 
-        move_sprite(z, 180, 180);    
-    }
-    for (w = 0; w <= 39; w++) {
-        set_sprite_prop(w, 0x00);
+        move_sprite(z, 180, 180);   
+        set_sprite_prop(z, 0x00); 
     }
 }
 

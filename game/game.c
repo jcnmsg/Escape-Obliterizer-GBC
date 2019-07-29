@@ -155,33 +155,14 @@ void draw_the_hlaser(UINT8 y) {
 }
 
 void draw_the_bomb(UINT8 x, UINT8 y) {
-    UINT8 i; 
-    for(i = 0; i < 8; i++){
-        if (i == 0) {
-            move_sprite(9+i, x - 18, y - 20);
-        }
-        if (i == 1) {
-            move_sprite(9+i, x - 10 , y - 20);
-        }
-        if (i == 2) {
-            move_sprite(9+i, x + 18, y - 20);
-        }
-        if (i == 3) {
-            move_sprite(9+i, x + 10 , y - 20);
-        }
-        if (i == 4) {
-            move_sprite(9+i, x - 18, y + 12);
-        }
-        if (i == 5) {
-            move_sprite(9+i, x - 10 , y + 12);
-        }
-        if (i == 6) {
-            move_sprite(9+i, x + 18, y + 12);
-        }
-        if (i == 7) {
-            move_sprite(9+i, x + 10, y + 12);
-        }
-    }
+    move_sprite(9, x - 18, y - 20);
+    move_sprite(10, x - 10 , y - 20);
+    move_sprite(11, x + 18, y - 20);
+    move_sprite(12, x + 10 , y - 20);
+    move_sprite(13, x - 18, y + 12);
+    move_sprite(14, x - 10 , y + 12);
+    move_sprite(15, x + 18, y + 12);
+    move_sprite(16, x + 10, y + 12);
 }
 
 void trigger_vlaser(UINT8 x) { 

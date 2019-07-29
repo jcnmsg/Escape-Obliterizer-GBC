@@ -28,26 +28,14 @@ void drawBigSprite() { // draw big skin with flipx
             set_sprite_prop(i+4, get_sprite_prop(i+4) | S_FLIPX);
         }
     }
-    for (i = 0; i <= 8; i++) {
-        if (i < 2) {
-            move_sprite(i, 76+(8*i), 76);    
-        }
-        if ( i == 2 || i == 3 ) {
-            move_sprite(i, 76+(8*(i-2)), 92);
-        }
-        if ( i == 4 ) {
-            move_sprite(i, 76+(8*(i-2)), 76); 
-        }
-        if ( i == 5 ) {
-            move_sprite(i, 76+(8*(i-4)), 76);
-        }
-        if ( i == 6 ) {
-            move_sprite(i, 76+(8*(i-4)), 92);
-        }
-        if ( i == 7 ) {
-            move_sprite(i, 76+(8*(i-6)), 92);
-        }
-    }
+    move_sprite(0, 76, 76); 
+    move_sprite(1, 84, 76);    
+    move_sprite(2, 76+(8*(2-2)), 92);
+    move_sprite(3, 76+(8*(3-2)), 92);
+    move_sprite(4, 76+(8*(4-2)), 76); 
+    move_sprite(5, 76+(8*(5-4)), 76);
+    move_sprite(6, 76+(8*(6-4)), 92);
+    move_sprite(7, 76+(8*(7-6)), 92);
 }
 
 void drawSkinName() {
