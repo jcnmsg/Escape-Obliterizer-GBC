@@ -34,6 +34,43 @@ int h_counter = 0;
 
 font_t ibm;// Declare font variable
 
+
+void play_stun_animation() {
+    move_sprite(36, 85, 78);
+    if ((stun > 0 && stun <= 5) || (stun > 25 && stun <= 30) || (stun > 50 && stun <= 55) ) {
+        set_sprite_tile(36, 58);
+    }
+    if ((stun > 5 && stun <= 10) || (stun > 30 && stun <= 35) || (stun > 55 && stun <= 60)) {
+        set_sprite_tile(36, 60);
+    }
+    if ((stun > 10 && stun <= 15) || (stun > 35 && stun <= 40) || (stun > 60 && stun <= 65)) {
+        set_sprite_tile(36, 62);
+    }
+    if ((stun > 15 && stun <= 20) || (stun > 40 && stun <= 45) || (stun > 65 && stun <= 70)) {
+        set_sprite_tile(36, 64);
+    }
+    if ((stun >= 20 && stun <= 25) || (stun > 45 && stun <= 50) || (stun > 70 && stun <= 75)) {
+        set_sprite_tile(36, 66);
+    }
+    if (stun == 1 || stun == 12 || stun == 40 || stun == 52) {
+        play_sound_fx(1);
+    }
+}
+
+void process_stun() {
+    if (stunned == 1) {
+        play_stun_animation();
+        if(stun <= 75){ 
+            stun++;
+        }
+        else {
+            stunned = 0;
+            stun = 0;
+            move_sprite(36, 200, 200); // hide stun sprite on stun finish
+        }
+    } 
+}
+
 void count_score() {
     gotoxy(1, 16); // Position of the console on screen, uses tiles so x=1*8 and y=16*8
     printf("%u", score++); // Print score at desired position
@@ -246,6 +283,7 @@ void is_vlaser_ready_to_blow() {
             }
             draw_the_vlaser(&v_laser, v_laser_pos, 0);
             count_score();
+            process_stun();
             set_delay(2);
         }
         if (player_x == v_laser_pos) {
@@ -292,6 +330,9 @@ void is_hlaser_ready_to_blow() {
                 set_sprite_prop(19 + i, 5);
                 count_score();
                 wait_vbl_done();
+            }
+            if (z % 2 == 0) {
+                process_stun();
             }
         }
         for (i = 0; i < 6; i++) {
@@ -340,6 +381,7 @@ void is_bomb_ready_to_blow() {
             set_sprite_tile(17, 76+i);
             set_sprite_tile(18, 76+i);
             count_score();
+            process_stun();
             set_delay(2);
         }
         if (player_x == b_pos) {
@@ -432,42 +474,6 @@ void start_hazards() {
             call_bomb();
         }
     }
-}
-
-void play_stun_animation() {
-    move_sprite(36, 85, 78);
-    if ((stun > 0 && stun <= 5) || (stun > 25 && stun <= 30) || (stun > 50 && stun <= 55) ) {
-        set_sprite_tile(36, 58);
-    }
-    if ((stun > 5 && stun <= 10) || (stun > 30 && stun <= 35) || (stun > 55 && stun <= 60)) {
-        set_sprite_tile(36, 60);
-    }
-    if ((stun > 10 && stun <= 15) || (stun > 35 && stun <= 40) || (stun > 60 && stun <= 65)) {
-        set_sprite_tile(36, 62);
-    }
-    if ((stun > 15 && stun <= 20) || (stun > 40 && stun <= 45) || (stun > 65 && stun <= 70)) {
-        set_sprite_tile(36, 64);
-    }
-    if ((stun >= 20 && stun <= 25) || (stun > 45 && stun <= 50) || (stun > 70 && stun <= 75)) {
-        set_sprite_tile(36, 66);
-    }
-    if (stun == 1 || stun == 12 || stun == 40 || stun == 52) {
-        play_sound_fx(1);
-    }
-}
-
-void process_stun() {
-    if (stunned == 1) {
-        play_stun_animation();
-        if(stun <= 75){ 
-            stun++;
-        }
-        else {
-            stunned = 0;
-            stun = 0;
-            move_sprite(36, 200, 200); // hide stun sprite on stun finish
-        }
-    } 
 }
 
 void animate_stun_queue(){
