@@ -6,8 +6,6 @@ int score = 0;
 int stun = 0;
 int stunned = 0;
 UINT8 state = 1;
-UINT8 pattern_duty = 2;
-
 
 // GAMEPLAY
 UINT8 generate_random_num(UINT8 upper) { // Generates random with upper as maximum
@@ -25,10 +23,12 @@ void set_delay(UINT8 loops) {
 
 // SOUND
 void play_sound_fx(UINT8 fx) {
+    
+    NR52_REG = 0x80; 
+    NR51_REG = 0xFF; 
+    NR50_REG = 0x77;
+
     if (fx == 0) { // Laser blowing sound        
-        NR52_REG = 0x80; 
-        NR51_REG = 0x11; 
-        NR50_REG = 0x77;
         NR10_REG = 4 | (1 << 3) | (2 << 4); 
         NR11_REG = 1 | (3 << 6); 
         NR12_REG = 1 | (0 << 3) | (15 << 4); 
@@ -37,26 +37,13 @@ void play_sound_fx(UINT8 fx) {
     }
 
     if (fx == 1) { // Stun sound fx (Frequency: 1936)
-        NR52_REG = 0x80; 
-        NR51_REG = 0x22; 
-        NR50_REG = 0x77;
-        if (pattern_duty == 3) {
-            NR21_REG = 0xC0; 
-            pattern_duty = 2;
-        }
-        else if (pattern_duty == 2) {
-            NR21_REG = 0x80; 
-            pattern_duty = 3;
-        }
+        NR21_REG = 0xC0;         
         NR22_REG = 0x74; 
         NR23_REG = 0x90;
         NR24_REG = 0xC7;
     }
 
     if (fx == 2) { // bomb sound fx
-        NR52_REG = 0x80; 
-        NR51_REG = 0x88; 
-        NR50_REG = 0x77;
         NR41_REG = 1;
         NR42_REG = 1 | (0 << 3) | (15 << 4);
         NR43_REG =  1 | (2 << 3) | (2 << 4);
@@ -64,9 +51,6 @@ void play_sound_fx(UINT8 fx) {
     }
 
     if (fx == 3) { // laser gun sound fx
-        NR52_REG = 0x80; 
-        NR51_REG = 0x11; 
-        NR50_REG = 0x77;
         NR10_REG = 5 | (1 << 3) | (2 << 4);
         NR11_REG = 1 | (3 << 6);
         NR12_REG = 3 | (0 << 3) | (15 << 4);

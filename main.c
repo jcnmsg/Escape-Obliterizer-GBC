@@ -106,6 +106,10 @@ void main(){ // Main loop
                     case J_LEFT:
                         if (stunned == 0) {
                             if (stun <= 65) { 
+                                if (direction != 1) {
+                                    stun = 0;
+                                    direction = 1;
+                                }
                                 stun++;
                                 animate_stun_queue();
                                 move_sprite(39, 44, 80); // Moves player sprite accordingly
@@ -127,6 +131,10 @@ void main(){ // Main loop
                     case J_RIGHT: 
                         if (stunned == 0) {
                             if (stun <= 65) {
+                                if (direction != 2) {
+                                    stun = 0;
+                                    direction = 2;
+                                }
                                 stun++; 
                                 animate_stun_queue();
                                 move_sprite(39, 124, 80); 
@@ -149,6 +157,10 @@ void main(){ // Main loop
                     case J_UP:
                         if (stunned == 0) {
                             if (stun <= 65) {
+                                if (direction != 3) {
+                                    stun = 0;
+                                    direction = 3;
+                                }
                                 stun++;
                                 animate_stun_queue();
                                 move_sprite(39, 84, 40); // move player sprite
@@ -170,6 +182,10 @@ void main(){ // Main loop
                     case J_DOWN:
                         if (stunned == 0) {
                             if (stun <= 65) {
+                                if (direction != 4) {
+                                    stun = 0;
+                                    direction = 4;
+                                }
                                 stun++;
                                 animate_stun_queue();
                                 move_sprite(39, 84, 120);

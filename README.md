@@ -21,8 +21,7 @@ I've playtested it thoroughly and I've also got some people on Reddit and Instag
 
 ## :beetle: Known bugs
 - The colors are way too dark when played using a classic Game Boy Advance. That's due to the way the GBA translates Game Boy Color palettes. The current colors have been balanced to fit GBA SPs without washing out the GBCs' colors too much, so playing it on an SP (001 or 101) or Game Boy Color fixes it;
-- When you switch directions too fast without releasing the buttons (eg. you go from left to right but don't pass in the middle position), the stun counter doesn't reset, meaning you can get stunned for doing something that was ok in the original game. Easily fixable by adding a direction flag, but I think it really adds to the challenge anyway, so I'm probably keeping this one;
-- Not a bug but some people denoted the lack of contrast between text and background, I'll fix it as soon as possible.
+- Not a bug but some people denoted the lack of contrast between text and background, I'll see what I can do.
 
 ## :notebook_with_decorative_cover: Invaluable Resources
 - Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Official Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)

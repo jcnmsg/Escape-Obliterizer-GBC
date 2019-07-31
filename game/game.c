@@ -27,6 +27,7 @@ UINT8 v_laser_triggered = 0;
 UINT8 h_laser_triggered = 0;
 UINT8 b_triggered = 0;
 UINT8 b_counter_cap, v_counter_cap, h_counter_cap;
+UINT8 direction = 0;
 
 int b_counter = 0;
 int v_counter = 0;
@@ -34,6 +35,25 @@ int h_counter = 0;
 
 font_t ibm;// Declare font variable
 
+void animate_stun_queue(){
+    if (stun > 0 && stun < 20) {
+        set_sprite_tile(37, 50);
+        set_sprite_tile(38, 50);
+    }
+    if (stun >=20 && stun < 40) {
+        set_sprite_tile(37, 52);
+        set_sprite_tile(38, 52);
+    } 
+    if (stun >=40 && stun < 60) {
+        set_sprite_tile(37, 54);
+        set_sprite_tile(38, 54);
+    } 
+    if (stun >= 60 && stun < 80) {
+        set_sprite_tile(37, 119);
+        set_sprite_tile(38, 119);
+    }
+    score+=3;
+}
 
 void play_stun_animation() {
     move_sprite(36, 85, 78);
@@ -105,6 +125,7 @@ void count_score() {
 
 void reset_player_position(){
     UINT8 w;
+    direction = 0;
     for (w = 0; w <= 5; w++) {
         if (w == selected_skin) {
             set_sprite_tile(39, 11+w+w);
@@ -166,8 +187,8 @@ void init_game_loop(){
     h_counter = 0;
     stun = 0;
     stunned = 0;
-    pattern_duty = 2;
     level = 0;
+    direction = 0;
 }
  
 void draw_the_vlaser(struct Laser* laser, UINT8 x, UINT8 y) {
@@ -282,8 +303,13 @@ void is_vlaser_ready_to_blow() {
                 set_sprite_tile(i, 28+z);
             }
             draw_the_vlaser(&v_laser, v_laser_pos, 0);
-            count_score();
             process_stun();
+            if (joypad() == J_LEFT || joypad() == J_RIGHT || joypad() == J_UP || joypad() == J_DOWN) {
+                stun++;
+                animate_stun_queue();
+                score+=2;
+            }
+            count_score();
             set_delay(2);
         }
         if (player_x == v_laser_pos) {
@@ -328,11 +354,16 @@ void is_hlaser_ready_to_blow() {
             for (i = 0; i < 3; i++) {
                 set_sprite_tile(19 + i, 100 + z + (i*2));
                 set_sprite_prop(19 + i, 5);
-                count_score();
                 wait_vbl_done();
             }
             if (z % 2 == 0) {
                 process_stun();
+                if (joypad() == J_LEFT || joypad() == J_RIGHT || joypad() == J_UP || joypad() == J_DOWN) {
+                    stun++;
+                    animate_stun_queue();
+                    score+=2;;      
+                }
+                count_score();
             }
         }
         for (i = 0; i < 6; i++) {
@@ -380,8 +411,13 @@ void is_bomb_ready_to_blow() {
         for(i = 0; i < 18; i+=2){
             set_sprite_tile(17, 76+i);
             set_sprite_tile(18, 76+i);
-            count_score();
             process_stun();
+            if (joypad() == J_LEFT || joypad() == J_RIGHT || joypad() == J_UP || joypad() == J_DOWN) {
+                stun++;
+                animate_stun_queue();
+                score+=2;
+            }
+            count_score();
             set_delay(2);
         }
         if (player_x == b_pos) {
@@ -474,24 +510,4 @@ void start_hazards() {
             call_bomb();
         }
     }
-}
-
-void animate_stun_queue(){
-    if (stun > 0 && stun < 20) {
-        set_sprite_tile(37, 50);
-        set_sprite_tile(38, 50);
-    }
-    if (stun >=20 && stun < 40) {
-        set_sprite_tile(37, 52);
-        set_sprite_tile(38, 52);
-    } 
-    if (stun >=40 && stun < 60) {
-        set_sprite_tile(37, 54);
-        set_sprite_tile(38, 54);
-    } 
-    if (stun >= 60 && stun < 80) {
-        set_sprite_tile(37, 119);
-        set_sprite_tile(38, 119);
-    }
-    score+=3;
 }
