@@ -20,8 +20,7 @@ If you'd like to play the game on real hardware, you can flash it onto chinese b
 I've playtested it thoroughly and I've also got some people on Reddit and Instagram to play it! Have had around 30 downloads since I put it up on itch.io, and very few bug reports have been filled. It has been tested in a couple of different emulators for the Web (VaporBoy), Android (My OldBoy!), Windows (BGB and Visual Boy Advance) and PSP (MasterBoy), as well as on real hardware (Game Boy Advance SP models 001 and 101, classic Game Boy Advance and Game Boy Color, both using flashed carts and using a GB Everdrive X3).
 
 ## :beetle: Known bugs
-- The colors are way too dark when played using a classic Game Boy Advance. That's due to the way the GBA translates Game Boy Color palettes. The current colors have been balanced to fit GBA SPs without washing out the GBCs' colors too much, so playing it on an SP (001 or 101) or Game Boy Color fixes it;
-- Not a bug but some people denoted the lack of contrast between text and background, I'll see what I can do.
+~~The colors are too dark and the contrast is too high when played on non-backlit screens~~ You can now download an alternate version from the build folder, which fixes most issues with colors and contrast on non-backlit screens. 
 
 ## :notebook_with_decorative_cover: Invaluable Resources
 - Everything about the Game Boy Hardware: [The Ultimate Game Boy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) / [Official Nintendo Documentation](https://ia801906.us.archive.org/19/items/GameBoyProgManVer1.1/GameBoyProgManVer1.1.pdf)
