@@ -1,7 +1,9 @@
 # Escape Obliterizer DX for the Game Boy Color
 Escape Obliterizer is a really small game I made with a couple of friends during an hackathon in 2016 (it's available on [itch.io](https://9studios.itch.io/escape-obliterizer)). Back in the day we were just getting into JavaScript so naturally, the code was pretty messed up. I did however really like how the game turned out so I decided to port it to the Game Boy Color for the fun of it, as a way of learning my way around programming for the Game Boy. It's a Game Boy Color specific game, so if you happen to jam this cart into any prior Game Boy models (DMG, SGB, MGB), you'll simply be greeted with a blank screen.
 
-The ROM is now available for download at: https://joaomakesgames.itch.io/escape-obliterizer-dx
+The ROM is now available for download at:  
+https://joaomakesgames.itch.io/escape-obliterizer-dx  
+http://www.romhacking.net/homebrew/122/
 
 ## :hammer: Development
 Developing for a retro console always poses some limitations and I sure have felt them, mostly in terms of ROM space. Exceeding 32kb of ROM size would imply including ROM banking into the code, which I have not accounted for when I started this project. Implementing ROM banking would probably mean redoing all of the code. For that reason, there's no music in the game. Implementing music features would probably take most space in bank 1, so I decided to keep that out. On the other hand, I have also managed to include new things that the original game didn't have, like a skin selection menu, credits, noticeable incremental difficulty, a death animation, etc (hence the DX terminology). Please note that this was my first contact with the C language and Game Boy programming in general, so the code might not be the best of examples. 
