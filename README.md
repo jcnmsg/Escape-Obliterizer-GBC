@@ -1,9 +1,5 @@
 # Escape Obliterizer Deluxe for the Game Boy Color
-Escape Obliterizer Deluxe is a remake of [this game](https://ninestudios.itch.io/escape-obliterizer) for the Game Boy Color. 
-
-The ROM is available for download at [my website](https://joaomakes.games/games/escape-obliterizer-deluxe/), [itch.io](https://joaomakesgames.itch.io/escape-obliterizer-dx) and [romhacking.net](https://www.romhacking.net/homebrew/122/).
-
-A blog article detailing the development process can be found [here](https://joaomakes.games/game-development/the-making-of-a-game-boy-color-game-in-2019-from-zero-to-physical/).
+Escape Obliterizer Deluxe is a remake of [this game](https://ninestudios.itch.io/escape-obliterizer) for the Game Boy Color. The ROM is available for download at [my website](https://joaomakes.games/games/escape-obliterizer-deluxe/), [itch.io](https://joaomakesgames.itch.io/escape-obliterizer-dx) and [romhacking.net](https://www.romhacking.net/homebrew/122/) and a blog article detailing the development process can be found [here](https://joaomakes.games/game-development/the-making-of-a-game-boy-color-game-in-2019-from-zero-to-physical/).
 
 ## :hammer: Development
 The game was developed in C using the last known version of Game Boy Development Kit (GBDK, not [GBDK-2020](https://github.com/gbdk-2020/gbdk-2020)). This was my first contact with the C language and Game Boy programming in general, so while the code might not be the best of examples, it might be enough to get you going if you're a newb yourself.
