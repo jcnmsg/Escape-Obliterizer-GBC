@@ -1,3 +1,4 @@
+![Escape Obliterizer DX](https://img.itch.zone/aW1nLzI3OTg5MDUucG5n/original/mosMtU.png)
 # Escape Obliterizer Deluxe for the Game Boy Color
 Escape Obliterizer Deluxe is a remake of [this game](https://ninestudios.itch.io/escape-obliterizer) for the Game Boy Color. The ROM is available for download at [my website](https://joaomakes.games/games/escape-obliterizer-deluxe/), [itch.io](https://joaomakesgames.itch.io/escape-obliterizer-dx) and [romhacking.net](https://www.romhacking.net/homebrew/122/) and a blog article detailing the development process can be found [here](https://joaomakes.games/game-development/the-making-of-a-game-boy-color-game-in-2019-from-zero-to-physical/).
 
